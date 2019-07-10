@@ -44,18 +44,7 @@ class Mesh
 
 		//positions
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
-		gl.vertexAttribPointer(shader.getPositionsLocation(), this.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-		//normals
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
-		gl.vertexAttribPointer(shader.getNormalsLocation(), this.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-		//uv
-		if (shader.getUVsLocation() != -1) {
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.textCoordBuffer);
-			gl.vertexAttribPointer(shader.getUVsLocation(), this.textCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-		}	
-	    
+		gl.vertexAttribPointer(shader.getPositionsLocation(), this.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);	    
 
 		//rendering
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);

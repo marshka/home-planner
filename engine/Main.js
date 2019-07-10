@@ -19,6 +19,5 @@ function main()
 	Canvas.init();
 	var mesh = Mesh.loadFromOBJFile('room');
 	var shader = Shader.loadFromFiles('vs', 'fs');
-	gl.useProgram(shader.program);
 	mesh.render(worldMatrix, shader);
 }
