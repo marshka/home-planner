@@ -5,6 +5,16 @@
 
 body {
   overflow: hidden;
+  margin: 0;
+}
+
+header {
+  height: 10vh;
+  padding: 3vh;
+}
+
+header h1 {
+  margin: 0;
 }
 
 canvas {
@@ -12,15 +22,23 @@ canvas {
   height: 90%;
 }
 
-.column {
+.column-left,
+.column-right {
   float: left;
-  width: 50%;
-  height: 86vh;
+  height: 90vh;
 }
 
-.column h2 {
-  padding: 2%;
-  margin: 0px;
+.column-left {
+  width: 60%;
+}
+
+.column-right {
+  width: 40%;
+}
+
+h2 {
+  padding: 3vh;
+  margin: 0;
   height: 10%;
   text-align: center;
 }
@@ -29,4 +47,20 @@ canvas {
   content: "";
   display: table;
   clear: both;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+  height: 70%;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid black;
+  text-align: center;
+  font-size: 30px;
 }

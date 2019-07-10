@@ -10,25 +10,34 @@
   <script src="lib/quaternion.min.js"></script>
   <script src="lib/utils.js"></script>
 
+  <script src="engine/Mesh.js"></script>
+  <script src="engine/Shader.js"></script>
   <script src="engine/Canvas.js"></script>
   <script src="engine/Main.js"></script>
 </head>
 <body onload="main();">
-
-  <h2>Computer Graphics | Home planner</h2>
-
+  <header>
+    <h1>Computer Graphics | Home planner</h1>
+  </header>
   <div class="row">
-    <div class="column" style="background-color:#aaa;">
+    <div class="column-left" style="background-color:#aaa;">
       <h2>House</h2>
-      <canvas id="room-canvas">
+      <canvas id="canvas">
         Your browser doesn't support the Canvas Element!
       </canvas>
     </div>
-    <div class="column" style="background-color:#bbb;">
+    <div class="column-right" style="background-color:#bbb;">
       <h2>Furniture</h2>
-      <canvas id="furniture-canvas">
-        Your browser doesn't support the Canvas Element!
-      </canvas>
+      <div class="grid-container">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>  
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+        <div>8</div>
+      </div>
     </div>
   </div>
 
