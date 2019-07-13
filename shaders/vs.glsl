@@ -1,8 +1,12 @@
 #version 300 es
 
-in vec3 a_position;
+
+in vec3 inPosition;
+in vec3 inNormal;
+
+uniform mat4 matrix; 
 
 void main() 
 {
-  	gl_Position = vec4(a_position, 1.0);
+  	gl_Position = matrix * vec4(inPosition, 1.0);
 }
