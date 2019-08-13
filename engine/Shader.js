@@ -20,7 +20,7 @@ class Shader
 		this.program = utils.createAndCompileShaders(gl, data);
 
 	    //enable and link shader attributes
-	    gl.enableVertexAttribArray(gl.getAttribLocation(this.program, "a_position"));
+	    gl.enableVertexAttribArray(gl.getAttribLocation(this.program, "inPosition"));
 
 	}
 
@@ -31,8 +31,8 @@ class Shader
 	}
 
 	//getters for attributes locations
-	getPositionsLocation()		{ return gl.getAttribLocation(this.program, "a_position"); }
-	getMatrixLocation()			{ return gl.getUniformLocation(this.program, "worldProjectionMatrix"); }
+	getPositionsLocation()		{ return gl.getAttribLocation(this.program, "inPosition"); }
+	getMatrixLocation()			{ return gl.getUniformLocation(this.program, "matrix"); }
 	getWorldViewMatrixLocation(){ return gl.getUniformLocation(this.program, "worldViewMatrix"); }
 	getNormalMatrixLocation()	{ return gl.getUniformLocation(this.program, "nMatrix"); }
 	getTextureLocation()		{ return gl.getUniformLocation(this.program, "uTexture"); }

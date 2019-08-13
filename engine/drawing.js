@@ -60,11 +60,11 @@ function main() {
   gl.enableVertexAttribArray(normalAttributeLocation);
 
   perspectiveMatrix = utils.MakePerspective(100, gl.canvas.width/gl.canvas.height, 0.1, 100.0);
-  
+  var viewMatrix = utils.MakeView(0.0, 0.0, 7.0, 0,0, 0,0);
   //----CAMERA MATRIX----// 
-  var lookAtCamera = new LookAtCamera();
-  lookAtCamera.setLookPoint(0,0,0);
-  lookAtCamera.look();
+  // var lookAtCamera = new LookAtCamera();
+  // lookAtCamera.setLookPoint(0,0,0);
+  // lookAtCamera.look();
   var vao = gl.createVertexArray();
 
   var modelObj;
@@ -89,13 +89,13 @@ function main() {
       deltaC = (30 * (currentTime - lastUpdateTime)) / 1000.0;
     }
 
-    lookAtCamera.setElevation(deltaC);
-    lookAtCamera.look();
+    // lookAtCamera.setElevation(deltaC);
+    // lookAtCamera.look();
 
-    // var curRotation = utils.MakeRotateXYZMatrix(deltaC, -deltaC, deltaC);
+    var curRotation = utils.MakeRotateXYZMatrix(deltaC, -deltaC, deltaC);
 
-    // worldMatrix = utils.multiplyMatrices(worldMatrix,curRotation);
-    // normalMatrix = utils.invertMatrix(utils.transposeMatrix(worldMatrix));
+    worldMatrix = utils.multiplyMatrices(worldMatrix,curRotation);
+    normalMatrix = utils.invertMatrix(utils.transposeMatrix(worldMatrix));
     lastUpdateTime = currentTime;               
   }
 
@@ -105,8 +105,8 @@ function main() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     var viewWorldMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix);
-    matrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
-    gl.uniformMatrix4fv(matrixLocation, gl.FALSE, utils.transposeMatrix(matrix));
+    var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
+    gl.uniformMatrix4fv(matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
     
     // gl.uniformMatrix4fv(normalMatrixPositionHandle, gl.FALSE, utils.transposeMatrix(normalMatrix));
 

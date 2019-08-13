@@ -15,7 +15,7 @@ var Canvas =
 
         if(gl)
         {
-            window.onresize = Canvas.onResize;
+            utils.resizeCanvasToDisplaySize(gl.canvas);
             Canvas.onResize();
 
             gl.enable(gl.CULL_FACE);
@@ -37,16 +37,16 @@ var Canvas =
         var h = canvas.clientHeight;
 
         // set perspective matrix
-        aspectRatio = w/h;
+        this.aspectRatio = w/h;
         Canvas.makePerspectiveMatrix();
         
         gl.viewport(0.0, 0.0, w, h);
-        gl.clearColor(1.0, 1.0, 1.0, 1.0);
+        gl.clearColor(0.85, 0.85, 0.85, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);   
     },
 
     makePerspectiveMatrix: function()
     {
-        perspectiveMatrix = utils.MakePerspective(60, aspectRatio, 0.1, 2000.0);
+        perspectiveMatrix = utils.MakePerspective(100, this.aspectRatio, 0.1, 100.0);
     }
 }
