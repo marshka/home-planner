@@ -5,8 +5,8 @@ class LookAtCamera
     constructor()
     {
         this.angle  = 0.0;
-        this.elevation = 1.0;
-        this.radius = 2.0;
+        this.elevation = 20.0;
+        this.radius = 10.0;
 
         this.xLook = 0.0;
         this.yLook = 0.0;
@@ -50,6 +50,14 @@ class LookAtCamera
 
         if(Input.isKeyDown(Input.RIGHT_KEY)){
             this.setAngle(0.5);
+        }
+
+        if(Input.isKeyDown(Input.UP_KEY)){
+            this.setElevation(0.5);
+        }
+
+        if(Input.isKeyDown(Input.DOWN_KEY)){
+            this.setElevation(-0.5);
         }
     }
 

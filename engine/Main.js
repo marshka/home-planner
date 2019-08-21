@@ -18,14 +18,13 @@ var lastUpdateTime = (new Date).getTime();
 var mesh;
 var shader;
 var lookAtCamera;
+var objects = [];
 
 function main()
 {
   Canvas.init();
   Input.init();
-	mesh = Mesh.loadFromOBJFile('tavolo');
-	shader = Shader.loadFromFiles('vs', 'fs');
-	
+
 	lookAtCamera = new LookAtCamera();
 	lookAtCamera.setLookPoint(0,0,0);
 	lookAtCamera.look();
@@ -43,16 +42,40 @@ function animate(){
     lookAtCamera.setAngle(deltaC);
     lookAtCamera.look();
 
-    // var curRotation = utils.MakeRotateXYZMatrix(deltaC, -deltaC, deltaC);
-
-    // worldMatrix = utils.multiplyMatrices(worldMatrix,curRotation);
-    // normalMatrix = utils.invertMatrix(utils.transposeMatrix(worldMatrix));
     lastUpdateTime = currentTime;               
   }
 
+  //------FUNZIONE DI PROVA---------//
+function handleInput(){
+
+  if(Input.isKeyClicked(Input.W_KEY)){
+    var tavoloMesh = Mesh.loadFromOBJFile('tavolo');
+    var tavoloShader = Shader.loadFromFiles('vs', 'fs');
+
+    var tavoloOBJ = new ObjectBase(tavoloMesh, tavoloShader);
+    tavoloOBJ.setPosition(4,0,0);
+    tavoloOBJ.setScale(5,5,5);
+    objects.push(tavoloOBJ);
+
+  }
+  if(Input.isKeyClicked(Input.A_KEY)){
+    var tavolo2Mesh = Mesh.loadFromOBJFile('tavolo');
+    var tavolo2Shader = Shader.loadFromFiles('vs', 'fs');
+
+    var tavolo2OBJ = new ObjectBase(tavolo2Mesh, tavolo2Shader);
+    tavolo2OBJ.setPosition(-4,0,0);
+    tavolo2OBJ.setScale(5,5,5);
+    objects.push(tavolo2OBJ);
+
+  }
+}
+
 function drawScene(){
-	//animate();
-  mesh.render(worldMatrix,shader);
+  handleInput();
+  
+  for(var i=0; i<objects.length; i++)
+  objects[i].render();
+
   lookAtCamera.look();
 	window.requestAnimationFrame(drawScene);
 }

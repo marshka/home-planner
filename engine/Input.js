@@ -6,6 +6,8 @@ var Input =
     DOWN_KEY:       40,
     LEFT_KEY:       37,
     RIGHT_KEY:      39,
+    W_KEY:          87,
+    A_KEY:          65,
 
     init: function()
     {
