@@ -1,7 +1,8 @@
 /// <reference path="../lib/utils.js" //>
+const ROTATION_FACTOR = 2;
 
 class LookAtCamera
-{
+{    
     constructor()
     {
         this.angle  = 0.0;
@@ -45,19 +46,19 @@ class LookAtCamera
     handleInput()
     {
         if(Input.isKeyDown(Input.LEFT_KEY)){
-            this.setAngle(-0.5);
+            this.setAngle(-ROTATION_FACTOR);
         }
 
         if(Input.isKeyDown(Input.RIGHT_KEY)){
-            this.setAngle(0.5);
+            this.setAngle(ROTATION_FACTOR);
         }
 
         if(Input.isKeyDown(Input.UP_KEY)){
-            this.setElevation(0.5);
+            this.rotateUp();
         }
 
         if(Input.isKeyDown(Input.DOWN_KEY)){
-            this.setElevation(-0.5);
+            this.rotateDown();
         }
     }
 
@@ -66,9 +67,9 @@ class LookAtCamera
         this.handleInput();
 
        //camera position
-		this.z = this.radius * Math.cos(utils.degToRad(-this.angle)) * Math.cos(utils.degToRad(this.elevation));
-		this.x = this.radius * Math.sin(utils.degToRad(-this.angle)) * Math.cos(utils.degToRad(this.elevation));
-		this.y = this.radius * Math.sin(utils.degToRad(this.elevation));
+       this.z = this.radius * Math.cos(utils.degToRad(-this.angle)) * Math.cos(utils.degToRad(this.elevation));
+       this.x = this.radius * Math.sin(utils.degToRad(-this.angle)) * Math.cos(utils.degToRad(this.elevation));
+       this.y = this.radius * Math.sin(utils.degToRad(this.elevation));
 
 		//move camera towards the looking point
 		this.x += this.xLook;
@@ -79,6 +80,22 @@ class LookAtCamera
 		projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewMatrix);
     }
 
+    zoom(verse)
+    {
+        var nRadius = this.radius + Math.sign(verse) * 0.2 * this.radius;
+        if((nRadius > 2.0) && (nRadius < 100.0)) {
+            lookAtCamera.radius = nRadius;
+        }
+    }
 
+    rotateUp()
+    {
+        this.elevation = Math.min(100.0, this.elevation + ROTATION_FACTOR);
+    }
+
+    rotateDown()
+    {
+        this.elevation = Math.max(5.0, this.elevation - ROTATION_FACTOR);
+    }
 
 }

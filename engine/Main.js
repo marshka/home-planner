@@ -5,7 +5,7 @@ var aspectRatio;
 
 const root_dir = window.location.origin;
 const shaders_dir = root_dir + "/shaders/";
-const models_dir = root_dir + "/objects/";
+const models_dir = root_dir + "/objects/models/";
 const textures_dir = root_dir + "/objects/textures/";
 
 //global matrices
@@ -29,6 +29,7 @@ function main()
 	lookAtCamera.setLookPoint(0,0,0);
 	lookAtCamera.look();
 	
+  initScene();
 	drawScene();
 }
 
@@ -44,6 +45,16 @@ function animate(){
 
     lastUpdateTime = currentTime;               
   }
+
+function initScene(){
+    var roomMesh = Mesh.loadFromOBJFile('room');
+    var roomShader = Shader.loadFromFiles('vs', 'fs');
+
+    var roomOBJ = new ObjectBase(roomMesh, roomShader);
+    roomOBJ.setPosition(0,0,0);
+    roomOBJ.setScale(5,5,5);
+    objects.push(roomOBJ);
+}
 
   //------FUNZIONE DI PROVA---------//
 function handleInput(){

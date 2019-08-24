@@ -13,6 +13,36 @@ var Input =
     {
         window.addEventListener("keyup", Input.keyUp, false);
         window.addEventListener("keydown", Input.keyDown, false);
+
+        // MOUSE
+        var mouseState = false;
+        var lastMouseX = -100, lastMouseY = -100;
+        canvas.addEventListener("mousedown", event => {
+            lastMouseX = event.pageX;
+            lastMouseY = event.pageY;
+            mouseState = true;
+        });
+        canvas.addEventListener("mouseup", event => {
+            lastMouseX = -100;
+            lastMouseY = -100;
+            mouseState = false;
+        });
+        canvas.addEventListener("mousemove", event => {
+            if(mouseState) {
+                var dx = event.pageX - lastMouseX;
+                var dy = lastMouseY - event.pageY;
+                lastMouseX = event.pageX;
+                lastMouseY = event.pageY;
+
+                if((dx != 0) || (dy != 0)) {
+                    lookAtCamera.angle = lookAtCamera.angle + 0.5 * dx;
+                    (dy<0)?lookAtCamera.rotateUp():lookAtCamera.rotateDown();
+                }
+            }
+        });
+        canvas.addEventListener("wheel", event => {
+            lookAtCamera.zoom(event.deltaY);
+        });
     },
 
 
