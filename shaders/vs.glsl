@@ -1,12 +1,21 @@
 #version 300 es
 
+in vec3 in_position;
+in vec3 in_normal;
 
-in vec3 inPosition;
-in vec3 inNormal;
+uniform mat4 u_projectionMatrix;
+uniform mat4 u_worldViewMatrix;
+uniform mat4 u_normalMatrix;
 
-uniform mat4 matrix; 
+out vec3 fs_position;
+out vec3 fs_normal;
 
 void main() 
 {
-  	gl_Position = matrix * vec4(inPosition, 1.0);
+	// Multiply the position by the matrix.
+	gl_Position = u_projectionMatrix * vec4(in_position, 1.0);
+
+	// Pass the normal to the fragment shader
+	fs_normal = in_normal;
+	fs_position = in_position;
 }

@@ -18,9 +18,17 @@ class Shader
 	constructor(data)
 	{
 		this.program = utils.createAndCompileShaders(gl, data);
-
+		this.location = {
+			position: gl.getAttribLocation(this.program, 'in_position'),
+			normal: gl.getAttribLocation(this.program, "in_normal"),
+			matrix: {
+				projection: gl.getUniformLocation(this.program, 'u_projectionMatrix'),
+				worldView: gl.getUniformLocation(this.program, 'u_worldViewMatrix'),
+				normal: gl.getUniformLocation(this.program, 'u_normalMatrix')
+			},
+		};
 	    //enable and link shader attributes
-	    gl.enableVertexAttribArray(gl.getAttribLocation(this.program, "inPosition"));
+	    gl.enableVertexAttribArray(gl.getAttribLocation(this.program, "in_position"));
 
 	}
 
@@ -31,12 +39,18 @@ class Shader
 	}
 
 	//getters for attributes locations
-	getPositionsLocation()		{ return gl.getAttribLocation(this.program, "inPosition"); }
-	getMatrixLocation()			{ return gl.getUniformLocation(this.program, "matrix"); }
-	getWorldViewMatrixLocation(){ return gl.getUniformLocation(this.program, "worldViewMatrix"); }
-	getNormalMatrixLocation()	{ return gl.getUniformLocation(this.program, "nMatrix"); }
-	getTextureLocation()		{ return gl.getUniformLocation(this.program, "uTexture"); }
-	getUniformLocation(locationName) { return gl.getUniformLocation(this.program, locationName); }
+	getPositionsLocation()			{ return gl.getAttribLocation(this.program, "in_position"); }
+	getNormalsLocation()			{ return gl.getAttribLocation(this.program, "in_normal"); }
+	getAttribLocation(locationName) { return gl.getAttribLocation(this.program, locationName); }
+
+	getMatrixLocation()				{ return gl.getUniformLocation(this.program, "u_matrix"); }
+	getWorldViewMatrixLocation()	{ return gl.getUniformLocation(this.program, "worldViewMatrix"); }
+	getNormalMatrixLocation()		{ return gl.getUniformLocation(this.program, "nMatrix"); }
+	getTextureLocation()			{ return gl.getUniformLocation(this.program, "uTexture"); }
+	getUniformLocation(locationName){ return gl.getUniformLocation(this.program, locationName); }
+
+	getColorLocation()				{ return gl.getUniformLocation(this.program, "color"); }
+	getMainLightDirectionLocation()	{ return gl.getUniformLocation(this.program, "mainLightDirection"); }
 
 }
 

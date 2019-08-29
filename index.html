@@ -3,6 +3,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="css/style.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" rel="stylesheet" type="text/css">
 
   <title>Computer Graphics | Home planner</title>
 
@@ -24,8 +25,8 @@
     <h1>Computer Graphics | Home planner</h1>
   </header>
   <div class="row">
-    <div class="column-left" style="background-color:#aaa;">
-      <h2>House</h2>
+    <div class="column-left">
+      <h2 style="background-color:#aaa;">House</h2>
       <canvas id="canvas">
         Your browser doesn't support the Canvas Element!
       </canvas>
@@ -42,9 +43,23 @@
         <div>7</div>
         <div>8</div>
       </div>
-      <div class="slide-container">
-        <p>Camera: </p>
-        <input type="range" min="-180" max="180" value="0" step="5" id="cameraSlider">
+      <p>Camera: </p>
+      <div class="slider-container">
+        <div class="slider-item">
+          <i class="fas fa-chevron-left"></i>
+          <input id="cameraLeftRightSlider" class="camera-slider" type="range" min="-180" max="180" value="0" step="5">
+          <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="slider-item">
+          <i class="fas fa-chevron-up"></i>
+          <input id="cameraUpDownSlider" class="camera-slider" type="range" min="5" max="90" value="20" step="5">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="slider-item">
+          <i class="fas fa-search-minus"></i>
+          <input id="cameraZoomSlider" class="camera-slider" type="range" min="2" max="60" value="16" step="2">
+          <i class="fas fa-search-plus"></i>
+        </div>
       </div>
     </div>
   </div>

@@ -83,10 +83,11 @@ function handleInput(){
 
 function drawScene(){
   handleInput();
-  
+  Canvas.onResize();
+
   for(var i=0; i<objects.length; i++)
   objects[i].render();
-
   lookAtCamera.look();
+
 	window.requestAnimationFrame(drawScene);
 }

@@ -45,9 +45,21 @@ var Input =
         });
 
         // SLIDER
-        var cameraSlider = document.getElementById("cameraSlider");
-        cameraSlider.oninput = function() {
-          lookAtCamera.angle = parseInt(cameraSlider.value);
+        var cameraLeftRightSlider = document.getElementById("cameraLeftRightSlider");
+        var cameraUpDownSlider = document.getElementById("cameraUpDownSlider");
+        var cameraZoomSlider = document.getElementById("cameraZoomSlider");
+        cameraLeftRightSlider.oninput = function() {
+            lookAtCamera.angle = parseInt(cameraLeftRightSlider.value);
+        }
+        cameraUpDownSlider.oninput = function() {
+            var value = parseInt(cameraUpDownSlider.value);
+            if (value >= 5 && value <= 90)
+                lookAtCamera.elevation = parseInt(cameraUpDownSlider.value);
+        }
+        cameraZoomSlider.oninput = function() {
+            var value = parseInt(cameraZoomSlider.value);
+            if (value >= 2 && value <= 60)
+                lookAtCamera.radius = parseInt(cameraZoomSlider.value);
         }
     },
 
