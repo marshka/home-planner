@@ -7,5 +7,5 @@ out vec4 outColor;
 
 void main() {
 	// Set the output to a constant
-	outColor = vec4(0.0, 0.0, 1.0, 1);
+	outColor = vec4(0.9, 0.9, 0.9, 0.3);
 }

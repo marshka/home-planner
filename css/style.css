@@ -55,7 +55,7 @@ h2 {
   grid-gap: 10px;
   background-color: #2196F3;
   padding: 10px;
-  height: 70%;
+  /* height: 70%; */
 }
 
 .grid-container > div {
@@ -63,4 +63,11 @@ h2 {
   border: 1px solid black;
   text-align: center;
   font-size: 30px;
+  height: 0;
+  padding-bottom: 50%;
+  padding-top: 50%;
+}
+
+.slide-container {
+  display: inline-flex;
 }

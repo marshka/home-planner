@@ -51,7 +51,7 @@ function initScene(){
     var roomShader = Shader.loadFromFiles('vs', 'fs');
 
     var roomOBJ = new ObjectBase(roomMesh, roomShader);
-    roomOBJ.setPosition(0,0,0);
+    roomOBJ.setPosition(0,-2,0);
     roomOBJ.setScale(5,5,5);
     objects.push(roomOBJ);
 }

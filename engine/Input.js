@@ -43,6 +43,12 @@ var Input =
         canvas.addEventListener("wheel", event => {
             lookAtCamera.zoom(event.deltaY);
         });
+
+        // SLIDER
+        var cameraSlider = document.getElementById("cameraSlider");
+        cameraSlider.oninput = function() {
+          lookAtCamera.angle = parseInt(cameraSlider.value);
+        }
     },
 
 
