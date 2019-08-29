@@ -29,7 +29,7 @@ function main()
 	lookAtCamera.setLookPoint(0,0,0);
 	lookAtCamera.look();
 	
-  // initScene();
+  initScene();
 	drawScene();
 }
 
@@ -46,15 +46,15 @@ function animate(){
     lastUpdateTime = currentTime;               
   }
 
-// function initScene(){
-//     var roomMesh = Mesh.loadFromOBJFile('room');
-//     var roomShader = Shader.loadFromFiles('vs', 'fs');
+function initScene(){
+    var roomMesh = Mesh.loadFromOBJFile('room');
+    var roomShader = Shader.loadFromFiles('vs', 'fs');
 
-//     var roomOBJ = new ObjectBase(roomMesh, roomShader);
-//     roomOBJ.setPosition(0,0,0);
-//     roomOBJ.setScale(5,5,5);
-//     objects.push(roomOBJ);
-// }
+    var roomOBJ = new ObjectBase(roomMesh, roomShader);
+    roomOBJ.setPosition(0,0,0);
+    roomOBJ.setScale(5,5,5);
+    objects.push(roomOBJ);
+}
 
   //------FUNZIONE DI PROVA---------//
 function handleInput(){
