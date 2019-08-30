@@ -11,6 +11,7 @@
   <script src="lib/quaternion.min.js"></script>
   <script src="lib/utils.js"></script>
   <!-- <script src="engine/global.js"></script> -->
+  <script src="engine/Main.js"></script>
   <script src="engine/Input.js"></script>
   <script src="engine/Mesh.js"></script>
   <script src="engine/Shader.js"></script>
@@ -18,7 +19,6 @@
   <script src="engine/Camera.js"></script>
   <script src="engine/ObjectBase.js"></script>
   <script src="engine/BoundingBox.js"></script>
-  <script src="engine/Main.js"></script>
   
 </head>
 <body onload="main()">
@@ -32,7 +32,7 @@
         Your browser doesn't support the Canvas Element!
       </canvas>
     </div>
-    <div class="column-right" style="background-color:#bbb;">
+    <div class="column-right" style="background-color:#eee;">
       <h2>Furniture</h2>
       <div class="grid-container">
         <div>1</div>
@@ -44,22 +44,33 @@
         <div>7</div>
         <div>8</div>
       </div>
-      <p>Camera: </p>
-      <div class="slider-container">
-        <div class="slider-item">
-          <i class="fas fa-chevron-left"></i>
-          <input id="cameraLeftRightSlider" class="camera-slider" type="range" min="-180" max="180" value="0" step="5">
-          <i class="fas fa-chevron-right"></i>
+      <div>
+        <h3>Camera</h3>
+        <div class="slider-container">
+          <div class="slider-item">
+            <i class="fas fa-chevron-left"></i>
+            <input id="cameraLeftRightSlider" class="slider" type="range" min="-180" max="180" value="0" step="5">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+          <div class="slider-item">
+            <i class="fas fa-chevron-up"></i>
+            <input id="cameraUpDownSlider" class="slider" type="range" min="5" max="90" value="20" step="5">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="slider-item">
+            <i class="fas fa-search-minus"></i>
+            <input id="cameraZoomSlider" class="slider" type="range" min="2" max="60" value="16" step="2">
+            <i class="fas fa-search-plus"></i>
+          </div>
         </div>
-        <div class="slider-item">
-          <i class="fas fa-chevron-up"></i>
-          <input id="cameraUpDownSlider" class="camera-slider" type="range" min="5" max="90" value="20" step="5">
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="slider-item">
-          <i class="fas fa-search-minus"></i>
-          <input id="cameraZoomSlider" class="camera-slider" type="range" min="2" max="60" value="16" step="2">
-          <i class="fas fa-search-plus"></i>
+      </div>
+      <div>
+        <h3>Lights</h3>
+        <div class="slider-container">
+          <div class="slider-item">
+            <h5>Ambient</h5>
+            <input id="ambientSlider" class="slider" type="range" min="0" max="1" value="0.2" step="0.1">
+          </div>
         </div>
       </div>
     </div>

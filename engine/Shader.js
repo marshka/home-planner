@@ -23,12 +23,16 @@ class Shader
 			normal: gl.getAttribLocation(this.program, "in_normal"),
 			matrix: {
 				projection: gl.getUniformLocation(this.program, 'u_projectionMatrix'),
-				worldView: gl.getUniformLocation(this.program, 'u_worldViewMatrix'),
+				viewModel: gl.getUniformLocation(this.program, 'u_viewModelMatrix'),
 				normal: gl.getUniformLocation(this.program, 'u_normalMatrix')
 			},
+			light: {
+				ambient: gl.getUniformLocation(this.program, 'ambientIntensity')
+			}
 		};
 	    //enable and link shader attributes
 	    gl.enableVertexAttribArray(gl.getAttribLocation(this.program, "in_position"));
+	    gl.enableVertexAttribArray(gl.getAttribLocation(this.program, "in_normal"));
 
 	}
 
@@ -48,9 +52,6 @@ class Shader
 	getNormalMatrixLocation()		{ return gl.getUniformLocation(this.program, "nMatrix"); }
 	getTextureLocation()			{ return gl.getUniformLocation(this.program, "uTexture"); }
 	getUniformLocation(locationName){ return gl.getUniformLocation(this.program, locationName); }
-
-	getColorLocation()				{ return gl.getUniformLocation(this.program, "color"); }
-	getMainLightDirectionLocation()	{ return gl.getUniformLocation(this.program, "mainLightDirection"); }
 
 }
 

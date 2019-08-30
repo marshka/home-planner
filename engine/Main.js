@@ -48,9 +48,9 @@ function animate(){
 
 function initScene(){
     var roomMesh = Mesh.loadFromOBJFile('room');
-    var roomShader = Shader.loadFromFiles('vs', 'fs');
+    shader = Shader.loadFromFiles('vs', 'fs');
 
-    var roomOBJ = new ObjectBase(roomMesh, roomShader);
+    var roomOBJ = new ObjectBase(roomMesh, shader);
     roomOBJ.setPosition(0,0,0);
     roomOBJ.setScale(5,5,5);
     objects.push(roomOBJ);
@@ -61,9 +61,8 @@ function handleInput(){
 
   if(Input.isKeyClicked(Input.W_KEY)){
     var tavoloMesh = Mesh.loadFromOBJFile('tavolo');
-    var tavoloShader = Shader.loadFromFiles('vs', 'fs');
 
-    var tavoloOBJ = new ObjectBase(tavoloMesh, tavoloShader);
+    var tavoloOBJ = new ObjectBase(tavoloMesh, shader);
     tavoloOBJ.setPosition(4,0,0);
     tavoloOBJ.setScale(5,5,5);
     objects.push(tavoloOBJ);
@@ -71,9 +70,8 @@ function handleInput(){
   }
   if(Input.isKeyClicked(Input.A_KEY)){
     var tavolo2Mesh = Mesh.loadFromOBJFile('tavolo');
-    var tavolo2Shader = Shader.loadFromFiles('vs', 'fs');
 
-    var tavolo2OBJ = new ObjectBase(tavolo2Mesh, tavolo2Shader);
+    var tavolo2OBJ = new ObjectBase(tavolo2Mesh, shader);
     tavolo2OBJ.setPosition(-4,0,0);
     tavolo2OBJ.setScale(5,5,5);
     objects.push(tavolo2OBJ);

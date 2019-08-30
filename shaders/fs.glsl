@@ -5,6 +5,8 @@ precision highp float;
 in vec3 fs_position;
 in vec3 fs_normal;
 
+uniform float ambientIntensity;
+
 out vec4 color;
 
 void main() {
@@ -14,9 +16,9 @@ void main() {
 	vec3 normal = normalize(fs_normal);
 
 	// Apply lighting effect
-	highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
-	highp vec3 directionalLightColor = vec3(1, 1, 1);
-	highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
+	highp vec3 ambientLight = vec3(0.3) * ambientIntensity;
+	highp vec3 directionalLightColor = vec3(0.8, 0.8, 0.8);
+	highp vec3 directionalVector = normalize(vec3(1.0,1.0,1.0));
 
 	// Lets multiply just the color portion (not the alpha)
 	// by the light

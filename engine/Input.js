@@ -44,7 +44,7 @@ var Input =
             lookAtCamera.zoom(event.deltaY);
         });
 
-        // SLIDER
+        // CAMERA SLIDERS
         var cameraLeftRightSlider = document.getElementById("cameraLeftRightSlider");
         var cameraUpDownSlider = document.getElementById("cameraUpDownSlider");
         var cameraZoomSlider = document.getElementById("cameraZoomSlider");
@@ -54,12 +54,22 @@ var Input =
         cameraUpDownSlider.oninput = function() {
             var value = parseInt(cameraUpDownSlider.value);
             if (value >= 5 && value <= 90)
-                lookAtCamera.elevation = parseInt(cameraUpDownSlider.value);
+                lookAtCamera.elevation = value;
         }
         cameraZoomSlider.oninput = function() {
             var value = parseInt(cameraZoomSlider.value);
             if (value >= 2 && value <= 60)
-                lookAtCamera.radius = parseInt(cameraZoomSlider.value);
+                lookAtCamera.radius = value;
+        }
+
+        // LIGHTS
+        var ambientSlider = document.getElementById("ambientSlider");
+        ambientSlider.oninput = function() {
+            var value = parseFloat(ambientSlider.value);
+            if (value >= 0.0 && value <= 1.0) {
+                shader.use();
+                gl.uniform1f(shader.location.light.ambient, value);
+            }
         }
     },
 
