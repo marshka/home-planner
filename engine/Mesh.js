@@ -25,7 +25,7 @@ class Mesh
 		this.positions = positions;
 		this.positionBuffer = positionBuffer;
 		this.normalBuffer = normalBuffer;
-		this.textCoordBuffer = textCoordBuffer;
+		this.texcoordBuffer = textCoordBuffer;
 		this.indexBuffer = indexBuffer;
 	}
 
@@ -49,6 +49,10 @@ class Mesh
 		//normals
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
 		gl.vertexAttribPointer(shader.location.normal, this.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+		//texture
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.texcoordBuffer);
+		gl.vertexAttribPointer(shader.location.texcoord, this.texcoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 		//rendering
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);

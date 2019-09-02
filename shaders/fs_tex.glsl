@@ -8,6 +8,8 @@ in vec2 fs_texcoord;
 
 uniform float ambientIntensity;
 
+uniform sampler2D u_texture;
+
 out vec4 color;
 
 void main() {
@@ -25,4 +27,5 @@ void main() {
 	// by the light
 	highp float directional = max(dot(normal, directionalVector), 0.0);
 	color = vec4(ambientLight + (directionalLightColor * directional), 1.0);
+	color = texture2D(u_texture, fs_texcoord);
 }

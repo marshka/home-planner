@@ -21,6 +21,7 @@ class Shader
 		this.location = {
 			position: gl.getAttribLocation(this.program, 'in_position'),
 			normal: gl.getAttribLocation(this.program, "in_normal"),
+			texcoord: gl.getAttribLocation(this.program, "in_texcoord"),
 			matrix: {
 				projection: gl.getUniformLocation(this.program, 'u_projectionMatrix'),
 				viewModel: gl.getUniformLocation(this.program, 'u_viewModelMatrix'),
@@ -31,8 +32,9 @@ class Shader
 			}
 		};
 	    //enable and link shader attributes
-	    gl.enableVertexAttribArray(gl.getAttribLocation(this.program, "in_position"));
-	    gl.enableVertexAttribArray(gl.getAttribLocation(this.program, "in_normal"));
+	    gl.enableVertexAttribArray(this.location.position);
+	    gl.enableVertexAttribArray(this.location.normal);
+	    gl.enableVertexAttribArray(this.location.texcoord);
 
 	}
 

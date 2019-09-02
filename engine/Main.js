@@ -47,13 +47,18 @@ function animate(){
   }
 
 function initScene(){
-    var roomMesh = Mesh.loadFromOBJFile('room');
+    var floorMesh = Mesh.loadFromOBJFile('floor');
     shader = Shader.loadFromFiles('vs', 'fs');
+    var floorOBJ = new ObjectBase(floorMesh, shader);
+    floorOBJ.setPosition(0,0,0);
+    floorOBJ.setScale(5,5,5);
+    objects.push(floorOBJ);
 
-    var roomOBJ = new ObjectBase(roomMesh, shader);
-    roomOBJ.setPosition(0,0,0);
-    roomOBJ.setScale(5,5,5);
-    objects.push(roomOBJ);
+    var wallsMesh = Mesh.loadFromOBJFile('walls');
+    var wallsOBJ = new ObjectBase(wallsMesh, shader);
+    wallsOBJ.setPosition(0,0,0);
+    wallsOBJ.setScale(5,5,5);
+    objects.push(wallsOBJ);
 }
 
   //------FUNZIONE DI PROVA---------//
