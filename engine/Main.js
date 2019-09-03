@@ -19,6 +19,7 @@ var mesh;
 var shader;
 var lookAtCamera;
 var objects = [];
+var wallsOBJ;
 
 function main()
 {
@@ -55,7 +56,7 @@ function initScene(){
     objects.push(floorOBJ);
 
     var wallsMesh = Mesh.loadFromOBJFile('walls');
-    var wallsOBJ = new ObjectBase(wallsMesh, shader);
+    wallsOBJ = new ObjectBase(wallsMesh, shader);
     wallsOBJ.setPosition(0,0,0);
     wallsOBJ.setScale(5,5,5);
     objects.push(wallsOBJ);
@@ -70,6 +71,9 @@ function handleInput(){
     var tavoloOBJ = new ObjectBase(tavoloMesh, shader);
     tavoloOBJ.setPosition(4,0,0);
     tavoloOBJ.setScale(5,5,5);
+    tavoloOBJ.setbBox(true);
+    tavoloOBJ.isSelected = true;
+    
     objects.push(tavoloOBJ);
 
   }

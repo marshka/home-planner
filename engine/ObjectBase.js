@@ -4,6 +4,8 @@ class ObjectBase {
     this.mesh = mesh;
     this.shader = shader;
 
+    this.parent = wallsOBJ;
+
       //Position
       this.x = 0;
       this.y = 0;
@@ -20,6 +22,10 @@ class ObjectBase {
       this.scaleZ = 1.0;
 
       this.boundingBox;
+
+      // Boolean Flags
+      this.isSelected       = false;
+
 
       //computes the bounding box 
       if(this.mesh != null) 
@@ -77,7 +83,12 @@ class ObjectBase {
   {
       this.x += x; this.y += y; this.z += z;
       this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
-  }
+      
+      if(this.boundingBox.checkRoomCollision(this.parent.boundingBox))
+      {
+        this.move(-x,-y,-z);
+      }
+    }
 
   rotate(x, y, z)
   {
@@ -89,8 +100,23 @@ class ObjectBase {
     this.boundingBox.update(x, y, z, scaleX, scaleY, scaleZ);
   }
 
+  setbBox(state)
+  {
+    if(state)
+      this.boundingBox.enable = true;
+    else
+      this.boundingBox.enable = false;
+  }
+
+  setParent(parent)
+  {
+    this.parent = parent;
+  }
+
+
   render()
   {
+    this.handleInput();
     var worldMatrix = utils.MakeWorld_(this.x, this.y, this.z, 
                                         this.rotX, this.rotY, this.rotZ, 
                                         this.scaleX, this.scaleY, this.scaleZ);
@@ -101,18 +127,34 @@ class ObjectBase {
     
   }
 
+  // COLLISION
 
+  handleInput()
+  {
+    if(this.isSelected)
+    {
+      if(Input.isKeyClicked(Input.UP_KEY))
+      {
+        this.move(0,0,-0.5);
+      }
 
+      if(Input.isKeyClicked(Input.DOWN_KEY))
+      {
+        this.move(0,0,0.5);
+      }
 
+      if(Input.isKeyClicked(Input.LEFT_KEY))
+      {
+        this.move(-0.5,0,0);
+      }
 
-
-
-
-
-
-
-
-
+      if(Input.isKeyClicked(Input.RIGHT_KEY))
+      {
+        this.move(0.5,0,0);
+      }
+  }
+}
 
 
 }
+
