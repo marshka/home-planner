@@ -7,7 +7,7 @@ class LookAtCamera
     {
         this.angle  = 0.0;
         this.elevation = 20.0;
-        this.radius = 16.0;
+        this.radius = 2.0;
 
         this.xLook = 0.0;
         this.yLook = 0.0;
@@ -83,7 +83,7 @@ class LookAtCamera
     zoom(verse)
     {
         var nRadius = this.radius + Math.sign(verse) * 0.2 * this.radius;
-        if((nRadius > 2.0) && (nRadius < 60.0)) {
+        if((nRadius >= 1.0) && (nRadius <= 10.0)) {
             lookAtCamera.radius = nRadius;
         }
     }

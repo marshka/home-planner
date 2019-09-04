@@ -48,6 +48,9 @@ var Input =
         var cameraLeftRightSlider = document.getElementById("cameraLeftRightSlider");
         var cameraUpDownSlider = document.getElementById("cameraUpDownSlider");
         var cameraZoomSlider = document.getElementById("cameraZoomSlider");
+        cameraLeftRightSlider.value = lookAtCamera.angle;
+        cameraUpDownSlider.value = lookAtCamera.elevation;
+        cameraZoomSlider.value = lookAtCamera.radius;
         cameraLeftRightSlider.oninput = function() {
             lookAtCamera.angle = parseInt(cameraLeftRightSlider.value);
         }
@@ -58,18 +61,24 @@ var Input =
         }
         cameraZoomSlider.oninput = function() {
             var value = parseInt(cameraZoomSlider.value);
-            if (value >= 2 && value <= 60)
-                lookAtCamera.radius = value;
+            lookAtCamera.radius = value;
         }
 
         // LIGHTS
         var ambientSlider = document.getElementById("ambientSlider");
+        ambientSlider.value = lights.ambient.intensity;
         ambientSlider.oninput = function() {
             var value = parseFloat(ambientSlider.value);
-            if (value >= 0.0 && value <= 1.0) {
-                shader.use();
-                gl.uniform1f(shader.location.light.ambient, value);
+            if (value >= 1.0 && value <= 1.0) {
+                lights.ambient.setIntensity(value);
             }
+        }
+        var directionalSlider = document.getElementById("directionalSlider");
+        directionalSlider.value = lights.main.direction[0];
+        directionalSlider.oninput = function() {
+            var value = parseFloat(directionalSlider.value);
+            var direction = lights.main.direction;
+            lights.main.setDirection(value, direction[1], direction[2]);
         }
     },
 

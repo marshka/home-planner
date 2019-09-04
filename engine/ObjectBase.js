@@ -1,8 +1,8 @@
 class ObjectBase {
 
-  constructor(mesh, shader){
+  constructor(mesh, material){
     this.mesh = mesh;
-    this.shader = shader;
+    this.material = material;
 
     this.parent = wallsOBJ;
 
@@ -55,7 +55,7 @@ class ObjectBase {
             maxZ = mesh.positions[i+2];
         }
 
-        this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ)
+        this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
         this.boundingBox.update(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
       }
 
@@ -120,8 +120,9 @@ class ObjectBase {
     var worldMatrix = utils.MakeWorld_(this.x, this.y, this.z, 
                                         this.rotX, this.rotY, this.rotZ, 
                                         this.scaleX, this.scaleY, this.scaleZ);
+    this.material.bindShader();
     if(this.mesh != null){
-        this.mesh.render(worldMatrix, this.shader);
+        this.mesh.render(worldMatrix, this.material.shader);
     }
     this.boundingBox.render();
     
@@ -157,4 +158,3 @@ class ObjectBase {
 
 
 }
-

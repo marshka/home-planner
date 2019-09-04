@@ -11,10 +11,13 @@
   <script src="lib/quaternion.min.js"></script>
   <script src="lib/utils.js"></script>
   <script src="engine/Main.js"></script>
-  <script src="engine/Input.js"></script>
-  <script src="engine/Mesh.js"></script>
-  <script src="engine/Shader.js"></script>
   <script src="engine/Canvas.js"></script>
+  <script src="engine/Shader.js"></script>
+  <script src="engine/Input.js"></script>
+  <script src="engine/Scene.js"></script>
+  <script src="engine/Mesh.js"></script>
+  <script src="engine/Material.js"></script>
+  <script src="engine/Light.js"></script>
   <script src="engine/Camera.js"></script>
   <script src="engine/ObjectBase.js"></script>
   <script src="engine/BoundingBox.js"></script>
@@ -59,7 +62,7 @@
           </div>
           <div class="slider-item">
             <i class="fas slider-icon-start fa-search-minus"></i>
-            <input id="cameraZoomSlider" class="slider" type="range" min="2" max="60" value="16" step="2">
+            <input id="cameraZoomSlider" class="slider" type="range" min="1.5" max="10.0" value="2" step="0.25">
             <i class="fas slider-icon-end fa-search-plus"></i>
           </div>
         </div>
@@ -69,7 +72,13 @@
         <div class="slider-container">
           <div class="slider-item">
             <h5>Ambient</h5>
-            <input id="ambientSlider" class="slider" type="range" min="0" max="1" value="0.2" step="0.1">
+            <input id="ambientSlider" class="slider" type="range" min="0" max="1" value="0.5" step="0.1">
+          </div>
+        </div>
+        <div class="slider-container">
+          <div class="slider-item">
+            <h5>Directional</h5>
+            <input id="directionalSlider" class="slider" type="range" min="-1" max="1" value="0" step="0.05">
           </div>
         </div>
       </div>
