@@ -19,6 +19,7 @@ var mesh;
 var shader;
 var lookAtCamera;
 var objects = [];
+var wallsOBJ;
 
 function main()
 {
@@ -89,6 +90,9 @@ function handleInput(){
     var tavoloOBJ = new ObjectBase(tavoloMesh, shader);
     tavoloOBJ.setPosition(4,0,0);
     tavoloOBJ.setScale(5,5,5);
+    tavoloOBJ.setbBox(true);
+    tavoloOBJ.isSelected = true;
+    
     objects.push(tavoloOBJ);
 
   }

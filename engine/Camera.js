@@ -43,28 +43,28 @@ class LookAtCamera
         this.zLook = z;     
     }
 
-    handleInput()
-    {
-        if(Input.isKeyDown(Input.LEFT_KEY)){
-            this.setAngle(-ROTATION_FACTOR);
-        }
+    // handleInput()
+    // {
+    //     if(Input.isKeyDown(Input.LEFT_KEY)){
+    //         this.setAngle(-ROTATION_FACTOR);
+    //     }
 
-        if(Input.isKeyDown(Input.RIGHT_KEY)){
-            this.setAngle(ROTATION_FACTOR);
-        }
+    //     if(Input.isKeyDown(Input.RIGHT_KEY)){
+    //         this.setAngle(ROTATION_FACTOR);
+    //     }
 
-        if(Input.isKeyDown(Input.UP_KEY)){
-            this.rotateUp();
-        }
+    //     if(Input.isKeyDown(Input.UP_KEY)){
+    //         this.rotateUp();
+    //     }
 
-        if(Input.isKeyDown(Input.DOWN_KEY)){
-            this.rotateDown();
-        }
-    }
+    //     if(Input.isKeyDown(Input.DOWN_KEY)){
+    //         this.rotateDown();
+    //     }
+    // }
 
     look()
     {
-        this.handleInput();
+        //this.handleInput();
 
        //camera position
        this.z = this.radius * Math.cos(utils.degToRad(-this.angle)) * Math.cos(utils.degToRad(this.elevation));

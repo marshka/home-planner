@@ -2,8 +2,6 @@
 
 precision mediump float;
 
-uniform vec4 mColor;
-
 out vec4 outColor;
 
 
