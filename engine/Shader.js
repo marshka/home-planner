@@ -22,6 +22,7 @@ class Shader
 			position: gl.getAttribLocation(this.program, 'in_position'),
 			normal: gl.getAttribLocation(this.program, "in_normal"),
 			texcoord: gl.getAttribLocation(this.program, "in_texcoord"),
+			texsampler: gl.getUniformLocation(this.program, "u_texture"),
 			matrix: {
 				projection: gl.getUniformLocation(this.program, 'u_projectionMatrix'),
 				viewModel: gl.getUniformLocation(this.program, 'u_viewModelMatrix'),

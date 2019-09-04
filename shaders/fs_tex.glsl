@@ -26,6 +26,5 @@ void main() {
 	// Lets multiply just the color portion (not the alpha)
 	// by the light
 	highp float directional = max(dot(normal, directionalVector), 0.0);
-	color = vec4(ambientLight + (directionalLightColor * directional), 1.0);
-	color = texture2D(u_texture, fs_texcoord);
+	color = texture(u_texture, fs_texcoord);
 }

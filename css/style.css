@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:600,800&display=swap');
+
 * {
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
 }
 
 body {
@@ -13,8 +16,23 @@ header {
   padding: 3vh;
 }
 
+h1,
+h2,
+h3 {
+  font-weight: 800;
+}
+
 header h1 {
   margin: 0;
+  font-weight: 800;
+}
+
+.separator {
+  width: 10em;
+  margin-right: 100%;
+  margin-top: 5px;
+  height: 3px;
+  background-color: #ffa700;
 }
 
 canvas {
@@ -35,6 +53,9 @@ canvas {
 .column-right {
   width: 30%;
   padding: 0 10px;
+  background: rgb(242,242,242);
+  background: linear-gradient(0deg, rgba(242,242,242,1) 0%, rgba(255,255,255,1) 100%);
+  border-left: 2px solid #aaa;
 }
 
 h2 {
@@ -69,39 +90,35 @@ h2 {
   padding-top: 50%;
 }
 
-.slider-container {
-  background: #fff;
+input[type="range"] {
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .slider {
-  height: 25px;
+  height: 30px;
   -webkit-appearance: none;
   width: 100%;
+  margin: 2px 0;
 }
 .slider:focus {
   outline: none;
 }
 .slider::-webkit-slider-runnable-track {
   width: 100%;
-  height: 5px;
+  height: 26px;
   cursor: pointer;
   animate: 0.2s;
-  background: #2497E3;
+  background: linear-gradient(90deg, #ff7300 0%, #ffa700 100%);
   border-radius: 1px;
 }
 .slider::-webkit-slider-thumb {
   box-shadow: 0px 0px 0px #000000;
-  border: 1px solid #2497E3;
-  height: 18px;
+  height: 26px;
   width: 18px;
-  border-radius: 25px;
-  background: #A1D0FF;
+  border-radius: #ff7300;
+  background: #fff;
   cursor: pointer;
   -webkit-appearance: none;
-  margin-top: -7px;
-}
-.slider:focus::-webkit-slider-runnable-track {
-  background: #2497E3;
 }
 .slider::-moz-range-track {
   width: 100%;
@@ -160,13 +177,34 @@ h2 {
   transform: rotate(180deg);
 }
 
+#cameraUpDownSlider::-webkit-slider-runnable-track,
+#cameraZoomSlider::-webkit-slider-runnable-track {
+  background: linear-gradient(-90deg, #ff7300 0%, #ffa700 100%);
+}
+
 .slider-item > .fas {
   margin: auto;
   width: 30px;
   padding: 0 10px;
+  line-height: 26px;
+  height: 26px;
+  color: white;
+}
+
+.slider-icon-start {
+  background: #ff7300;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.slider-icon-end {
+  background: #ffa700;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .slider-item > h5 {
   margin: auto;
   padding: 0 10px;
+  font-size: 15px;
 }
