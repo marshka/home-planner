@@ -7,6 +7,22 @@ class BoundingBox
         this.meshCenter = [(minX + maxX)/2, (minY+maxY)/2,(minZ+maxZ)/2];
         this.position = [0, 0, 0];
 
+        // Color box for collision
+
+        this.COLLIDER_COLOR = {
+            R: 1.0,
+            G: 0.0,
+            B: 0.0,
+            A: 1.0
+        }
+
+        this.NON_COLLIDER_COLOR = {
+            R: 0.0,
+            G: 1.0,
+            B: 0.0,
+            A: 1.0
+        }
+        this.color = this.NON_COLLIDER_COLOR;
 
         //bounding coordinates
 		this.minX = minX || 0.0;	
@@ -33,6 +49,20 @@ class BoundingBox
                 
     }
 
+    setColor(red, green, blue, alpha)
+    {
+        this.color = [red/255.0, green/250.0, blue/255,0, alpha/255.0];
+    }
+
+    setColliderColor()
+    {
+        this.color = this.COLLIDER_COLOR;
+    }
+
+    setNonColliderColor()
+    {
+        this.color = this.NON_COLLIDER_COLOR;
+    }
 
     update(x, y, z, scaleX, scaleY, scaleZ) 
     {
@@ -57,10 +87,15 @@ class BoundingBox
     {
         if(this.enable)
         {
+        //Set color into shader
         var bBoxMatrix = utils.MakeWorld_(this.position[0], this.position[1], this.position[2],
             0, 0, 0, this.sx, this.sy, this.sz);
 
         this.mesh.renderLine(bBoxMatrix,this.shader);
+
+        //Set color for the shader
+        var colorLocation = this.shader.getUniformLocation("mColor");
+        gl.uniform4f(colorLocation,this.color.R, this.color.G, this.color.B, this.color.A);
         }
     }
 

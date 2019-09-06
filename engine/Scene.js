@@ -49,18 +49,24 @@ var Scene = {
 		mat_brown = new Material(100, 60, 60, 1);
 
 		obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), mat_parquet);
-		objects.push(obj_floor);
+		
 
 		obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), mat_white);
-		objects.push(obj_walls);
+		
 	},
 
 	draw: function(){
 		handleInput();
 		Canvas.onResize();
 
+		obj_floor.render();
+		obj_walls.render();
+
 		for(var i=0; i<objects.length; i++)
+		{
+			objects[i].solveCollision();
 			objects[i].render();
+		}
 		lookAtCamera.look();
 
 		window.requestAnimationFrame(Scene.draw);

@@ -23,8 +23,13 @@ class ObjectBase {
 
       this.boundingBox;
 
+
+      //objects that can be tested for collision against this
+      this.collidableObjects = [];
+
       // Boolean Flags
       this.isSelected       = false;
+      this.isColliding      = false;
 
 
       //computes the bounding box 
@@ -133,28 +138,57 @@ class ObjectBase {
 
   // COLLISION
 
+  setCollisionWith(objects)
+  {
+    this.collidableObjects = objects;
+  }
+
+  // This function solve the collisions with other object (has to run at each frame)
+  solveCollision()
+  {
+    for(var i=0; i < this.collidableObjects.length; i++)
+    {
+
+      if(this.collidableObjects[i] != this)
+      {
+        if(this.boundingBox.checkCollision(this.collidableObjects[i].boundingBox))
+        {
+          this.boundingBox.setColliderColor();
+          this.isColliding = true;
+          return;
+        }
+      }
+    }
+
+    // If there aren't any objects against this
+    this.boundingBox.setNonColliderColor();
+    this.isColliding = false;
+  }
+
+
+
   handleInput()
   {
     if(this.isSelected)
     {
       if(Input.isKeyClicked(Input.UP_KEY))
       {
-        this.move(0,0,-0.5);
+        this.move(0,0,-0.05);
       }
 
       if(Input.isKeyClicked(Input.DOWN_KEY))
       {
-        this.move(0,0,0.5);
+        this.move(0,0,0.05);
       }
 
       if(Input.isKeyClicked(Input.LEFT_KEY))
       {
-        this.move(-0.5,0,0);
+        this.move(-0.05,0,0);
       }
 
       if(Input.isKeyClicked(Input.RIGHT_KEY))
       {
-        this.move(0.5,0,0);
+        this.move(0.05,0,0);
       }
   }
 }
