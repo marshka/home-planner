@@ -27,6 +27,6 @@ void main() {
 	vec4 texColor = texture(u_texture, fs_texcoord);
 
 	// Apply lighting effect
-	vec3 diffuseLambert = mainColor * clamp(dot(mainDirection, normal),0.0,1.0) * texColor.rgb;
+	vec3 diffuseLambert = mainColor * clamp(dot(mainDirection, normal),0.0,1.0) * texColor.rgb * mainIntensity;
 	color = clamp(vec4(diffuseLambert + ambientColor * ambientIntensity, texColor.a), 0.0, 1.0);
 }

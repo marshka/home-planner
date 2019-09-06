@@ -69,7 +69,7 @@ var Input =
         ambientSlider.value = lights.ambient.intensity;
         ambientSlider.oninput = function() {
             var value = parseFloat(ambientSlider.value);
-            if (value >= 1.0 && value <= 1.0) {
+            if (value >= 0.0 && value <= 1.0) {
                 lights.ambient.setIntensity(value);
             }
         }
@@ -80,6 +80,32 @@ var Input =
             var direction = lights.main.direction;
             lights.main.setDirection(value, direction[1], direction[2]);
         }
+
+        // TEXTURES
+        document.getElementById("parquet-txt").addEventListener('click', event => {
+            obj_floor.changeMaterial(mat_parquet);
+        });
+        document.getElementById("maiolica-txt").addEventListener('click', event => {
+            obj_floor.changeMaterial(mat_maiolica);
+        });
+        document.getElementById("fourtiles-txt").addEventListener('click', event => {
+            obj_floor.changeMaterial(mat_4tiles);
+        });
+        document.getElementById("sixteentiles-txt").addEventListener('click', event => {
+            obj_floor.changeMaterial(mat_16tiles);
+        });
+        document.getElementById("white-txt").addEventListener('click', event => {
+            obj_walls.changeMaterial(mat_white);
+        });
+        document.getElementById("grey-txt").addEventListener('click', event => {
+            obj_walls.changeMaterial(mat_grey);
+        });
+        document.getElementById("yellow-txt").addEventListener('click', event => {
+            obj_walls.changeMaterial(mat_yellow);
+        });
+        document.getElementById("brown-txt").addEventListener('click', event => {
+            obj_walls.changeMaterial(mat_brown);
+        });
     },
 
 

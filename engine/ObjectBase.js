@@ -4,7 +4,7 @@ class ObjectBase {
     this.mesh = mesh;
     this.material = material;
 
-    this.parent = wallsOBJ;
+    this.parent = obj_walls;
 
       //Position
       this.x = 0;
@@ -113,6 +113,9 @@ class ObjectBase {
     this.parent = parent;
   }
 
+  changeMaterial(material) {
+    this.material = material;
+  }
 
   render()
   {

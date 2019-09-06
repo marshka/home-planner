@@ -1,5 +1,35 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:600,800&display=swap');
 
+#parquet-txt {
+  background: url('../objects/textures/parquet.jpg');
+}
+
+#maiolica-txt {
+  background: url('../objects/textures/maiolica.jpg');
+}
+
+#fourtiles-txt {
+  background: url('../objects/textures/4tiles.jpg');
+}
+
+#sixteentiles-txt {
+  background: url('../objects/textures/16tiles.jpg');
+}
+
+#white-txt {
+  background-color: rgb(250, 250, 250, 1);
+}
+
+#grey-txt {
+  background-color: rgb(130, 130, 130, 1);
+}
+#yellow-txt {
+  background-color: rgb(240, 250, 130, 1);
+}
+#brown-txt {
+  background-color: rgb(100, 60, 60, 1);
+}
+
 * {
   box-sizing: border-box;
   font-family: 'Raleway', sans-serif;
@@ -56,6 +86,7 @@ canvas {
   background: rgb(242,242,242);
   background: linear-gradient(0deg, rgba(242,242,242,1) 0%, rgba(255,255,255,1) 100%);
   border-left: 2px solid #aaa;
+  overflow-y: scroll;
 }
 
 h2 {
@@ -75,17 +106,14 @@ h2 {
   display: grid;
   grid-template-columns: auto auto auto auto;
   grid-gap: 10px;
-  background-color: #2196F3;
+  background: linear-gradient(70deg, #ff7300 0%, #ffa700 80%);
   padding: 10px;
-  /* height: 70%; */
 }
 
 .grid-container > div {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-size: cover!important;
+  cursor: pointer;
   border: 1px solid black;
-  text-align: center;
-  font-size: 30px;
-  height: 0;
   padding-bottom: 50%;
   padding-top: 50%;
 }
