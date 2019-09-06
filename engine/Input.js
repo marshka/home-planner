@@ -6,8 +6,8 @@ var Input =
     DOWN_KEY:       40,
     LEFT_KEY:       37,
     RIGHT_KEY:      39,
-    W_KEY:          87,
-    A_KEY:          65,
+    ENTER_KEY:      13,
+    DEL_KEY:        46,
 
     init: function()
     {
@@ -80,6 +80,16 @@ var Input =
             var direction = lights.main.direction;
             lights.main.setDirection(value, direction[1], direction[2]);
         }
+
+        // OBJECTS
+        document.getElementById("table-obj").addEventListener('click', event => {
+            var tavoloOBJ = new ObjectBase(
+                Mesh.loadFromOBJFile('tavolo'),
+                mat_table
+                );
+            tavoloOBJ.select();
+            objects.push(tavoloOBJ);
+        });
 
         // TEXTURES
         document.getElementById("parquet-txt").addEventListener('click', event => {

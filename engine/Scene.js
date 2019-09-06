@@ -16,6 +16,7 @@ var mat_white,
 mat_grey,
 mat_yellow,
 mat_brown;
+var mat_table;
 
 var Scene = {
 
@@ -37,6 +38,14 @@ var Scene = {
 			main: new DirectionalLight("main", -1.0, 1.0, 1.0, 200, 200, 200)
 		};
 
+		this.initMaterials();
+
+		obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), mat_parquet);
+		obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), mat_white);
+		
+	},
+
+	initMaterials: function() {
 
 		mat_parquet = new TextureMaterial("parquet.jpg");
 		mat_maiolica = new TextureMaterial("maiolica.jpg");
@@ -48,15 +57,12 @@ var Scene = {
 		mat_yellow = new Material(240, 250, 130, 1);
 		mat_brown = new Material(100, 60, 60, 1);
 
-		obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), mat_parquet);
-		
-
-		obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), mat_white);
+		mat_table = new TextureMaterial("light_wood.jpg");
 		
 	},
 
 	draw: function(){
-		handleInput();
+		
 		Canvas.onResize();
 
 		obj_floor.render();

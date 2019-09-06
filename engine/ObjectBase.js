@@ -64,28 +64,28 @@ class ObjectBase {
         this.boundingBox.update(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
       }
 
-  }
+    }
 
-  setPosition(x, y, z)
-  {    
-    this.x = x; this.y = y; this.z = z;
-    this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
-  }
+    setPosition(x, y, z)
+    {    
+      this.x = x; this.y = y; this.z = z;
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
+    }
 
-  setRotation(x, y, z)
-  {
-    this.rotX = x;  this.rotY = y; this.rotZ = z;
-  }
+    setRotation(x, y, z)
+    {
+      this.rotX = x;  this.rotY = y; this.rotZ = z;
+    }
 
-  setScale(x, y, z)
-  {
-    this.scaleX = x; this.scaleY = y; this.scaleZ = z;
-    this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
-  }
+    setScale(x, y, z)
+    {
+      this.scaleX = x; this.scaleY = y; this.scaleZ = z;
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
+    }
 
 
-  move(x, y, z)
-  {
+    move(x, y, z)
+    {
       this.x += x; this.y += y; this.z += z;
       this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
       
@@ -95,48 +95,69 @@ class ObjectBase {
       }
     }
 
-  rotate(x, y, z)
-  {
+    rotate(x, y, z)
+    {
       this.rotX += x; this.rotY += y; this.rotZ += z;
-  }
-
-  updatebBox(x, y, z, scaleX, scaleY, scaleZ)
-  {
-    this.boundingBox.update(x, y, z, scaleX, scaleY, scaleZ);
-  }
-
-  setbBox(state)
-  {
-    if(state)
-      this.boundingBox.enable = true;
-    else
-      this.boundingBox.enable = false;
-  }
-
-  setParent(parent)
-  {
-    this.parent = parent;
-  }
-
-  changeMaterial(material) {
-    this.material = material;
-  }
-
-  render()
-  {
-    this.handleInput();
-    var worldMatrix = utils.MakeWorld_(this.x, this.y, this.z, 
-                                        this.rotX, this.rotY, this.rotZ, 
-                                        this.scaleX, this.scaleY, this.scaleZ);
-    this.material.bindShader();
-    if(this.mesh != null){
-        this.mesh.render(worldMatrix, this.material.shader);
     }
-    this.boundingBox.render();
-    
-  }
+
+    updatebBox(x, y, z, scaleX, scaleY, scaleZ)
+    {
+      this.boundingBox.update(x, y, z, scaleX, scaleY, scaleZ);
+    }
+
+    setbBox(state)
+    {
+      if(state)
+        this.boundingBox.enable = true;
+      else
+        this.boundingBox.enable = false;
+    }
+
+    setParent(parent)
+    {
+      this.parent = parent;
+    }
+
+    changeMaterial(material) {
+      this.material = material;
+    }
+
+    render()
+    {
+      this.handleInput();
+      var worldMatrix = utils.MakeWorld_(this.x, this.y, this.z, 
+        this.rotX, this.rotY, this.rotZ, 
+        this.scaleX, this.scaleY, this.scaleZ);
+      this.material.bindShader();
+      if(this.mesh != null){
+        this.mesh.render(worldMatrix, this.material.shader);
+      }
+      this.boundingBox.render();
+
+    }
+
+    remove() {
+      objects.splice(objects.indexOf(this), 1);
+    }
 
   // COLLISION
+
+  select() {
+    this.setbBox(true);
+    this.isSelected = true;
+    this.setCollisionWith(objects);
+  }
+
+  clear() {
+    if(this.isColliding) {
+      this.remove();
+    }
+    else {
+      this.setbBox(false);
+      this.isSelected = false;
+      this.collidableObjects = [];
+    }
+  }
 
   setCollisionWith(objects)
   {
@@ -165,8 +186,6 @@ class ObjectBase {
     this.isColliding = false;
   }
 
-
-
   handleInput()
   {
     if(this.isSelected)
@@ -190,8 +209,18 @@ class ObjectBase {
       {
         this.move(0.05,0,0);
       }
+
+      if(Input.isKeyClicked(Input.ENTER_KEY))
+      {
+        this.clear();
+      }
+
+      if(Input.isKeyClicked(Input.DEL_KEY))
+      {
+        this.remove();
+      }
+    }
   }
-}
 
 
 }
