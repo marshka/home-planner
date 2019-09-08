@@ -17,6 +17,12 @@ uniform vec3 mainColor;
 uniform vec3 mainDirection;
 uniform float mainIntensity;
 
+uniform vec3 lampPosition;
+uniform vec3 lampColor;
+uniform float lampIntensity;
+uniform float lampDecay;
+uniform float lampTarget;
+
 uniform vec4 mDiffuseColor;
 uniform vec4 mEmissionColor;
 

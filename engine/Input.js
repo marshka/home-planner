@@ -7,10 +7,22 @@ var Input =
     LEFT_KEY:       37,
     RIGHT_KEY:      39,
     ENTER_KEY:      13,
+    ESC_KEY:        27,
     DEL_KEY:        46,
+    CTRL_KEY:       17,
+    ALT_KEY:        18,
+    SPACE_KEY:      32,
+    W_KEY:          87,
+    A_KEY:          65,
+    S_KEY:          83,
+    D_KEY:          68,
+    H_KEY:          72,
 
-    init: function()
-    {
+    init: function() {
+        const CAMERA_DEFAULT_ANGLE = lookAtCamera.angle;
+        const CAMERA_DEFAULT_ELEVATION = lookAtCamera.elevation;
+        const CAMERA_DEFAULT_RADIUS = lookAtCamera.radius;
+
         window.addEventListener("keyup", Input.keyUp, false);
         window.addEventListener("keydown", Input.keyDown, false);
 
@@ -45,12 +57,21 @@ var Input =
         });
 
         // CAMERA SLIDERS
+        var cameraDefaultButton = document.getElementById("cameraDefaultButton");
         var cameraLeftRightSlider = document.getElementById("cameraLeftRightSlider");
         var cameraUpDownSlider = document.getElementById("cameraUpDownSlider");
         var cameraZoomSlider = document.getElementById("cameraZoomSlider");
-        cameraLeftRightSlider.value = lookAtCamera.angle;
-        cameraUpDownSlider.value = lookAtCamera.elevation;
-        cameraZoomSlider.value = lookAtCamera.radius;
+        cameraLeftRightSlider.value = CAMERA_DEFAULT_ANGLE;
+        cameraUpDownSlider.value = CAMERA_DEFAULT_ELEVATION;
+        cameraZoomSlider.value = CAMERA_DEFAULT_RADIUS;
+        cameraDefaultButton.addEventListener("click", event => {
+            lookAtCamera.angle = CAMERA_DEFAULT_ANGLE;
+            lookAtCamera.elevation = CAMERA_DEFAULT_ELEVATION;
+            lookAtCamera.radius = CAMERA_DEFAULT_RADIUS;
+            cameraLeftRightSlider.value = CAMERA_DEFAULT_ANGLE;
+            cameraUpDownSlider.value = CAMERA_DEFAULT_ELEVATION;
+            cameraZoomSlider.value = CAMERA_DEFAULT_RADIUS;
+        });
         cameraLeftRightSlider.oninput = function() {
             lookAtCamera.angle = parseInt(cameraLeftRightSlider.value);
         }
@@ -82,42 +103,63 @@ var Input =
         }
 
         // OBJECTS
-        document.getElementById("table-obj").addEventListener('click', event => {
-            var tavoloOBJ = new ObjectBase(
-                Mesh.loadFromOBJFile('tavolo'),
-                mat_table
-                );
-            tavoloOBJ.select();
-            objects.push(tavoloOBJ);
+        document.getElementById("objects-grid").addEventListener('click', event => {
+            var obj;
+            switch(event.target.id) {
+                case "table-obj":
+                obj = new ObjectBase(Mesh.loadFromOBJFile('table'), mat_table, "table.png");
+                break;
+                case "lamp-obj":
+                obj = new ObjectBase(Mesh.loadFromOBJFile('lamp'), mat_copper);
+                break;
+                case "sofa-obj":
+                obj = new ObjectBase(Mesh.loadFromOBJFile('sofa'), mat_whiteFabric, "sofa.png");
+                break;
+                default:
+                return;
+            }
+            obj.select();
+            objects.push(obj);
         });
 
         // TEXTURES
-        document.getElementById("parquet-txt").addEventListener('click', event => {
-            obj_floor.changeMaterial(mat_parquet);
-        });
-        document.getElementById("maiolica-txt").addEventListener('click', event => {
-            obj_floor.changeMaterial(mat_maiolica);
-        });
-        document.getElementById("fourtiles-txt").addEventListener('click', event => {
-            obj_floor.changeMaterial(mat_4tiles);
-        });
-        document.getElementById("sixteentiles-txt").addEventListener('click', event => {
-            obj_floor.changeMaterial(mat_16tiles);
-        });
-        document.getElementById("white-txt").addEventListener('click', event => {
-            obj_walls.changeMaterial(mat_white);
-        });
-        document.getElementById("grey-txt").addEventListener('click', event => {
-            obj_walls.changeMaterial(mat_grey);
-        });
-        document.getElementById("yellow-txt").addEventListener('click', event => {
-            obj_walls.changeMaterial(mat_yellow);
-        });
-        document.getElementById("brown-txt").addEventListener('click', event => {
-            obj_walls.changeMaterial(mat_brown);
+        document.getElementById("textures-grid").addEventListener('click', event => {
+            switch(event.target.id) {
+                case "parquet-txt":
+                obj_floor.changeMaterial(mat_parquet);
+                break;
+                case "maiolica-txt":
+                obj_floor.changeMaterial(mat_maiolica);
+                break;
+                case "fourtiles-txt":
+                obj_floor.changeMaterial(mat_4tiles);
+                break;
+                case "sixteentiles-txt":
+                obj_floor.changeMaterial(mat_16tiles);
+                break;
+                case "white-txt":
+                obj_walls.changeMaterial(mat_white);
+                break;
+                case "grey-txt":
+                obj_walls.changeMaterial(mat_grey);
+                break;
+                case "yellow-txt":
+                obj_walls.changeMaterial(mat_yellow);
+                break;
+                case "brown-txt":
+                obj_walls.changeMaterial(mat_brown);
+                break;
+            }
         });
     },
 
+    handle: function () {
+
+        if(Input.isKeyClicked(Input.H_KEY)) {
+            Modal.trigger();
+        }
+
+    },
 
     keyUp: function(e){
         if(keys[e.keyCode]) {

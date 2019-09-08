@@ -1,8 +1,11 @@
 class ObjectBase {
 
-  constructor(mesh, material){
+  constructor(mesh, material, thumb){
     this.mesh = mesh;
     this.material = material;
+    if (thumb) {
+      this.thumb = thumbs_dir + thumb;
+    }
 
     this.parent = obj_walls;
 
@@ -190,6 +193,16 @@ class ObjectBase {
   {
     if(this.isSelected)
     {
+
+      // Rotation with CTRL_KEY pressed
+      if (Input.isKeyDown(Input.CTRL_KEY)) {
+        if(Input.isKeyClicked(Input.LEFT_KEY))
+          this.rotate(0,5,0);
+        else if (Input.isKeyClicked(Input.RIGHT_KEY))
+          this.rotate(0,-5,0);
+        return;
+      }
+
       if(Input.isKeyClicked(Input.UP_KEY))
       {
         this.move(0,0,-0.05);
@@ -215,7 +228,7 @@ class ObjectBase {
         this.clear();
       }
 
-      if(Input.isKeyClicked(Input.DEL_KEY))
+      if(Input.isKeyClicked(Input.DEL_KEY) || Input.isKeyClicked(Input.ESC_KEY))
       {
         this.remove();
       }

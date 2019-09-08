@@ -21,6 +21,7 @@
   <script src="engine/Camera.js"></script>
   <script src="engine/ObjectBase.js"></script>
   <script src="engine/BoundingBox.js"></script>
+  <script src="engine/Modal.js"></script>
   
 </head>
 <body onload="main()">
@@ -39,14 +40,16 @@
       <div>
         <h3>Furniture</h3>
         <div class="separator"></div>
-        <div class="grid-container">
+        <div id="objects-grid" class="grid-container">
           <div id="table-obj"></div>
+          <div id="sofa-obj"></div>
+          <div id="lamp-obj"></div>
         </div>
       </div>
       <div>
         <h3>Floor and walls</h3>
         <div class="separator"></div>
-        <div class="grid-container">
+        <div id="textures-grid" class="grid-container">
           <div id="white-txt"></div>
           <div id="grey-txt"></div>
           <div id="yellow-txt"></div>
@@ -75,6 +78,7 @@
             <input id="cameraZoomSlider" class="slider" type="range" min="1.5" max="10.0" value="2" step="0.25">
             <i class="fas slider-icon-end fa-search-plus"></i>
           </div>
+          <button id="cameraDefaultButton">Restore default</button>
         </div>
       </div>
       <div>
@@ -94,5 +98,23 @@
       </div>
     </div>
   </div>
+
+  <!-- Objects modal -->
+  <div id="modal" class="modal" style="display: none;">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h2>Objects & Rules</h2>
+      </div>
+      <div class="modal-body">
+        <div id="objects-list"></div>
+      </div>
+      <div class="modal-footer">
+        <h3>Leonardo Givoli, Ivan Marisca</h3>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

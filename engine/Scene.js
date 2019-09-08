@@ -16,7 +16,8 @@ var mat_white,
 mat_grey,
 mat_yellow,
 mat_brown;
-var mat_table;
+var mat_table,
+mat_whiteFabric;
 
 var Scene = {
 
@@ -42,6 +43,8 @@ var Scene = {
 
 		obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), mat_parquet);
 		obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), mat_white);
+
+		Modal.init();
 		
 	},
 
@@ -58,12 +61,16 @@ var Scene = {
 		mat_brown = new Material(100, 60, 60, 1);
 
 		mat_table = new TextureMaterial("light_wood.jpg");
+		mat_whiteFabric = new TextureMaterial("white_fabric.jpg");
+		mat_lamp = new TextureMaterial("lamp.jpg");
+		mat_copper = new SpecularMaterial(100, 60, 60, 1);
 		
 	},
 
 	draw: function(){
 		
 		Canvas.onResize();
+		Input.handle();
 
 		obj_floor.render();
 		obj_walls.render();

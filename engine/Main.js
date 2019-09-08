@@ -7,6 +7,7 @@ const root_dir = window.location.origin;
 const shaders_dir = root_dir + "/shaders/";
 const models_dir = root_dir + "/objects/models/";
 const textures_dir = root_dir + "/objects/textures/";
+const thumbs_dir = root_dir + "/objects/tmb/";
 
 //global matrices
 var perspectiveMatrix = utils.identityMatrix();
