@@ -23,5 +23,4 @@ function main() {
   Input.init();
 
   Scene.draw();
-
 }

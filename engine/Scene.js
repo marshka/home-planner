@@ -71,6 +71,7 @@ var Scene = {
 	draw: function(){
 		
 		Canvas.onResize();
+		funzioneProva();
 		Input.handle();
 
 		obj_floor.render();
@@ -84,5 +85,20 @@ var Scene = {
 		lookAtCamera.look();
 
 		window.requestAnimationFrame(Scene.draw);
+	}
+}
+
+function funzioneProva(){
+	if(Input.isKeyClicked(Input.A_KEY))
+	{
+	  var groupObject = new GroupObject(null, new Material(0.0,0.0,0.0,0.0));
+	  obj = new ObjectBase(Mesh.loadFromOBJFile('table'), mat_table, "table.png");
+	  groupObject.addObject3D(obj);
+	  obj2 = new ObjectBase(Mesh.loadFromOBJFile('table'), mat_table, "table.png");
+	  obj2.setPosition(0,2,0);
+	  groupObject.addObject3D(obj2);
+	  groupObject.select();
+	  objects.push(groupObject);
+	  
 	}
 }
