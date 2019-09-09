@@ -136,7 +136,6 @@ class ObjectBase {
         this.mesh.render(worldMatrix, this.material.shader);
       }
       this.boundingBox.render();
-
     }
 
     remove() {

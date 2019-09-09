@@ -30,13 +30,14 @@ var Scene = {
 
 		shaders = {
 			lambert: Shader.loadFromFiles('vs', 'fs'),
-			phong: Shader.loadFromFiles('vs', 'fs'),
+			phong: Shader.loadFromFiles('vs', 'fs_phong'),
 			texture: Shader.loadFromFiles('vs', 'fs_tex'),
 		};
 
 		lights = {
 			ambient: new AmbientLight("ambient", 50, 50, 50, 0.5),
-			main: new DirectionalLight("main", -1.0, 1.0, 1.0, 200, 200, 200)
+			main: new DirectionalLight("main", -1.0, 1.0, 1.0, 200, 200, 200),
+			roomLamp: new PointLight("lamp", 0.0, 0.0, 0.0, 255, 255, 255, 1.0, 1.0)
 		};
 
 		this.initMaterials();

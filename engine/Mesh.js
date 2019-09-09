@@ -76,9 +76,7 @@ class Mesh
 
 		//positions
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
-		gl.vertexAttribPointer(shader.location.position, this.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);	    
-
-		//gl.uniform1i(shader.location.texsampler, texture);
+		gl.vertexAttribPointer(shader.location.position, this.positionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 		//rendering
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
