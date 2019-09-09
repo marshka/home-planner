@@ -7,6 +7,7 @@ class BoundingBox
         this.meshCenter = [(minX + maxX)/2, (minY+maxY)/2,(minZ+maxZ)/2];
         this.position = [0, 0, 0];
 
+        this.rotY = 0.0;
         // Color box for collision
 
         this.COLLIDER_COLOR = {
@@ -64,22 +65,53 @@ class BoundingBox
         this.color = this.NON_COLLIDER_COLOR;
     }
 
-    update(x, y, z, scaleX, scaleY, scaleZ) 
+    update(x, y, z, scaleX, scaleY, scaleZ, rotY) 
     {
         this.position = [x + this.meshCenter[0]*scaleX, 
                     y + this.meshCenter[1]*scaleY, 
                     z + this.meshCenter[2]*scaleZ];
 
+        
+       
         this.sx = this.dx * scaleX;
         this.sy = this.dy * scaleY;
         this.sz = this.dz * scaleZ;
-    
+
+        this.rotY = rotY;
+        var rotDeg = utils.degToRad(rotY);
+       
         this.minX = this.position[0] - this.sx/2.0;
 		this.minY = this.position[1] - this.sy/2.0;
-		this.minZ = this.position[2] - this.sz/2.0;
+        this.minZ = this.position[2] - this.sz/2.0;
 		this.maxX = this.position[0] + this.sx/2.0;
 		this.maxY = this.position[1] + this.sy/2.0;
-		this.maxZ = this.position[2] + this.sz/2.0;
+        this.maxZ = this.position[2] + this.sz/2.0;
+
+        // var r = Math.sqrt(Math.pow(this.minZ,2)+Math.pow(this.maxX,2));
+
+        // this.minX = - r*Math.cos(rotY);
+        // this.maxX = + r*Math.cos(rotY);
+        // this.minZ = - r*Math.sin(rotY);
+        // this.maxZ = + r*Math.sin(rotY);
+        
+    }
+
+    // Used only for the groupObject class
+    update_(minX, minY, minZ, maxX, maxY, maxZ)
+    {
+        this.meshCenter = [(minX + maxX)/2, (minY+maxY)/2,(minZ+maxZ)/2];
+        this.position = [this.meshCenter[0], this.meshCenter[1], this.meshCenter[2]];
+        this.minX = minX;	
+		this.minY = minY;
+		this.minZ = minZ;
+		this.maxX = maxX;
+		this.maxY = maxY;
+        this.maxZ = maxZ;
+        
+        this.sx = (maxX - minX);
+        this.sy = (maxY - minY);
+        this.sz = (maxZ - minZ);
+
     }
 
 
@@ -89,7 +121,7 @@ class BoundingBox
         {
         //Set color into shader
         var bBoxMatrix = utils.MakeWorld_(this.position[0], this.position[1], this.position[2],
-            0, 0, 0, this.sx, this.sy, this.sz);
+            0.0, this.rotY, 0, this.sx, this.sy, this.sz);
 
         this.mesh.renderLine(bBoxMatrix,this.shader);
 
@@ -117,4 +149,6 @@ class BoundingBox
                 (this.minZ < roombBox.minZ) ||
                 (this.maxZ > roombBox.maxZ);
     }
+
+    
 }

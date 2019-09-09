@@ -7,7 +7,8 @@ class ObjectBase {
       this.thumb = thumbs_dir + thumb;
     }
 
-    this.parent = obj_walls;
+    this.walls = obj_walls;
+    this.parent = null;
 
       //Position
       this.x = 0;
@@ -64,7 +65,11 @@ class ObjectBase {
         }
 
         this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
-        this.boundingBox.update(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
+        this.boundingBox.update(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
+      }
+      else
+      {
+        this.boundingBox = new BoundingBox(0, 0, 0, 0, 0, 0);
       }
 
     }
@@ -72,27 +77,28 @@ class ObjectBase {
     setPosition(x, y, z)
     {    
       this.x = x; this.y = y; this.z = z;
-      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
     }
 
     setRotation(x, y, z)
     {
       this.rotX = x;  this.rotY = y; this.rotZ = z;
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
     }
 
     setScale(x, y, z)
     {
       this.scaleX = x; this.scaleY = y; this.scaleZ = z;
-      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
     }
 
 
     move(x, y, z)
     {
       this.x += x; this.y += y; this.z += z;
-      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ);
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
       
-      if(this.boundingBox.checkRoomCollision(this.parent.boundingBox))
+      if(this.boundingBox.checkRoomCollision(this.walls.boundingBox))
       {
         this.move(-x,-y,-z);
       }
@@ -101,11 +107,12 @@ class ObjectBase {
     rotate(x, y, z)
     {
       this.rotX += x; this.rotY += y; this.rotZ += z;
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
     }
 
-    updatebBox(x, y, z, scaleX, scaleY, scaleZ)
+    updatebBox(x, y, z, scaleX, scaleY, scaleZ, rotY)
     {
-      this.boundingBox.update(x, y, z, scaleX, scaleY, scaleZ);
+      this.boundingBox.update(x, y, z, scaleX, scaleY, scaleZ, rotY);
     }
 
     setbBox(state)
@@ -118,7 +125,52 @@ class ObjectBase {
 
     setParent(parent)
     {
-      this.parent = parent;
+      this.walls = parent;
+    }
+
+    hierarchyPosition(position)
+    {
+      if(this.parent != null)
+      {
+        var parentWorldMat = utils.MakeWorld_(this.parent.x, this.parent.y, this.parent.z, 
+          this.parent.rotx, this.parent.roty, this.parent.rotz, 
+          this.parent.scaleX, this.parent.scaleY, this.parent.scaleZ);
+
+        var transformedPosition = utils.multiplyMatrixVector(parentWorldMat, position);
+
+        return this.parent.hierarchyPosition(transformedPosition);
+      }
+      else
+      {
+        return position;
+      }
+    }
+
+    hierarchyRotation(rotation)
+    {
+      if(this.parent != null)
+      {
+        return this.parent.hierarchyScale(
+          [rotation[0] + this.parent.rotx,
+          rotation[1] + this.parent.roty,
+          rotation[2] + this.parent.rotz]
+        );
+      } else
+      {
+        return rotation;
+      }
+    }
+
+    hierarchyScale(scale)
+    {
+      if(this.parent != null)
+			return this.parent.hierarchyScale(
+														[scale[0] * this.parent.scaleX,
+														scale[1] * this.parent.scaleY,
+														scale[2] * this.parent.scaleZ]
+													);
+		else
+			return scale;
     }
 
     changeMaterial(material) {
@@ -128,13 +180,22 @@ class ObjectBase {
     render()
     {
       this.handleInput();
-      var worldMatrix = utils.MakeWorld_(this.x, this.y, this.z, 
-        this.rotX, this.rotY, this.rotZ, 
-        this.scaleX, this.scaleY, this.scaleZ);
+
+      //At each frame recompute the position, rotation, scale depending on the parent
+      var transformedPosition = this.hierarchyPosition([this.x, this.y, this.z]);
+      var transformedRot = this.hierarchyRotation([this.rotX, this.rotY, this.rotZ]);
+      var transformedScale = this.hierarchyScale([this.scaleX, this.scaleY, this.scaleZ]);
+
+      var worldMatrix = utils.MakeWorld_(transformedPosition[0], transformedPosition[1], transformedPosition[2],
+                                      transformedRot[0], transformedRot[1], transformedRot[2],
+                                      transformedScale[0], transformedScale[1], transformedScale[2]);
+
       this.material.bindShader();
+
       if(this.mesh != null){
         this.mesh.render(worldMatrix, this.material.shader);
       }
+
       this.boundingBox.render();
 
     }
@@ -193,7 +254,6 @@ class ObjectBase {
   {
     if(this.isSelected)
     {
-
       // Rotation with CTRL_KEY pressed
       if (Input.isKeyDown(Input.CTRL_KEY)) {
         if(Input.isKeyClicked(Input.LEFT_KEY))
