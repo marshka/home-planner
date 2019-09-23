@@ -27,6 +27,17 @@ class Light {
 		this.intensity = 0.0;
 	}
 
+    move(x, y, z) {
+      this.position[0] += x;
+      this.position[1] += y;
+      this.position[2] += z;
+    }
+
+    rotate(x, y, z)
+    {
+      this.rotX += x; this.rotY += y; this.rotZ += z;
+    }
+
 	bind(shader) {
 		var positionLoc = shader.getUniformLocation(this.name + 'Position');
 		var colorLoc = shader.getUniformLocation(this.name + 'Color');

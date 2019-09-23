@@ -1,11 +1,23 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:600,800&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,600,800&display=swap');
 
 #table-obj {
   background-image: url('../objects/tmb/table.png');
 }
 
+#chair-obj {
+  background-image: url('../objects/tmb/chair.png');
+}
+
 #sofa-obj {
   background-image: url('../objects/tmb/sofa.png');
+}
+
+#tvtable-obj {
+  background-image: url('../objects/tmb/tvtable.png');
+}
+
+#lamp-obj {
+  background-image: url('../objects/tmb/lamp.png');
 }
 
 #parquet-txt {
@@ -41,7 +53,7 @@
 * {
   box-sizing: border-box;
   font-family: 'Raleway', sans-serif;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 body {

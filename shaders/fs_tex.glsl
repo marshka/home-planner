@@ -41,8 +41,8 @@ vec4 phong(vec3 lightDir, vec3 lightCol, vec3 normalVec, vec4 specularColor, flo
 	return phong;
 }
 
-vec4 ambient() {
-	vec4 ambient = vec4(mDiffuseColor.rgb * ambientColor, 1.0) * ambientIntensity;
+vec4 ambient(vec4 color) {
+	vec4 ambient = vec4(color.rgb * ambientColor, 1.0) * ambientIntensity;
 	return ambient;
 }
 
@@ -58,10 +58,10 @@ void main() {
 	// Compute lamp point light
 	vec3 l_lampDirection = lampPosition - fs_position / length(lampPosition - fs_position);
 	vec3 l_lampColor = clamp(lampColor * pow(lampTarget / length(lampPosition - fs_position), lampDecay) , 0.0, 1.0);
-	vec3 lampLambert = lambert(l_lampDirection, l_lampColor, normal, texColor.rgb) * mainIntensity;
+	vec3 lampLambert = lambert(l_lampDirection, l_lampColor, normal, texColor.rgb) * lampIntensity;
 
 	// Compute ambient light
-	vec4 ambient = ambient();
+	vec4 ambient = ambient(texColor);
 
 	//color = clamp(vec4(diffuseLambert + ambientColor * ambientIntensity, texColor.a), 0.0, 1.0);
 	color = clamp(vec4(mainLambert + lampLambert, mDiffuseColor.a) + ambient + mEmissionColor, 0.0, 1.0);

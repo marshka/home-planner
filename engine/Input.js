@@ -107,13 +107,27 @@ var Input =
             var obj;
             switch(event.target.id) {
                 case "table-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('table'), mat_table, "table.png");
+                obj = new ObjectBase(Mesh.loadFromOBJFile('table'), mat_lightWood, "table.png");
+                break;
+                case "chair-obj":
+                obj = new ObjectBase(Mesh.loadFromOBJFile('chair'), mat_blackPlastic, "chair.png");
                 break;
                 case "lamp-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('lamp'), mat_copper);
+                obj = new GroupObject("lamp.png");
+                obj.addObject3D(new ObjectBase(Mesh.loadFromOBJFile('lampSteel'), mat_steel));
+                obj.addObject3D(new ObjectBase(Mesh.loadFromOBJFile('lampWhite'), mat_lamp));
+                lights.lamp = new PointLight("lamp", 0.0, 1.0, 0.0, 255, 255, 255, 1.0, 1.0);
+                obj.addLight(lights.lamp);
+                this.disableElement(event.target);
                 break;
                 case "sofa-obj":
                 obj = new ObjectBase(Mesh.loadFromOBJFile('sofa'), mat_whiteFabric, "sofa.png");
+                break;
+                case "tvtable-obj":
+                obj = new ObjectBase(Mesh.loadFromOBJFile('tvtable'), mat_lightWood, "tvtable.png");
+                break;
+                case "bed-obj":
+                obj = new ObjectBase(Mesh.loadFromOBJFile('bed'), mat_lightWood, "bed.png");
                 break;
                 default:
                 return;
@@ -151,6 +165,16 @@ var Input =
                 break;
             }
         });
+    },
+
+    enableElement: function(e){
+        e.style.removeProperty("pointer-events");
+        e.style.opacity = 1.0;
+    },
+
+    disableElement: function(e){
+        e.style.pointerEvents = "none";
+        e.style.opacity = 0.3;
     },
 
     handle: function () {

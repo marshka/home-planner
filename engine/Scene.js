@@ -16,7 +16,9 @@ var mat_white,
 mat_grey,
 mat_yellow,
 mat_brown;
-var mat_table,
+var mat_lightWood,
+mat_blackPlastic,
+mat_steel,
 mat_whiteFabric;
 
 var Scene = {
@@ -31,13 +33,12 @@ var Scene = {
 		shaders = {
 			lambert: Shader.loadFromFiles('vs', 'fs'),
 			phong: Shader.loadFromFiles('vs', 'fs_phong'),
-			texture: Shader.loadFromFiles('vs', 'fs_tex'),
+			texture: Shader.loadFromFiles('vs_tex', 'fs_tex'),
 		};
 
 		lights = {
 			ambient: new AmbientLight("ambient", 50, 50, 50, 0.5),
-			main: new DirectionalLight("main", -1.0, 1.0, 1.0, 200, 200, 200),
-			roomLamp: new PointLight("lamp", 0.0, 0.0, 0.0, 255, 255, 255, 1.0, 1.0)
+			main: new DirectionalLight("main", -1.0, 1.0, 1.0, 200, 200, 200)
 		};
 
 		this.initMaterials();
@@ -61,17 +62,18 @@ var Scene = {
 		mat_yellow = new Material(240, 250, 130, 1);
 		mat_brown = new Material(100, 60, 60, 1);
 
-		mat_table = new TextureMaterial("light_wood.jpg");
+		mat_lightWood = new TextureMaterial("light_wood.jpg");
 		mat_whiteFabric = new TextureMaterial("white_fabric.jpg");
-		mat_lamp = new TextureMaterial("lamp.jpg");
-		mat_copper = new SpecularMaterial(100, 60, 60, 1);
+		mat_blackPlastic = new SpecularMaterial(30, 30, 30, 1);
+		mat_lamp = new SpecularMaterial(250, 250, 250, 1);
+		mat_lamp.setEmissionColor(220, 220, 220, 0.6);
+		mat_steel = new SpecularMaterial(100, 100, 100, 1);
 		
 	},
 
 	draw: function(){
 		
 		Canvas.onResize();
-		funzioneProva();
 		Input.handle();
 
 		obj_floor.render();
@@ -85,20 +87,5 @@ var Scene = {
 		lookAtCamera.look();
 
 		window.requestAnimationFrame(Scene.draw);
-	}
-}
-
-function funzioneProva(){
-	if(Input.isKeyClicked(Input.A_KEY))
-	{
-	  var groupObject = new GroupObject(null, new Material(0.0,0.0,0.0,0.0));
-	  obj = new ObjectBase(Mesh.loadFromOBJFile('table'), mat_table, "table.png");
-	  groupObject.addObject3D(obj);
-	  obj2 = new ObjectBase(Mesh.loadFromOBJFile('table'), mat_table, "table.png");
-	  obj2.setPosition(0,2,0);
-	  groupObject.addObject3D(obj2);
-	  groupObject.select();
-	  objects.push(groupObject);
-	  
 	}
 }

@@ -51,9 +51,11 @@ class Mesh
 		gl.vertexAttribPointer(shader.location.normal, this.normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 		//texture
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.texcoordBuffer);
-		gl.vertexAttribPointer(shader.location.texcoord, this.texcoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
+		if(shader.location.texcoord >= 0) {
+			gl.bindBuffer(gl.ARRAY_BUFFER, this.texcoordBuffer);
+			gl.vertexAttribPointer(shader.location.texcoord, this.texcoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+		}
+		
 		//rendering
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
 		gl.drawElements(gl.TRIANGLES, this.indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
@@ -70,9 +72,9 @@ class Mesh
 		gl.uniformMatrix4fv(shader.location.matrix.projection, gl.FALSE, utils.transposeMatrix(matrix));
 
 	    var WVMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix); // world view matrix 		
-		var nMatrix = utils.invertMatrix(utils.transposeMatrix(WVMatrix));
+	    var nMatrix = utils.invertMatrix(utils.transposeMatrix(WVMatrix));
 	    gl.uniformMatrix4fv(shader.location.matrix.viewModel, gl.FALSE, utils.transposeMatrix(WVMatrix));
-		gl.uniformMatrix4fv(shader.location.matrix.normal, gl.FALSE, utils.transposeMatrix(nMatrix));
+	    gl.uniformMatrix4fv(shader.location.matrix.normal, gl.FALSE, utils.transposeMatrix(nMatrix));
 
 		//positions
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);

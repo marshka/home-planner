@@ -35,7 +35,8 @@ class Shader
 	    //enable and link shader attributes
 	    gl.enableVertexAttribArray(this.location.position);
 	    gl.enableVertexAttribArray(this.location.normal);
-	    gl.enableVertexAttribArray(this.location.texcoord);
+	    if(this.location.texcoord >= 0)
+	    	gl.enableVertexAttribArray(this.location.texcoord);
 
 	}
 
