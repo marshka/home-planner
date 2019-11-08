@@ -71,29 +71,54 @@ class BoundingBox
                     y + this.meshCenter[1]*scaleY, 
                     z + this.meshCenter[2]*scaleZ];
 
-        
-       
         this.sx = this.dx * scaleX;
         this.sy = this.dy * scaleY;
         this.sz = this.dz * scaleZ;
 
-        this.rotY = rotY;
-        var rotDeg = utils.degToRad(rotY);
-       
+        this.rotY += rotY;
+        
         this.minX = this.position[0] - this.sx/2.0;
 		this.minY = this.position[1] - this.sy/2.0;
         this.minZ = this.position[2] - this.sz/2.0;
 		this.maxX = this.position[0] + this.sx/2.0;
 		this.maxY = this.position[1] + this.sy/2.0;
         this.maxZ = this.position[2] + this.sz/2.0;
-
-        // var r = Math.sqrt(Math.pow(this.minZ,2)+Math.pow(this.maxX,2));
-
-        // this.minX = - r*Math.cos(rotY);
-        // this.maxX = + r*Math.cos(rotY);
-        // this.minZ = - r*Math.sin(rotY);
-        // this.maxZ = + r*Math.sin(rotY);
         
+        this.rotate_vertices(this.rotY);
+    }
+
+
+    rotate_vertices(rotY){
+        var rotation_matrix = utils.MakeRotateYMatrix(rotY);
+
+        var c1 = [this.minX, this.maxY, this.minZ, 1.0];
+        var c2 = [this.maxX, this.maxY, this.minZ, 1.0];
+        var c3 = [this.minX, this.maxY, this.maxZ, 1.0];
+        var c4 = [this.maxX, this.maxY, this.maxZ, 1.0];
+
+        c1 = utils.multiplyMatrixVector(rotation_matrix, c1);
+        c2 = utils.multiplyMatrixVector(rotation_matrix, c2);
+        c3 = utils.multiplyMatrixVector(rotation_matrix, c3);
+        c4 = utils.multiplyMatrixVector(rotation_matrix, c4);
+
+        var minX = Math.min(c1[0], c2[0], c3[0], c4[0]);
+        var maxX = Math.max(c1[0], c2[0], c3[0], c4[0]);
+        var minZ = Math.min(c1[2], c2[2], c3[2], c4[2]);
+        var maxZ = Math.max(c1[2], c2[2], c3[2], c4[2]);
+
+        var aDim_x = this.maxX - this.minX;
+        var aDim_z = this.maxZ - this.minZ;
+
+        var scaleX = (maxX - minX)/aDim_x;
+        var scaleZ = (maxZ - minZ)/aDim_z;
+
+        this.sx = this.dx * scaleX;
+        this.sz = this.dz * scaleZ;
+
+        this.minX = this.position[0] - this.sx/2.0;
+        this.minZ = this.position[2] - this.sz/2.0;
+		this.maxX = this.position[0] + this.sx/2.0;
+        this.maxZ = this.position[2] + this.sz/2.0;
     }
 
     // Used only for the groupObject class
@@ -121,20 +146,24 @@ class BoundingBox
         {
         //Set color into shader
         var bBoxMatrix = utils.MakeWorld_(this.position[0], this.position[1], this.position[2],
-            0.0, this.rotY, 0, this.sx, this.sy, this.sz);
+            0.0, 0.0, 0.0, this.sx, this.sy, this.sz);
+        
+        //this.recomputeVertices(bBoxMatrix);
 
         this.mesh.renderLine(bBoxMatrix,this.shader);
+        
 
         //Set color for the shader
         var colorLocation = this.shader.getUniformLocation("mColor");
         gl.uniform4f(colorLocation,this.color.R, this.color.G, this.color.B, this.color.A);
+
         }
     }
 
     // Return a boolean value if an object hits another object.
     checkCollision(bBox)
 	{
-		return 	(this.minX <= bBox.maxX && this.maxX >= bBox.minX) &&
+        return 	(this.minX <= bBox.maxX && this.maxX >= bBox.minX) &&
          		(this.minY <= bBox.maxY && this.maxY >= bBox.minY) &&
          		(this.minZ <= bBox.maxZ && this.maxZ >= bBox.minZ);
     }
@@ -149,6 +178,5 @@ class BoundingBox
                 (this.minZ < roombBox.minZ) ||
                 (this.maxZ > roombBox.maxZ);
     }
-
     
 }

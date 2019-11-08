@@ -77,7 +77,7 @@ class ObjectBase {
     setPosition(x, y, z)
     {    
       this.x = x; this.y = y; this.z = z;
-      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, 0);
     }
 
     setRotation(x, y, z)
@@ -89,14 +89,14 @@ class ObjectBase {
     setScale(x, y, z)
     {
       this.scaleX = x; this.scaleY = y; this.scaleZ = z;
-      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, 0);
     }
 
 
     move(x, y, z)
     {
       this.x += x; this.y += y; this.z += z;
-      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, 0);
       
       if(this.boundingBox.checkRoomCollision(this.walls.boundingBox))
       {
@@ -107,7 +107,7 @@ class ObjectBase {
     rotate(x, y, z)
     {
       this.rotX += x; this.rotY += y; this.rotZ += z;
-      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, this.rotY);
+      this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, y);
     }
 
     updatebBox(x, y, z, scaleX, scaleY, scaleZ, rotY)
@@ -216,7 +216,7 @@ class ObjectBase {
       this.remove();
     }
     else {
-      this.setbBox(false);
+      this.setbBox(true);
       this.isSelected = false;
       this.collidableObjects = [];
     }
