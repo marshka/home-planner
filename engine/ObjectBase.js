@@ -108,6 +108,10 @@ class ObjectBase {
     {
       this.rotX += x; this.rotY += y; this.rotZ += z;
       this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, y);
+      if(this.boundingBox.checkRoomCollision(this.walls.boundingBox))
+      {
+        this.rotate(-x,-y,-z);
+      }
     }
 
     updatebBox(x, y, z, scaleX, scaleY, scaleZ, rotY)

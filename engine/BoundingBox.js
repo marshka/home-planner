@@ -83,6 +83,8 @@ class BoundingBox
 		this.maxX = this.position[0] + this.sx/2.0;
 		this.maxY = this.position[1] + this.sy/2.0;
         this.maxZ = this.position[2] + this.sz/2.0;
+
+        console.log(this.sx, this.sy, this.sz);
         
         this.rotate_vertices(this.rotY);
     }
@@ -119,6 +121,8 @@ class BoundingBox
         this.minZ = this.position[2] - this.sz/2.0;
 		this.maxX = this.position[0] + this.sx/2.0;
         this.maxZ = this.position[2] + this.sz/2.0;
+
+        console.log("BOUNDING BOX", this.sx, this.sy, this.sz);
     }
 
     // Used only for the groupObject class
