@@ -4,6 +4,7 @@ precision highp float;
 
 in vec3 fs_position;
 in vec3 fs_normal;
+in vec3 model_normal;
 in vec2 fs_texcoord;
 uniform sampler2D u_texture;
 
@@ -56,9 +57,9 @@ void main() {
 	vec3 mainLambert = lambert(l_mainDirection, mainColor, normal, texColor.rgb) * mainIntensity;
 
 	// Compute lamp point light
-	vec3 l_lampDirection = lampPosition - fs_position / length(lampPosition - fs_position);
+	vec3 l_lampDirection = (lampPosition - fs_position) / length(lampPosition - fs_position);
 	vec3 l_lampColor = clamp(lampColor * pow(lampTarget / length(lampPosition - fs_position), lampDecay) , 0.0, 1.0);
-	vec3 lampLambert = lambert(l_lampDirection, l_lampColor, normal, texColor.rgb) * lampIntensity;
+	vec3 lampLambert = lambert(l_lampDirection, l_lampColor, model_normal, texColor.rgb) * lampIntensity;
 
 	// Compute ambient light
 	vec4 ambient = ambient(texColor);

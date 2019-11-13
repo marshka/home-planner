@@ -179,7 +179,7 @@ var Input =
 
     handle: function () {
 
-        if(Input.isKeyClicked(Input.H_KEY)) {
+        if(Input.isKeyClicked(Input.SPACE_KEY)) {
             Modal.trigger();
         }
 

@@ -9,6 +9,7 @@ uniform mat4 u_normalMatrix;
 
 out vec3 fs_position;
 out vec3 fs_normal;
+out vec3 model_normal;
 
 void main() 
 {
@@ -17,5 +18,6 @@ void main()
 
 	// Pass the vectors to the fragment shader
 	fs_normal = (u_normalMatrix * vec4(in_normal, 1.0)).xyz;
+	model_normal = in_normal;
 	fs_position = in_position;
 }
