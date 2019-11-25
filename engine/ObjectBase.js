@@ -129,7 +129,7 @@ class ObjectBase {
 
     setParent(parent)
     {
-      this.walls = parent;
+      this.parent = parent;
     }
 
     hierarchyPosition(position)
@@ -137,7 +137,7 @@ class ObjectBase {
       if(this.parent != null)
       {
         var parentWorldMat = utils.MakeWorld_(this.parent.x, this.parent.y, this.parent.z, 
-          this.parent.rotx, this.parent.roty, this.parent.rotz, 
+          this.parent.rotX, this.parent.rotY, this.parent.rotZ, 
           this.parent.scaleX, this.parent.scaleY, this.parent.scaleZ);
 
         var transformedPosition = utils.multiplyMatrixVector(parentWorldMat, position);
@@ -154,10 +154,10 @@ class ObjectBase {
     {
       if(this.parent != null)
       {
-        return this.parent.hierarchyScale(
-          [rotation[0] + this.parent.rotx,
-          rotation[1] + this.parent.roty,
-          rotation[2] + this.parent.rotz]
+        return this.parent.hierarchyRotation(
+          [rotation[0] + this.parent.rotX,
+          rotation[1] + this.parent.rotY,
+          rotation[2] + this.parent.rotZ]
         );
       } else
       {
@@ -186,7 +186,7 @@ class ObjectBase {
       this.handleInput();
 
       //At each frame recompute the position, rotation, scale depending on the parent
-      var transformedPosition = this.hierarchyPosition([this.x, this.y, this.z]);
+      var transformedPosition = this.hierarchyPosition([this.x, this.y, this.z, 1.0]);
       var transformedRot = this.hierarchyRotation([this.rotX, this.rotY, this.rotZ]);
       var transformedScale = this.hierarchyScale([this.scaleX, this.scaleY, this.scaleZ]);
 
@@ -199,7 +199,7 @@ class ObjectBase {
       if(this.mesh != null){
         this.mesh.render(worldMatrix, this.material.shader);
       }
-
+      
       this.boundingBox.render();
     }
 
