@@ -58,24 +58,15 @@ class GroupObject extends ObjectBase{
         this.boundingBox.update_(min.x, min.y, min.z, max.x, max.y, max.z);
     }
 
-    // move(x, y, z)
-    // {
-    //     for(var i=0; i < this.objectsCount; i++)
-    //     {
-    //         this.objects[i].move(x, y, z);
-    //     }
-    //     for(var i=0; i < this.lights.length; i++)
-    //     {
-    //         this.lights[i].move(x, y, z);
-    //     }
-    //     this.x += x; this.y += y; this.z += z;
-    //     this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, 0);
+    move(x, y, z)
+    {
       
-    //     // if(this.boundingBox.checkRoomCollision(this.walls.boundingBox))
-    //     // {
-    //     //  this.move(-x,-y,-z);
-    //     // }
-    // }
+        for(var i=0; i < this.lights.length; i++)
+        {
+            this.lights[i].move(x, y, z);
+        }
+        super.move(x, y, z);
+    }
 
     // rotate(x, y, z)
     // {
