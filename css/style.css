@@ -20,6 +20,18 @@
   background-image: url('../objects/tmb/lamp.png');
 }
 
+#plant-obj {
+  background-image: url('../objects/tmb/plant.png');
+}
+
+#carpet-obj {
+  background-image: url('../objects/tmb/carpet.png');
+}
+
+#globe-obj {
+  background-image: url('../objects/tmb/globe.png');
+}
+
 #parquet-txt {
   background-image: url('../objects/textures/parquet.jpg');
 }
@@ -351,7 +363,7 @@ input[type="range"] {
 
 #objects-list {
   display: grid;
-  grid-template-columns: 100px 100px;
+  grid-template-columns: repeat(auto-fill, 100px);
   grid-gap: 10px;
   padding: 10px;
 }

@@ -27,22 +27,24 @@ class Light {
 		this.intensity = 0.0;
 	}
 
-    move(x, y, z) {
-      this.position[0] += x;
-      this.position[1] += y;
-      this.position[2] += z;
-    }
+	move(x, y, z) {
+		this.position[0] += x;
+		this.position[1] += y;
+		this.position[2] += z;
+	}
 
-    rotate(x, y, z)
-    {
-      this.rotX += x; this.rotY += y; this.rotZ += z;
-    }
+	rotate(x, y, z)
+	{
+		this.rotX += x; this.rotY += y; this.rotZ += z;
+	}
 
 	bind(shader) {
 		var positionLoc = shader.getUniformLocation(this.name + 'Position');
 		var colorLoc = shader.getUniformLocation(this.name + 'Color');
 		var intensityLoc = shader.getUniformLocation(this.name + 'Intensity');
-		gl.uniform3f(positionLoc, this.position[0], this.position[1], this.position[2]);
+		var t_position = this.position;//utils.multiplyMatrixVector(utils.transposeMatrix(viewMatrix), this.position);
+		// gl.uniform3f(positionLoc, this.position[0], this.position[1], this.position[2]);
+		gl.uniform3f(positionLoc, t_position[0], t_position[1], t_position[2]);
 		gl.uniform3f(colorLoc, this.color[0], this.color[1], this.color[2]);
 		gl.uniform1f(intensityLoc, this.intensity);
 	}
@@ -66,13 +68,21 @@ class AmbientLight extends Light {
 class DirectionalLight extends Light {
 
 	constructor(name, dirx, diry, dirz, r, g, b) {
-		super(name, 0.0 ,0.0 ,0.0, r, g, b);
+		super(name, 0.0, 0.0, 0.0, r, g, b);
 		this.setDirection(dirx, diry, dirz);
 	}
 
 	setDirection(dirx, diry, dirz) {
 		var length = Math.sqrt(dirx * dirx + diry * diry + dirz * dirz);
 		this.direction = [dirx / length, diry / length, dirz / length];
+	}
+
+	getXZAngleRad() {
+		return Math.atan2(this.direction[2], this.direction[0]);
+	}
+
+	getXZAngleDegree() {
+		return this.getXZAngleRad()*180/Math.PI;
 	}
 
 	bind(shader) {

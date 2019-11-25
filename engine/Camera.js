@@ -6,8 +6,8 @@ class LookAtCamera
     constructor()
     {
         this.angle  = 0.0;
-        this.elevation = 20.0;
-        this.radius = 2.0;
+        this.elevation = 10.0;
+        this.radius = 3.0;
 
         this.xLook = 0.0;
         this.yLook = 0.0;
@@ -43,28 +43,8 @@ class LookAtCamera
         this.zLook = z;     
     }
 
-    // handleInput()
-    // {
-    //     if(Input.isKeyDown(Input.LEFT_KEY)){
-    //         this.setAngle(-ROTATION_FACTOR);
-    //     }
-
-    //     if(Input.isKeyDown(Input.RIGHT_KEY)){
-    //         this.setAngle(ROTATION_FACTOR);
-    //     }
-
-    //     if(Input.isKeyDown(Input.UP_KEY)){
-    //         this.rotateUp();
-    //     }
-
-    //     if(Input.isKeyDown(Input.DOWN_KEY)){
-    //         this.rotateDown();
-    //     }
-    // }
-
     look()
     {
-        //this.handleInput();
 
        //camera position
        this.z = this.radius * Math.cos(utils.degToRad(-this.angle)) * Math.cos(utils.degToRad(this.elevation));
@@ -83,7 +63,7 @@ class LookAtCamera
     zoom(verse)
     {
         var nRadius = this.radius + Math.sign(verse) * 0.2 * this.radius;
-        if((nRadius >= 1.0) && (nRadius <= 10.0)) {
+        if((nRadius >= 1.0) && (nRadius <= 12.0)) {
             lookAtCamera.radius = nRadius;
         }
     }

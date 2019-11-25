@@ -67,6 +67,7 @@ class TextureMaterial extends SpecularMaterial {
 
 	constructor(textureFile) {
 		super(0, 0, 0, 1);
+		this.setSpecularColor(0, 0, 0, 0);
 		this.shader  = shaders.texture;
 
 		this.image = new Image();
@@ -93,8 +94,7 @@ class TextureMaterial extends SpecularMaterial {
 
 	bindShader() {	
 		super.bindShader();
-		var textureLocation = this.shader.getUniformLocation("u_texture");
-		gl.uniform1i(textureLocation, this.image.txNum);
+		gl.uniform1i(this.shader.location.texsampler, this.image.txNum);
 	}
 
 }
@@ -104,9 +104,8 @@ function textureLoaderCallback () {
 	gl.activeTexture(gl.TEXTURE0 + this.txNum);
 	gl.bindTexture(gl.TEXTURE_2D, this.txId);		
 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this);
+	gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 	gl.generateMipmap(gl.TEXTURE_2D);
-	//gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-	//gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR_MIPMAP_LINEAR);
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
 	isTextureLoaded[this.txNum] = true;

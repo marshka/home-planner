@@ -27,7 +27,7 @@ var Scene = {
 
 		//init camera
 		lookAtCamera = new LookAtCamera();
-		lookAtCamera.setLookPoint(0,0,0);
+		lookAtCamera.setLookPoint(0,0.5,0);
 		lookAtCamera.look();
 
 		shaders = {
@@ -38,7 +38,7 @@ var Scene = {
 
 		lights = {
 			ambient: new AmbientLight("ambient", 50, 50, 50, 0.5),
-			main: new DirectionalLight("main", -1.0, 1.0, 1.0, 200, 200, 200)
+			main: new DirectionalLight("main", 0.0, 1.0, 1.0, 200, 200, 200)
 		};
 
 		this.initMaterials();
@@ -64,7 +64,11 @@ var Scene = {
 
 		mat_lightWood = new TextureMaterial("light_wood.jpg");
 		mat_whiteFabric = new TextureMaterial("white_fabric.jpg");
-		mat_blackPlastic = new SpecularMaterial(30, 30, 30, 1);
+		mat_plant = new TextureMaterial("plant.jpg");
+		mat_carpet = new TextureMaterial("carpet.jpg");
+		mat_globe = new TextureMaterial("globe_main.png");
+		mat_globe.setSpecularColor(230, 255, 200, 0.1).setSpecularShine(200);
+		mat_blackLeather = new SpecularMaterial(30, 30, 30, 1);
 		mat_lamp = new SpecularMaterial(250, 250, 250, 1);
 		mat_lamp.setEmissionColor(220, 220, 220, 0.6);
 		mat_steel = new SpecularMaterial(100, 100, 100, 1);

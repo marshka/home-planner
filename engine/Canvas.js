@@ -50,6 +50,6 @@ var Canvas =
 
     makePerspectiveMatrix: function()
     {
-        perspectiveMatrix = utils.MakePerspective(100, this.aspectRatio, 0.1, 100.0);
+        perspectiveMatrix = utils.MakePerspective(60, this.aspectRatio, 0.1, 100.0);
     }
 }

@@ -95,11 +95,10 @@ var Input =
             }
         }
         var directionalSlider = document.getElementById("directionalSlider");
-        directionalSlider.value = lights.main.direction[0];
+        directionalSlider.value = lights.main.getXZAngleDegree();
         directionalSlider.oninput = function() {
-            var value = parseFloat(directionalSlider.value);
-            var direction = lights.main.direction;
-            lights.main.setDirection(value, direction[1], direction[2]);
+            var rad = parseInt(directionalSlider.value)*Math.PI/180;
+            lights.main.setDirection(Math.cos(rad), 1.0, Math.sin(rad));
         }
 
         // OBJECTS
@@ -110,7 +109,7 @@ var Input =
                 obj = new ObjectBase(Mesh.loadFromOBJFile('table'), mat_lightWood, "table.png");
                 break;
                 case "chair-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('chair'), mat_blackPlastic, "chair.png");
+                obj = new ObjectBase(Mesh.loadFromOBJFile('chair'), mat_blackLeather, "chair.png");
                 break;
                 case "lamp-obj":
                 obj = new GroupObject("lamp.png");
@@ -126,8 +125,14 @@ var Input =
                 case "tvtable-obj":
                 obj = new ObjectBase(Mesh.loadFromOBJFile('tvtable'), mat_lightWood, "tvtable.png");
                 break;
-                case "bed-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('bed'), mat_lightWood, "bed.png");
+                case "plant-obj":
+                obj = new ObjectBase(Mesh.loadFromOBJFile('plant'), mat_plant, "plant.png");
+                break;
+                case "carpet-obj":
+                obj = new ObjectBase(Mesh.loadFromOBJFile('carpet'), mat_carpet, "carpet.png");
+                break;
+                case "globe-obj":
+                obj = new ObjectBase(Mesh.loadFromOBJFile('globe'), mat_globe, "globe.png");
                 break;
                 default:
                 return;

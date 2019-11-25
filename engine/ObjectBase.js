@@ -220,7 +220,7 @@ class ObjectBase {
       this.remove();
     }
     else {
-      this.setbBox(true);
+      this.setbBox(false);
       this.isSelected = false;
       this.collidableObjects = [];
     }
