@@ -68,7 +68,13 @@ class GroupObject extends ObjectBase{
     //     {
     //         this.lights[i].move(x, y, z);
     //     }
-    //     super.move();
+    //     this.x += x; this.y += y; this.z += z;
+    //     this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, 0);
+      
+    //     // if(this.boundingBox.checkRoomCollision(this.walls.boundingBox))
+    //     // {
+    //     //  this.move(-x,-y,-z);
+    //     // }
     // }
 
     // rotate(x, y, z)
@@ -77,7 +83,12 @@ class GroupObject extends ObjectBase{
     //     {
     //         this.objects[i].rotate(x, y, z);
     //     }
-    //     super.rotate();
+    //     this.rotX += x; this.rotY += y; this.rotZ += z;
+    //     this.setBoundingBox();
+    //     if(this.boundingBox.checkRoomCollision(this.walls.boundingBox))
+    //      {
+    //         this.rotate(-x,-y,-z);
+    //     }
     // }
 
     remove() {

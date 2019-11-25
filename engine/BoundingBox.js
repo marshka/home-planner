@@ -137,10 +137,13 @@ class BoundingBox
 		this.maxY = maxY;
         this.maxZ = maxZ;
         
-        this.sx = (maxX - minX);
-        this.sy = (maxY - minY);
-        this.sz = (maxZ - minZ);
+        this.dx = (maxX - minX);
+        this.dy = (maxY - minY);
+        this.dz = (maxZ - minZ);
 
+        this.sx = this.dx;
+        this.sy = this.dy;
+        this.sz = this.dz;
     }
 
 
