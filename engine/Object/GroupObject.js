@@ -68,19 +68,6 @@ class GroupObject extends ObjectBase{
         super.move(x, y, z);
     }
 
-    // rotate(x, y, z)
-    // {
-    //     for(var i=0; i < this.objectsCount; i++)
-    //     {
-    //         this.objects[i].rotate(x, y, z);
-    //     }
-    //     this.rotX += x; this.rotY += y; this.rotZ += z;
-    //     this.setBoundingBox();
-    //     if(this.boundingBox.checkRoomCollision(this.walls.boundingBox))
-    //      {
-    //         this.rotate(-x,-y,-z);
-    //     }
-    // }
 
     remove() {
         for(var i=0; i < this.lights.length; i++)

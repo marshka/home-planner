@@ -129,7 +129,7 @@ var Input =
                 obj = new ObjectBase(Mesh.loadFromOBJFile('plant'), mat_plant, "plant.png");
                 break;
                 case "carpet-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('carpet'), mat_carpet, "carpet.png");
+                obj = new SelfColliderObject(Mesh.loadFromOBJFile('carpet'), mat_carpet, "carpet.png");
                 break;
                 case "globe-obj":
                 obj = new ObjectBase(Mesh.loadFromOBJFile('globe'), mat_globe, "globe.png");
