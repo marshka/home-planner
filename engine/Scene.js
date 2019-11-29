@@ -1,3 +1,5 @@
+const MAX_LAMPS = 1;
+
 var lookAtCamera;
 var lights;
 var shaders;
@@ -34,6 +36,7 @@ var Scene = {
 			lambert: Shader.loadFromFiles('vs', 'fs'),
 			phong: Shader.loadFromFiles('vs', 'fs_phong'),
 			texture: Shader.loadFromFiles('vs_tex', 'fs_tex'),
+			boundingBox: Shader.loadFromFiles('vs_bbox','fs_bbox')
 		};
 
 		lights = {

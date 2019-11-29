@@ -39,7 +39,6 @@ class Mesh
 
 	    var WVMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix); // world view matrix 		
 	    var nMatrix = utils.invertMatrix(utils.transposeMatrix(WVMatrix));
-	    gl.uniformMatrix4fv(shader.location.matrix.viewModel, gl.FALSE, utils.transposeMatrix(WVMatrix));
 	    gl.uniformMatrix4fv(shader.location.matrix.normal, gl.FALSE, utils.transposeMatrix(nMatrix));
 
 		//positions
@@ -70,11 +69,6 @@ class Mesh
 
 		var matrix =  utils.multiplyMatrices(projectionMatrix, worldMatrix); // world matrix
 		gl.uniformMatrix4fv(shader.location.matrix.projection, gl.FALSE, utils.transposeMatrix(matrix));
-
-	    var WVMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix); // world view matrix 		
-	    var nMatrix = utils.invertMatrix(utils.transposeMatrix(WVMatrix));
-	    gl.uniformMatrix4fv(shader.location.matrix.viewModel, gl.FALSE, utils.transposeMatrix(WVMatrix));
-	    gl.uniformMatrix4fv(shader.location.matrix.normal, gl.FALSE, utils.transposeMatrix(nMatrix));
 
 		//positions
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);

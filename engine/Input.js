@@ -106,33 +106,31 @@ var Input =
             var obj;
             switch(event.target.id) {
                 case "table-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('table'), mat_lightWood, "table.png");
+                obj = new Table();
                 break;
                 case "chair-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('chair'), mat_blackLeather, "chair.png");
+                obj = new Chair();
                 break;
                 case "lamp-obj":
-                obj = new GroupObject("lamp.png");
-                obj.addObject3D(new ObjectBase(Mesh.loadFromOBJFile('lampSteel'), mat_steel));
-                obj.addObject3D(new ObjectBase(Mesh.loadFromOBJFile('lampWhite'), mat_lamp));
-                lights.lamp = new PointLight("lamp", 0.0, 1.0, 0.0, 255, 255, 255, 1.0, 1.0);
-                obj.addLight(lights.lamp);
-                this.disableElement(event.target);
+                if (objects.filter(function(e){return e instanceof Lamp;}).length < MAX_LAMPS)
+                    obj = new Lamp();
+                else
+                    alert("Maximum number of lamps added");
                 break;
                 case "sofa-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('sofa'), mat_whiteFabric, "sofa.png");
+                obj = new Sofa();
                 break;
                 case "tvtable-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('tvtable'), mat_lightWood, "tvtable.png");
+                obj = new TvTable();
                 break;
                 case "plant-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('plant'), mat_plant, "plant.png");
+                obj = new Plant();
                 break;
                 case "carpet-obj":
-                obj = new SelfColliderObject(Mesh.loadFromOBJFile('carpet'), mat_carpet, "carpet.png");
+                obj = new Carpet();
                 break;
                 case "globe-obj":
-                obj = new ObjectBase(Mesh.loadFromOBJFile('globe'), mat_globe, "globe.png");
+                obj = new Globe();
                 break;
                 default:
                 return;

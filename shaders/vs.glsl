@@ -4,7 +4,6 @@ in vec3 in_position;
 in vec3 in_normal;
 
 uniform mat4 u_projectionMatrix;
-uniform mat4 u_viewModelMatrix;
 uniform mat4 u_normalMatrix;
 
 out vec3 fs_position;

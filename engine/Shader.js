@@ -25,7 +25,6 @@ class Shader
 			texsampler: gl.getUniformLocation(this.program, "u_texture"),
 			matrix: {
 				projection: gl.getUniformLocation(this.program, 'u_projectionMatrix'),
-				viewModel: gl.getUniformLocation(this.program, 'u_viewModelMatrix'),
 				normal: gl.getUniformLocation(this.program, 'u_normalMatrix')
 			},
 			light: {
@@ -35,7 +34,8 @@ class Shader
 
 	    //enable and link shader attributes
 	    gl.enableVertexAttribArray(this.location.position);
-	    gl.enableVertexAttribArray(this.location.normal);
+	    if(this.location.normal >= 0)
+	    	gl.enableVertexAttribArray(this.location.normal);
 	    if(this.location.texcoord >= 0)
 	    	gl.enableVertexAttribArray(this.location.texcoord);
 

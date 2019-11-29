@@ -46,7 +46,7 @@ class BoundingBox
         this.enable = false;
                 
         this.mesh = Mesh.loadFromOBJFile('boundingBox');
-        this.shader = Shader.loadFromFiles('vs','fs_bbox');
+        this.shader = shaders.boundingBox;
                 
     }
 

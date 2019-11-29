@@ -1,12 +1,10 @@
 #version 300 es
 
+in vec3 in_position;
 
-in vec3 inPosition;
-in vec3 inNormal;
-
-uniform mat4 u_projectionMatrix; 
+uniform mat4 u_projectionMatrix;
 
 void main() 
 {
-  	gl_Position = matrix * vec4(inPosition, 1.0);
+	gl_Position = u_projectionMatrix * vec4(in_position, 1.0);
 }
