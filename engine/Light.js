@@ -42,9 +42,8 @@ class Light {
 		var positionLoc = shader.getUniformLocation(this.name + 'Position');
 		var colorLoc = shader.getUniformLocation(this.name + 'Color');
 		var intensityLoc = shader.getUniformLocation(this.name + 'Intensity');
-		var t_position = this.position;//utils.multiplyMatrixVector(utils.transposeMatrix(viewMatrix), this.position);
-		// gl.uniform3f(positionLoc, this.position[0], this.position[1], this.position[2]);
-		gl.uniform3f(positionLoc, t_position[0], t_position[1], t_position[2]);
+		var tPosition = utils.multiplyMatrixVector(utils.invertMatrix(utils.transposeMatrix(viewMatrix)), this.position);
+		gl.uniform3f(positionLoc, tPosition[0], tPosition[1], tPosition[2]);
 		gl.uniform3f(colorLoc, this.color[0], this.color[1], this.color[2]);
 		gl.uniform1f(intensityLoc, this.intensity);
 	}
@@ -88,7 +87,8 @@ class DirectionalLight extends Light {
 	bind(shader) {
 		super.bind(shader);
 		var directionLocation = shader.getUniformLocation(this.name + 'Direction');
-		gl.uniform3f(directionLocation, this.direction[0], this.direction[1], this.direction[2]);   
+		var tDirection = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4((viewMatrix)), this.direction);
+		gl.uniform3f(directionLocation, tDirection[0], tDirection[1], tDirection[2]);   
 	}
 
 }

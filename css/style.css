@@ -55,11 +55,11 @@
 #grey-txt {
   background-color: rgb(130, 130, 130, 1);
 }
-#yellow-txt {
-  background-color: rgb(240, 250, 130, 1);
-}
 #brown-txt {
   background-color: rgb(100, 60, 60, 1);
+}
+#custom-txt {
+  background-color: rgb(240, 250, 130, 1);
 }
 
 * {

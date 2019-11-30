@@ -1,27 +1,12 @@
 const MAX_LAMPS = 1;
 
 var lookAtCamera;
-var lights;
-var shaders;
+var shaders, lights, materials;
 
 // OBJECTS
 var objects = [];
 var obj_floor,
 obj_walls;
-
-// MATERIAL
-var mat_parquet,
-mat_maiolica,
-mat_4tiles,
-mat_16tiles;
-var mat_white,
-mat_grey,
-mat_yellow,
-mat_brown;
-var mat_lightWood,
-mat_blackPlastic,
-mat_steel,
-mat_whiteFabric;
 
 var Scene = {
 
@@ -41,40 +26,39 @@ var Scene = {
 
 		lights = {
 			ambient: new AmbientLight("ambient", 50, 50, 50, 0.5),
-			main: new DirectionalLight("main", 0.0, 1.0, 1.0, 200, 200, 200)
+			main: new DirectionalLight("main", 0.0, 1.0, 1.0, 250, 250, 250)
 		};
 
-		this.initMaterials();
+		materials = {
+			void: new Material(0.0,0.0,0.0,0.0),
+			floor: {
+				parquet: new TextureMaterial("parquet.jpg"),
+				maiolica: new TextureMaterial("maiolica.jpg"),
+				fourTiles: new TextureMaterial("4tiles.jpg"),
+				sixteenTiles: new TextureMaterial("16tiles.jpg")
+			},
+			walls: {
+				white: new Material(250, 250, 250, 1),
+				grey: new Material(130, 130, 130, 1),
+				brown: new Material(100, 60, 60, 1),
+				custom: new Material(240, 250, 130, 1)
+			},
+			texture: {
+				lightWood: new TextureMaterial("light_wood.jpg"),
+				whiteFabric: new TextureMaterial("white_fabric.jpg"),
+				plant: new TextureMaterial("plant.jpg"),
+				carpet: new TextureMaterial("carpet.jpg"),
+				globe: new TextureMaterial("globe_main.png").setSpecularColor(230, 255, 200, 0.1).setSpecularShine(200)
+			},
+			blackLeather: new SpecularMaterial(30, 30, 30, 1),
+			lamp: new SpecularMaterial(250, 250, 250, 1).setEmissionColor(220, 220, 220, 0.6),
+			steel: new SpecularMaterial(100, 100, 100, 1)
+		};
 
-		obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), mat_parquet);
-		obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), mat_white);
+		obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), materials.floor.parquet);
+		obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), materials.walls.white);
 
 		Modal.init();
-		
-	},
-
-	initMaterials: function() {
-
-		mat_parquet = new TextureMaterial("parquet.jpg");
-		mat_maiolica = new TextureMaterial("maiolica.jpg");
-		mat_4tiles = new TextureMaterial("4tiles.jpg");
-		mat_16tiles = new TextureMaterial("16tiles.jpg");
-
-		mat_white = new Material(250, 250, 250, 1);
-		mat_grey = new Material(130, 130, 130, 1);
-		mat_yellow = new Material(240, 250, 130, 1);
-		mat_brown = new Material(100, 60, 60, 1);
-
-		mat_lightWood = new TextureMaterial("light_wood.jpg");
-		mat_whiteFabric = new TextureMaterial("white_fabric.jpg");
-		mat_plant = new TextureMaterial("plant.jpg");
-		mat_carpet = new TextureMaterial("carpet.jpg");
-		mat_globe = new TextureMaterial("globe_main.png");
-		mat_globe.setSpecularColor(230, 255, 200, 0.1).setSpecularShine(200);
-		mat_blackLeather = new SpecularMaterial(30, 30, 30, 1);
-		mat_lamp = new SpecularMaterial(250, 250, 250, 1);
-		mat_lamp.setEmissionColor(220, 220, 220, 0.6);
-		mat_steel = new SpecularMaterial(100, 100, 100, 1);
 		
 	},
 
@@ -82,6 +66,7 @@ var Scene = {
 		
 		Canvas.onResize();
 		Input.handle();
+		lookAtCamera.look();
 
 		obj_floor.render();
 		obj_walls.render();
@@ -91,7 +76,6 @@ var Scene = {
 			objects[i].solveCollision();
 			objects[i].render();
 		}
-		lookAtCamera.look();
 
 		window.requestAnimationFrame(Scene.draw);
 	}

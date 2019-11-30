@@ -13,7 +13,6 @@ const thumbs_dir = root_dir + "/objects/tmb/";
 var perspectiveMatrix = utils.identityMatrix();
 var viewMatrix = utils.identityMatrix();
 var projectionMatrix = utils.identityMatrix();
-//var worldMatrix = utils.identityMatrix();
 
 
 function main() {

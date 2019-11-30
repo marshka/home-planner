@@ -10,10 +10,12 @@ class Material {
 
 	setDiffuseColor(r, g, b, a) {
 		this.diffuseColor = [r / 255.0, g / 255.0, b / 255.0, a];
+		return this;
 	}
 
 	setEmissionColor(r, g, b, a) {
 		this.emissionColor = [r / 255.0, g / 255.0, b / 255.0, a];
+		return this;
 	}
 
 	setShader(shader) {

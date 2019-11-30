@@ -1,4 +1,5 @@
 var keys = [];
+var picker;
 
 var Input = 
 {
@@ -113,7 +114,7 @@ var Input =
                 break;
                 case "lamp-obj":
                 if (objects.filter(function(e){return e instanceof Lamp;}).length < MAX_LAMPS)
-                    obj = new Lamp();
+                obj = new Lamp();
                 else
                     alert("Maximum number of lamps added");
                 break;
@@ -143,30 +144,40 @@ var Input =
         document.getElementById("textures-grid").addEventListener('click', event => {
             switch(event.target.id) {
                 case "parquet-txt":
-                obj_floor.changeMaterial(mat_parquet);
+                obj_floor.changeMaterial(materials.floor.parquet);
                 break;
                 case "maiolica-txt":
-                obj_floor.changeMaterial(mat_maiolica);
+                obj_floor.changeMaterial(materials.floor.maiolica);
                 break;
                 case "fourtiles-txt":
-                obj_floor.changeMaterial(mat_4tiles);
+                obj_floor.changeMaterial(materials.floor.fourTiles);
                 break;
                 case "sixteentiles-txt":
-                obj_floor.changeMaterial(mat_16tiles);
+                obj_floor.changeMaterial(materials.floor.sixteenTiles);
                 break;
                 case "white-txt":
-                obj_walls.changeMaterial(mat_white);
+                obj_walls.changeMaterial(materials.walls.white);
                 break;
                 case "grey-txt":
-                obj_walls.changeMaterial(mat_grey);
-                break;
-                case "yellow-txt":
-                obj_walls.changeMaterial(mat_yellow);
+                obj_walls.changeMaterial(materials.walls.grey);
                 break;
                 case "brown-txt":
-                obj_walls.changeMaterial(mat_brown);
+                obj_walls.changeMaterial(materials.walls.brown);
+                break;
+                case "custom-txt":
+                obj_walls.changeMaterial(materials.walls.custom);
                 break;
             }
+        });
+
+        // Color picker
+        picker = new CP(document.getElementById('custom-txt'));
+        picker.on("drag", function(color) {
+            this.source.style.backgroundColor = '#' + color;
+            var rgb = this.source.style.backgroundColor;
+            rgb=rgb.substring(4,rgb.length-1).split(", ");
+            obj_walls.changeMaterial(materials.walls.custom);
+            obj_walls.material.setDiffuseColor(rgb[0], rgb[1], rgb[2], 1.0);
         });
     },
 

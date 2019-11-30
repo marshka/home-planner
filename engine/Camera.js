@@ -7,7 +7,7 @@ class LookAtCamera
     {
         this.angle  = 0.0;
         this.elevation = 10.0;
-        this.radius = 3.0;
+        this.radius = 5.0;
 
         this.xLook = 0.0;
         this.yLook = 0.0;

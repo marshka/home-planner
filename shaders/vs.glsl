@@ -16,5 +16,5 @@ void main()
 
 	// Pass the vectors to the fragment shader
 	fs_normal = mat3(u_normalMatrix) * in_normal;
-	fs_position = in_position;
+	fs_position = mat3(u_normalMatrix) * in_position;
 }

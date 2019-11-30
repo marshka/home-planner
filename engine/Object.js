@@ -2,7 +2,7 @@ class ObjectBase {
 
   constructor(mesh, material, thumb){
     this.mesh = mesh;
-    this.material = material;
+    this.material = material ? material : materials.void;
     if (thumb) {
       this.thumb = thumbs_dir + thumb;
     }
@@ -158,7 +158,7 @@ class ObjectBase {
           [rotation[0] + this.parent.rotX,
           rotation[1] + this.parent.rotY,
           rotation[2] + this.parent.rotZ]
-        );
+          );
       } else
       {
         return rotation;
@@ -168,22 +168,22 @@ class ObjectBase {
     hierarchyScale(scale)
     {
       if(this.parent != null)
-			return this.parent.hierarchyScale(
-														[scale[0] * this.parent.scaleX,
-														scale[1] * this.parent.scaleY,
-														scale[2] * this.parent.scaleZ]
-													);
-		else
-			return scale;
-    }
+       return this.parent.hierarchyScale(
+        [scale[0] * this.parent.scaleX,
+        scale[1] * this.parent.scaleY,
+        scale[2] * this.parent.scaleZ]
+        );
+     else
+       return scale;
+   }
 
-    changeMaterial(material) {
-      this.material = material;
-    }
+   changeMaterial(material) {
+    this.material = material;
+  }
 
-    render()
-    {
-      this.handleInput();
+  render()
+  {
+    this.handleInput();
 
       //At each frame recompute the position, rotation, scale depending on the parent
       var transformedPosition = this.hierarchyPosition([this.x, this.y, this.z, 1.0]);
@@ -191,8 +191,8 @@ class ObjectBase {
       var transformedScale = this.hierarchyScale([this.scaleX, this.scaleY, this.scaleZ]);
 
       var worldMatrix = utils.MakeWorld_(transformedPosition[0], transformedPosition[1], transformedPosition[2],
-                                      transformedRot[0], transformedRot[1], transformedRot[2],
-                                      transformedScale[0], transformedScale[1], transformedScale[2]);
+        transformedRot[0], transformedRot[1], transformedRot[2],
+        transformedScale[0], transformedScale[1], transformedScale[2]);
 
       this.material.bindShader();
 
@@ -297,140 +297,138 @@ class ObjectBase {
       }
     }
   }
-
 }
 
-class GroupObject extends ObjectBase{
-    constructor(thumb)
-  {
-    super(null, new Material(0.0,0.0,0.0,0.0), thumb);
+class GroupObject extends ObjectBase {
 
-        this.objects = [];
-        this.lights = [];
+  constructor(thumb)
+  {
+    super(null, null, thumb);
+
+    this.objects = [];
+    this.lights = [];
     this.objectsCount = 0;
   }
 
   addObject3D(object)
   {
     this.objects[this.objectsCount] = object;
-        this.objects[this.objectsCount].setParent(this);
-        this.objectsCount++;
-        this.setBoundingBox();
+    this.objects[this.objectsCount].setParent(this);
+    this.objectsCount++;
+    this.setBoundingBox();
   }
 
-    addLight(light) {
-        this.lights.push(light);
-    }
+  addLight(light) {
+    this.lights.push(light);
+  }
 
-    //Compute automatically the boundingbox of the entire group each time an object is added.
-    setBoundingBox()
+  //Compute automatically the boundingbox of the entire group each time an object is added.
+  setBoundingBox()
+  {
+    var min = {
+      x: 0.0,
+      y: 0.0,
+      z: 0.0
+    };
+
+    var max = {
+      x: 0.0,
+      y: 0.0,
+      z: 0.0
+    };
+
+    for(var i=0; i < this.objects.length; i++)
     {
-        var min = {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0
-        };
+      var ob = this.objects[i];
+      if(ob.boundingBox.minX < min.x)
+        min.x = ob.boundingBox.minX;
+      if(ob.boundingBox.maxX > max.x)
+        max.x = ob.boundingBox.maxX;
 
-        var max = {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0
-        };
+      if(ob.boundingBox.minY < min.y)
+        min.y = ob.boundingBox.minY;
+      if(ob.boundingBox.maxY > max.y)
+        max.y = ob.boundingBox.maxY;
 
-        for(var i=0; i < this.objects.length; i++)
-        {
-            var ob = this.objects[i];
-            if(ob.boundingBox.minX < min.x)
-                min.x = ob.boundingBox.minX;
-            if(ob.boundingBox.maxX > max.x)
-                max.x = ob.boundingBox.maxX;
+      if(ob.boundingBox.minZ < min.z)
+        min.z = ob.boundingBox.minZ;
+      if(ob.boundingBox.maxZ > max.z)
+        max.z = ob.boundingBox.maxZ;
 
-            if(ob.boundingBox.minY < min.y)
-                min.y = ob.boundingBox.minY;
-            if(ob.boundingBox.maxY > max.y)
-                max.y = ob.boundingBox.maxY;
-
-            if(ob.boundingBox.minZ < min.z)
-                min.z = ob.boundingBox.minZ;
-            if(ob.boundingBox.maxZ > max.z)
-                max.z = ob.boundingBox.maxZ;
-
-        }
-
-        this.boundingBox.update_(min.x, min.y, min.z, max.x, max.y, max.z);
     }
 
-    move(x, y, z)
+    this.boundingBox.update_(min.x, min.y, min.z, max.x, max.y, max.z);
+  }
+
+  move(x, y, z)
+  {
+
+    for(var i=0; i < this.lights.length; i++)
     {
-      
-        for(var i=0; i < this.lights.length; i++)
-        {
-            this.lights[i].move(x, y, z);
-        }
-        super.move(x, y, z);
+      this.lights[i].move(x, y, z);
     }
+    super.move(x, y, z);
+  }
 
 
-    remove() {
-        for(var i=0; i < this.lights.length; i++)
-        {
-            this.lights[i].turnOff();
-            console.log(lights.lamp);
-        }
-        super.remove();
-    }
-
-    render()
+  remove() {
+    for(var i=0; i < this.lights.length; i++)
     {
-        for(var i=0; i < this.objectsCount; i++)
-        {
-            this.objects[i].render();
-        }
-        super.render();
+      this.lights[i].turnOff();
     }
+    super.remove();
+  }
+
+  render()
+  {
+    for(var i=0; i < this.objectsCount; i++)
+    {
+      this.objects[i].render();
+    }
+    super.render();
+  }
 }
 
 class ColliderObject extends ObjectBase{
-    
-    constructor(mesh, material, thumb=null)
-    {
-        super(mesh, material, thumb);
-    }
+
+  constructor(mesh, material, thumb=null)
+  {
+    super(mesh, material, thumb);
+  }
 
 
-    setCollisionWith(objects)
+  setCollisionWith(objects)
+  {
+    // Do not set collision with self collider objects
+    for(var i=0; i < objects.length; i++)
     {
-        // Set collision only with the objects of the same type
-        for(var i=0; i < objects.length; i++)
-        {
-            if (!(objects[i] instanceof SelfColliderObject))
-            {
-                this.collidableObjects.push(objects[i]);
-            }
-        }
+      if (!(objects[i] instanceof SelfColliderObject))
+      {
+        this.collidableObjects.push(objects[i]);
+      }
     }
+  }
 
 }
 
-class SelfColliderObject extends ObjectBase{
-    
-    constructor(mesh, material, thumb=null)
+class SelfColliderObject extends ObjectBase {
+
+  constructor(mesh, material, thumb=null)
+  {
+    super(mesh, material, thumb);
+  }
+
+
+  setCollisionWith(objects)
+  {
+    // Set collision only with the objects of the same type
+    for(var i=0; i < objects.length; i++)
     {
-        super(mesh, material, thumb);
+      if (objects[i] instanceof SelfColliderObject)
+      {
+        this.collidableObjects.push(objects[i]);
+      }
     }
-
-
-    setCollisionWith(objects)
-    {
-        // Set collision only with the objects of the same type
-
-        for(var i=0; i < objects.length; i++)
-        {
-            if (objects[i] instanceof SelfColliderObject)
-            {
-                this.collidableObjects.push(objects[i]);
-            }
-        }
-    }
+  }
 
 }
