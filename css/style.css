@@ -61,6 +61,12 @@
 #custom-txt {
   background-color: rgb(240, 250, 130, 1);
 }
+#custom-txt-overlay {
+  margin: -50.4% 0px;
+  padding: 50.2% 0px;
+  background-image: linear-gradient(to bottom right, black, white);
+  opacity: 0.25;
+}
 
 * {
   box-sizing: border-box;

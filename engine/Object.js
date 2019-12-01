@@ -299,7 +299,51 @@ class ObjectBase {
   }
 }
 
-class GroupObject extends ObjectBase {
+class ColliderObject extends ObjectBase{
+
+  constructor(mesh, material, thumb=null)
+  {
+    super(mesh, material, thumb);
+  }
+
+
+  setCollisionWith(objects)
+  {
+    // Do not set collision with self collider objects
+    for(var i=0; i < objects.length; i++)
+    {
+      if (!(objects[i] instanceof SelfColliderObject))
+      {
+        this.collidableObjects.push(objects[i]);
+      }
+    }
+  }
+
+}
+
+class SelfColliderObject extends ObjectBase {
+
+  constructor(mesh, material, thumb=null)
+  {
+    super(mesh, material, thumb);
+  }
+
+
+  setCollisionWith(objects)
+  {
+    // Set collision only with the objects of the same type
+    for(var i=0; i < objects.length; i++)
+    {
+      if (objects[i] instanceof SelfColliderObject)
+      {
+        this.collidableObjects.push(objects[i]);
+      }
+    }
+  }
+
+}
+
+class GroupObject extends ColliderObject {
 
   constructor(thumb)
   {
@@ -387,48 +431,4 @@ class GroupObject extends ObjectBase {
     }
     super.render();
   }
-}
-
-class ColliderObject extends ObjectBase{
-
-  constructor(mesh, material, thumb=null)
-  {
-    super(mesh, material, thumb);
-  }
-
-
-  setCollisionWith(objects)
-  {
-    // Do not set collision with self collider objects
-    for(var i=0; i < objects.length; i++)
-    {
-      if (!(objects[i] instanceof SelfColliderObject))
-      {
-        this.collidableObjects.push(objects[i]);
-      }
-    }
-  }
-
-}
-
-class SelfColliderObject extends ObjectBase {
-
-  constructor(mesh, material, thumb=null)
-  {
-    super(mesh, material, thumb);
-  }
-
-
-  setCollisionWith(objects)
-  {
-    // Set collision only with the objects of the same type
-    for(var i=0; i < objects.length; i++)
-    {
-      if (objects[i] instanceof SelfColliderObject)
-      {
-        this.collidableObjects.push(objects[i]);
-      }
-    }
-  }
-
 }

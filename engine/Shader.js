@@ -25,6 +25,7 @@ class Shader
 			texsampler: gl.getUniformLocation(this.program, "u_texture"),
 			matrix: {
 				projection: gl.getUniformLocation(this.program, 'u_projectionMatrix'),
+				worldView: gl.getUniformLocation(this.program, 'u_worldViewMatrix'),
 				normal: gl.getUniformLocation(this.program, 'u_normalMatrix')
 			},
 			light: {

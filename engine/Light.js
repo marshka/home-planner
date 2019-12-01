@@ -42,7 +42,7 @@ class Light {
 		var positionLoc = shader.getUniformLocation(this.name + 'Position');
 		var colorLoc = shader.getUniformLocation(this.name + 'Color');
 		var intensityLoc = shader.getUniformLocation(this.name + 'Intensity');
-		var tPosition = utils.multiplyMatrixVector(utils.invertMatrix(utils.transposeMatrix(viewMatrix)), this.position);
+		var tPosition = utils.multiplyMatrixVector(viewMatrix, this.position);
 		gl.uniform3f(positionLoc, tPosition[0], tPosition[1], tPosition[2]);
 		gl.uniform3f(colorLoc, this.color[0], this.color[1], this.color[2]);
 		gl.uniform1f(intensityLoc, this.intensity);

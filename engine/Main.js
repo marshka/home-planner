@@ -3,7 +3,7 @@ var gl;
 var canvas;
 var aspectRatio;
 
-const root_dir = window.location.origin;
+const root_dir = window.location.href;
 const shaders_dir = root_dir + "/shaders/";
 const models_dir = root_dir + "/objects/models/";
 const textures_dir = root_dir + "/objects/textures/";
