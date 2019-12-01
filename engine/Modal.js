@@ -31,7 +31,7 @@ var Modal = {
 		for (var i = 0; i < objects.length; i++) {
 			html += '<div style="background-image: url('+objects[i].thumb+')" item="'+i+'"></div>\n';
 		}
-		this.objList.innerHTML = html;
+		this.objList.innerHTML = html || '<p>No objects in the room.</p>\n';
 		(this.modal.style.display == "none") ? this.show() : this.hide();
 	}
 }

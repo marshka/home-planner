@@ -2,7 +2,7 @@ class ObjectBase {
 
   constructor(mesh, material, thumb){
     this.mesh = mesh;
-    this.material = material ? material : materials.void;
+    this.material = material || materials.void;
     if (thumb) {
       this.thumb = thumbs_dir + thumb;
     }

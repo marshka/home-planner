@@ -101,6 +101,14 @@ var Input =
             var rad = parseInt(directionalSlider.value)*Math.PI/180;
             lights.main.setDirection(Math.cos(rad), 1.0, Math.sin(rad));
         }
+        var directionalIntensitySlider = document.getElementById("directionalIntensitySlider");
+        directionalIntensitySlider.value = lights.main.intensity;
+        directionalIntensitySlider.oninput = function() {
+            var value = parseFloat(directionalIntensitySlider.value);
+            if (value >= 0.0 && value <= 1.0) {
+                lights.main.setIntensity(value);
+            }
+        }
 
         // OBJECTS
         document.getElementById("objects-grid").addEventListener('click', event => {
@@ -165,6 +173,7 @@ var Input =
                 obj_walls.changeMaterial(materials.walls.brown);
                 break;
                 case "custom-txt":
+                case "custom-txt-overlay":
                 obj_walls.changeMaterial(materials.walls.custom);
                 break;
             }

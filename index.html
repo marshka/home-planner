@@ -2,9 +2,26 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Home planner built in webgl2 for the exam of Computer Graphics.">
+  <meta property="og:site_name" content="Home Planner">
+  <meta property="og:title" content="Computer Graphics | Home planner">
+  <meta property="og:description" content="Home planner built in webgl2 for the exam of Computer Graphics.">
+  <meta property="og:url" content="http://marshka.altervista.org/homeplanner/">
+  <meta property="og:image" itemprop="image" content="http://marshka.altervista.org/homeplanner/favicon/favicon-32x32.png">
+  <meta name="twitter:card" content="http://marshka.altervista.org/homeplanner/favicon/favicon-32x32.png">
+  <meta property="og:type" content="website" />
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="favicon/favicon-32x32.png">
+  <meta name="theme-color" content="#333333">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="manifest" href="favicon/site.webmanifest">
+
   <link href="css/style.css" rel="stylesheet">
   <link href="css/color-picker.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" rel="stylesheet" type="text/css">
+  <link href="css/fontawesome.all.min.css" rel="stylesheet" type="text/css">
 
   <title>Computer Graphics | Home planner</title>
 
@@ -33,16 +50,13 @@
   </header>
   <div class="row">
     <div class="column-left">
-      <h2 style="background-color:#aaa;">House</h2>
       <canvas id="canvas">
         Your browser doesn't support the Canvas Element!
       </canvas>
     </div>
     <div class="column-right">
-      <h2>Controls</h2>
       <div>
         <h3>Furniture</h3>
-        <div class="separator"></div>
         <div id="objects-grid" class="grid-container">
           <div id="table-obj"></div>
           <div id="chair-obj"></div>
@@ -55,8 +69,7 @@
         </div>
       </div>
       <div>
-        <h3>Floor and walls</h3>
-        <div class="separator"></div>
+        <h3>Floor & Walls</h3>
         <div id="textures-grid" class="grid-container">
           <div id="white-txt"></div>
           <div id="grey-txt"></div>
@@ -88,23 +101,36 @@
             <input id="cameraZoomSlider" class="slider" type="range" min="0" max="10" value="5" step="1">
             <i class="fas slider-icon-end fa-search-plus"></i>
           </div>
-          <button id="cameraDefaultButton">Restore default</button>
         </div>
+        <button id="cameraDefaultButton">Restore default</button>
       </div>
       <div>
         <h3>Lights</h3>
+        <h4>Ambient</h4>
         <div class="slider-container">
           <div class="slider-item">
-            <h5>Ambient</h5>
+            <h5>Intensity</h5>
             <input id="ambientSlider" class="slider" type="range" min="0" max="1" value="0.5" step="0.1">
           </div>
         </div>
+        <h4>Directional</h4>
         <div class="slider-container">
           <div class="slider-item">
-            <h5>Directional</h5>
+            <h5>Direction</h5>
             <input id="directionalSlider" class="slider" type="range" min="-90" max="270" value="90" step="5">
           </div>
+          <div class="slider-item">
+            <h5>Intensity</h5>
+            <input id="directionalIntensitySlider" class="slider" type="range" min="0" max="1" value="0.5" step="0.1">
+          </div>
         </div>
+      </div>
+      <div class="credits">
+        <p>
+          Computer Graphics project &copy; 2019<br>
+          Leonardo Givoli, <br>
+          Ivan Marisca, 899517
+        </p>
       </div>
     </div>
   </div>
@@ -119,9 +145,6 @@
       </div>
       <div class="modal-body">
         <div id="objects-list"></div>
-      </div>
-      <div class="modal-footer">
-        <h4>Leonardo Givoli, Ivan Marisca</h4>
       </div>
     </div>
   </div>
