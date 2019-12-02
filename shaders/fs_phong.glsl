@@ -52,7 +52,8 @@ void main() {
 	// Compute main direct light
 	vec3 l_mainDirection = normalize(mainDirection);
 	vec3 mainLambert = lambert(l_mainDirection, mainColor, normal, mDiffuseColor.rgb) * mainIntensity;
-	vec4 mainPhong = phong(l_mainDirection, mainColor, normal, mSpecularColor, mSpecularShine);
+	// disable directional phong
+	// vec4 mainPhong = phong(l_mainDirection, mainColor, normal, mSpecularColor, mSpecularShine);
 
 	// Compute lamp point light
 	vec3 l_lampDirection = normalize(lampPosition - fs_position);
@@ -64,7 +65,7 @@ void main() {
 	vec4 diffuse = vec4(mainLambert + lampLambert, mDiffuseColor.a);
 
 	// Compute specular color
-	vec4 specular = mainPhong + lampPhong;
+	vec4 specular = lampPhong;
 
 	// Compute ambient light
 	vec4 ambient = ambient(mDiffuseColor);

@@ -1,5 +1,5 @@
 var keys = [];
-var picker;
+var picker, collapsibles;
 
 var Input = 
 {
@@ -56,6 +56,20 @@ var Input =
         canvas.addEventListener("wheel", event => {
             lookAtCamera.zoom(event.deltaY);
         });
+
+        // COLLAPSIBLES
+        collapsibles = document.getElementsByClassName("collapsible");
+        for(var i = 0; i < collapsibles.length; i++) {
+            collapsibles[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                  content.style.maxHeight = null;
+              } else {
+                  content.style.maxHeight = (parseInt(content.scrollHeight) + 20) + "px";
+              }
+          });
+        }
 
         // CAMERA SLIDERS
         var cameraDefaultButton = document.getElementById("cameraDefaultButton");

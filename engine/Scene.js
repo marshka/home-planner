@@ -45,13 +45,14 @@ var Scene = {
 			},
 			texture: {
 				lightWood: new TextureMaterial("light_wood.jpg"),
+				wengeWood: new TextureMaterial("wenge_wood_b.jpg"),
 				whiteFabric: new TextureMaterial("white_fabric.jpg"),
 				plant: new TextureMaterial("plant.jpg"),
 				carpet: new TextureMaterial("carpet.jpg"),
-				globe: new TextureMaterial("globe_main.png").setSpecularColor(230, 255, 200, 0.1).setSpecularShine(200)
+				globe: new TextureMaterial("globe_main.png").setSpecularColor(200, 255, 150, 1).setSpecularShine(60)
 			},
 			blackLeather: new SpecularMaterial(30, 30, 30, 1),
-			lamp: new SpecularMaterial(250, 250, 250, 1).setEmissionColor(220, 220, 220, 0.6),
+			lamp: new SpecularMaterial(250, 250, 250, 1).setEmissionColor(220, 220, 220, 0.9),
 			steel: new SpecularMaterial(100, 100, 100, 1)
 		};
 

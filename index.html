@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Home planner built in webgl2 for the exam of Computer Graphics.">
@@ -55,8 +55,49 @@
       </canvas>
     </div>
     <div class="column-right">
-      <div>
-        <h3>Furniture</h3>
+      <h3 class="collapsible">Commands</h3>
+      <div class="collapsible-content">
+        <table>
+          <tr>
+            <td><kbd>click</kbd> on furniture panel</td>
+            <td>Add clicked object to the scene</td>
+          </tr>
+          <tr>
+            <td><kbd>click</kbd> on materials panel</td>
+            <td>Change clicked material</td>
+          </tr>
+          <tr>
+            <td><kbd>click</kbd> + <kbd>drag</kbd> on canvas</td>
+            <td>Rotate camera</td>
+          </tr>
+          <tr>
+            <td><kbd>wheel</kbd> on canvas</td>
+            <td>Zoom camera</td>
+          </tr>
+          <tr>
+            <td><kbd>enter</kbd></td>
+            <td>Release selected object</td>
+          </tr>
+          <tr>
+            <td><kbd>del</kbd> or <kbd>esc</kbd></td>
+            <td>Remove selected object</td>
+          </tr>
+          <tr>
+            <td><kbd>&larr;</kbd><kbd>&uarr;</kbd><kbd>&rarr;</kbd><kbd>&darr;</kbd></td>
+            <td>Move selected object</td>
+          </tr>
+          <tr>
+            <td><kbd>⌘</kbd> / <kbd>ctrl</kbd> + <kbd>&larr;</kbd><kbd>&uarr;</kbd><kbd>&rarr;</kbd><kbd>&darr;</kbd></td>
+            <td>Rotate selected object</td>
+          </tr>
+          <tr>
+            <td><kbd>space</kbd></td>
+            <td>Toggle objects menu</td>
+          </tr>
+        </table>
+      </div>
+      <h3 class="collapsible">Furniture</h3>
+      <div class="collapsible-content">
         <div id="objects-grid" class="grid-container">
           <div id="table-obj"></div>
           <div id="chair-obj"></div>
@@ -68,8 +109,8 @@
           <div id="globe-obj"></div>
         </div>
       </div>
-      <div>
-        <h3>Floor & Walls</h3>
+      <h3 class="collapsible">Floor & Walls</h3>
+      <div class="collapsible-content">
         <div id="textures-grid" class="grid-container">
           <div id="white-txt"></div>
           <div id="grey-txt"></div>
@@ -83,8 +124,8 @@
           <div id="sixteentiles-txt"></div>
         </div>
       </div>
-      <div>
-        <h3>Camera</h3>
+      <h3 class="collapsible">Camera</h3>
+      <div class="collapsible-content">
         <div class="slider-container">
           <div class="slider-item">
             <i class="fas slider-icon-start fa-chevron-left"></i>
@@ -104,8 +145,8 @@
         </div>
         <button id="cameraDefaultButton">Restore default</button>
       </div>
-      <div>
-        <h3>Lights</h3>
+      <h3 class="collapsible">Lights</h3>
+      <div class="collapsible-content">
         <h4>Ambient</h4>
         <div class="slider-container">
           <div class="slider-item">
@@ -128,7 +169,7 @@
       <div class="credits">
         <p>
           Computer Graphics project &copy; 2019<br>
-          Leonardo Givoli, <br>
+          Leonardo Givoli, 900310<br>
           Ivan Marisca, 899517
         </p>
       </div>
