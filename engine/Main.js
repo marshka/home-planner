@@ -20,6 +20,5 @@ function main() {
   Canvas.init();
   Scene.init();
   Input.init();
-
-  Scene.draw();
+  
 }

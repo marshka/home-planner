@@ -56,11 +56,34 @@ var Scene = {
 			steel: new SpecularMaterial(100, 100, 100, 1)
 		};
 
-		obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), materials.floor.parquet);
-		obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), materials.walls.white);
+		// Synchronously get floor and walls and hide preloader
+		// Asynchronously prefetch objs for improving performances
+		var roomPromise = this.prefetchOBJs(['floor', 'walls']);
+		const objs = ['floor', 'walls', 'table', 'chair', 'sofa', 'tvtable', 'plant', 'globe', 'carpet', 'lampSteel', 'lampWhite'];
+		// On floor and walls loaded:
+		Promise.all(roomPromise).then(results => {
+			obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), materials.floor.parquet);
+			obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), materials.walls.white);
+			Scene.draw();
+			document.getElementById('preloader-bg').style.display = 'none';
+			var objsPromise = this.prefetchOBJs(objs);
+			Promise.all(objsPromise).then(results => {
+				console.log("Objects prefetched");
+			});
+		});
 
 		Modal.init();
 		
+	},
+
+	prefetchOBJs: function(objs){
+		const urls = objs.map(obj => models_dir + obj + '.obj');
+		return promises = urls.map(url => new Promise(resolve => {
+			req = new XMLHttpRequest();
+			req.onload = () => resolve();
+			req.open("GET", url, true);
+			req.send(null);
+		}));
 	},
 
 	draw: function(){
