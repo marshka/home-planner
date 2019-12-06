@@ -482,3 +482,13 @@ use {
 }
 
 @keyframes a { to { stroke-dashoffset: 0px } }
+
+#touchscreen-warn {
+  display: none;
+  text-align: center;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: white;
+}

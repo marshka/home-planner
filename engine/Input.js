@@ -20,14 +20,75 @@ var Input =
     H_KEY:          72,
 
     init: function() {
-        const CAMERA_DEFAULT_ANGLE = lookAtCamera.angle;
-        const CAMERA_DEFAULT_ELEVATION = lookAtCamera.elevation;
-        const CAMERA_DEFAULT_RADIUS = lookAtCamera.radius;
+
+        this.collapsiblePanels();
 
         window.addEventListener("keyup", Input.keyUp, false);
         window.addEventListener("keydown", Input.keyDown, false);
 
-        // MOUSE
+        this.initCameraCommands();
+        this.initMouseCommands();
+        this.initLightsCommands();
+        this.initFurnitureCommands();
+        this.initMaterialsCommands();
+        this.lampsLimitHandler();
+
+    },
+
+    collapsiblePanels: function(){
+        collapsibles = document.getElementsByClassName("collapsible");
+        for(var i = 0; i < collapsibles.length; i++) {
+            collapsibles[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                  content.style.maxHeight = null;
+              } else {
+                  content.style.maxHeight = (parseInt(content.scrollHeight) + 20) + "px";
+              }
+          });
+        }
+    },
+
+    initCameraCommands: function(){
+        const CAMERA_DEFAULT = {
+            angle: lookAtCamera.angle,
+            elevation: lookAtCamera.elevation,
+            radius: lookAtCamera.radius
+        }
+        var cameraDefaultButton = document.getElementById("cameraDefaultButton");
+        var cameraLeftRightSlider = document.getElementById("cameraLeftRightSlider");
+        var cameraUpDownSlider = document.getElementById("cameraUpDownSlider");
+        var cameraZoomSlider = document.getElementById("cameraZoomSlider");
+
+        cameraLeftRightSlider.value = CAMERA_DEFAULT.angle;
+        cameraUpDownSlider.value = CAMERA_DEFAULT.elevation;
+        cameraZoomSlider.value = CAMERA_DEFAULT.radius;
+
+        cameraDefaultButton.addEventListener("click", event => {
+            lookAtCamera.angle = CAMERA_DEFAULT.angle;
+            lookAtCamera.elevation = CAMERA_DEFAULT.elevation;
+            lookAtCamera.radius = CAMERA_DEFAULT.radius;
+            cameraLeftRightSlider.value = CAMERA_DEFAULT.angle;
+            cameraUpDownSlider.value = CAMERA_DEFAULT.elevation;
+            cameraZoomSlider.value = CAMERA_DEFAULT.radius;
+        });
+
+        cameraLeftRightSlider.oninput = function() {
+            lookAtCamera.angle = parseInt(cameraLeftRightSlider.value);
+        }
+        cameraUpDownSlider.oninput = function() {
+            var value = parseInt(cameraUpDownSlider.value);
+            if (value >= 5 && value <= 90)
+                lookAtCamera.elevation = value;
+        }
+        cameraZoomSlider.oninput = function() {
+            var value = parseInt(cameraZoomSlider.value);
+            lookAtCamera.radius = value;
+        }
+    },
+
+    initMouseCommands: function(){
         var mouseState = false;
         var lastMouseX = -100, lastMouseY = -100;
         canvas.addEventListener("mousedown", event => {
@@ -56,51 +117,9 @@ var Input =
         canvas.addEventListener("wheel", event => {
             lookAtCamera.zoom(event.deltaY);
         });
+    },
 
-        // COLLAPSIBLES
-        collapsibles = document.getElementsByClassName("collapsible");
-        for(var i = 0; i < collapsibles.length; i++) {
-            collapsibles[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.maxHeight){
-                  content.style.maxHeight = null;
-              } else {
-                  content.style.maxHeight = (parseInt(content.scrollHeight) + 20) + "px";
-              }
-          });
-        }
-
-        // CAMERA SLIDERS
-        var cameraDefaultButton = document.getElementById("cameraDefaultButton");
-        var cameraLeftRightSlider = document.getElementById("cameraLeftRightSlider");
-        var cameraUpDownSlider = document.getElementById("cameraUpDownSlider");
-        var cameraZoomSlider = document.getElementById("cameraZoomSlider");
-        cameraLeftRightSlider.value = CAMERA_DEFAULT_ANGLE;
-        cameraUpDownSlider.value = CAMERA_DEFAULT_ELEVATION;
-        cameraZoomSlider.value = CAMERA_DEFAULT_RADIUS;
-        cameraDefaultButton.addEventListener("click", event => {
-            lookAtCamera.angle = CAMERA_DEFAULT_ANGLE;
-            lookAtCamera.elevation = CAMERA_DEFAULT_ELEVATION;
-            lookAtCamera.radius = CAMERA_DEFAULT_RADIUS;
-            cameraLeftRightSlider.value = CAMERA_DEFAULT_ANGLE;
-            cameraUpDownSlider.value = CAMERA_DEFAULT_ELEVATION;
-            cameraZoomSlider.value = CAMERA_DEFAULT_RADIUS;
-        });
-        cameraLeftRightSlider.oninput = function() {
-            lookAtCamera.angle = parseInt(cameraLeftRightSlider.value);
-        }
-        cameraUpDownSlider.oninput = function() {
-            var value = parseInt(cameraUpDownSlider.value);
-            if (value >= 5 && value <= 90)
-                lookAtCamera.elevation = value;
-        }
-        cameraZoomSlider.oninput = function() {
-            var value = parseInt(cameraZoomSlider.value);
-            lookAtCamera.radius = value;
-        }
-
-        // LIGHTS
+    initLightsCommands: function(){
         var ambientSlider = document.getElementById("ambientSlider");
         ambientSlider.value = lights.ambient.intensity;
         ambientSlider.oninput = function() {
@@ -123,8 +142,9 @@ var Input =
                 lights.main.setIntensity(value);
             }
         }
+    },
 
-        // OBJECTS
+    initFurnitureCommands: function(){
         document.getElementById("objects-grid").addEventListener('click', event => {
             var obj;
             switch(event.target.id) {
@@ -135,10 +155,7 @@ var Input =
                 obj = new Chair();
                 break;
                 case "lamp-obj":
-                if (objects.filter(function(e){return e instanceof Lamp;}).length < MAX_LAMPS)
                 obj = new Lamp();
-                else
-                    alert("Maximum number of lamps added");
                 break;
                 case "sofa-obj":
                 obj = new Sofa();
@@ -161,8 +178,9 @@ var Input =
             obj.select();
             objects.push(obj);
         });
+    },
 
-        // TEXTURES
+    initMaterialsCommands: function(){
         document.getElementById("textures-grid").addEventListener('click', event => {
             switch(event.target.id) {
                 case "parquet-txt":
@@ -204,6 +222,41 @@ var Input =
         });
     },
 
+    lampsLimitHandler: function() {
+        const lampElement = document.getElementById('lamp-obj');
+        Object.defineProperty(objects, "push", {
+            configurable: true,
+            enumerable: false,
+            writable: true,
+            value: function (...args)
+            {
+                if (args[0] instanceof Lamp) {
+                    var numLamps = objects.filter(function(e){return e instanceof Lamp;}).length + 1;
+                    if (numLamps == MAX_LAMPS) {
+                        Input.disableElement(lampElement);
+                    } else if (numLamps > MAX_LAMPS) {
+                        return;
+                    }
+                }
+                return Array.prototype.push.apply(this, args);
+            }
+        });
+        Object.defineProperty(objects, "splice", {
+            configurable: true,
+            enumerable: false,
+            writable: true,
+            value: function (...args)
+            {
+                let result = Array.prototype.splice.apply(this, args);
+                let numLamps = objects.filter(function(e){return e instanceof Lamp;}).length;
+                if (numLamps < MAX_LAMPS) {
+                    Input.enableElement(lampElement);
+                }
+                return result;
+            }
+        });
+    },
+
     enableElement: function(e){
         e.style.removeProperty("pointer-events");
         e.style.opacity = 1.0;
@@ -229,6 +282,10 @@ var Input =
     },
 
     keyDown: function(e) {
+        // space and arrow keys
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
         if(!keys[e.keyCode]) {
             keys[e.keyCode] = true;
         }
@@ -242,14 +299,10 @@ var Input =
     //used for buttons pressed one time
     isKeyClicked: function(keyCode) {
         var state = keys[keyCode];
-        
         if(keys[keyCode]){
             keys[keyCode] = false;
         }
-
         return state;
     }
-
-
 
 }

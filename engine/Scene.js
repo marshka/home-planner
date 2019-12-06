@@ -1,13 +1,3 @@
-const MAX_LAMPS = 1;
-
-var lookAtCamera;
-var shaders, lights, materials;
-
-// OBJECTS
-var objects = [];
-var obj_floor,
-obj_walls;
-
 var Scene = {
 
 	init: function() {
@@ -56,7 +46,7 @@ var Scene = {
 			steel: new SpecularMaterial(100, 100, 100, 1)
 		};
 
-		// Synchronously get floor and walls and hide preloader
+		// Synchronously get floor and walls
 		// Asynchronously prefetch objs for improving performances
 		var roomPromise = this.prefetchOBJs(['floor', 'walls']);
 		const objs = ['floor', 'walls', 'table', 'chair', 'sofa', 'tvtable', 'plant', 'globe', 'carpet', 'lampSteel', 'lampWhite'];
@@ -65,11 +55,12 @@ var Scene = {
 			obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), materials.floor.parquet);
 			obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), materials.walls.white);
 			Scene.draw();
-			document.getElementById('preloader-bg').style.display = 'none';
 			var objsPromise = this.prefetchOBJs(objs);
 			Promise.all(objsPromise).then(results => {
 				console.log("Objects prefetched");
 			});
+			// hide preloader
+			document.getElementById('preloader-bg').style.display = 'none';
 		});
 
 		Modal.init();
