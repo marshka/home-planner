@@ -18,8 +18,8 @@ var lookAtCamera;
 var shaders, lights, materials;
 
 // OBJECTS
+var room = {};
 var objects = [];
-var obj_floor, obj_walls;
 
 const MAX_LAMPS = 1;
 

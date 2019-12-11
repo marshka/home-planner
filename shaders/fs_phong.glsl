@@ -10,14 +10,22 @@ out vec4 color;
 uniform vec3 ambientColor;
 uniform float ambientIntensity;
 
-uniform vec3 mainPosition;
 uniform vec3 mainColor;
-uniform vec3 mainDirection;
 uniform float mainIntensity;
+uniform vec3 mainDirection;
 
-uniform vec3 lampPosition;
+uniform vec3 chandelierColor;
+uniform float chandelierIntensity;
+uniform vec3 chandelierPosition;
+uniform vec3 chandelierDirection;
+uniform float chandelierDecay;
+uniform float chandelierTarget;
+uniform float chandelierConeIn;
+uniform float chandelierConeOut;
+
 uniform vec3 lampColor;
 uniform float lampIntensity;
+uniform vec3 lampPosition;
 uniform float lampDecay;
 uniform float lampTarget;
 
@@ -55,6 +63,15 @@ void main() {
 	// disable directional phong
 	// vec4 mainPhong = phong(l_mainDirection, mainColor, normal, mSpecularColor, mSpecularShine);
 
+	// Compute chandelier spot light
+	vec3 l_chandelierDir = normalize(chandelierDirection);
+	float l_chandelierConeIn = cos(radians(chandelierConeIn) / 2.0);
+	float l_chandelierConeOut = cos(radians(chandelierConeOut) / 2.0);
+	float cosAlpha = dot(normalize(chandelierPosition - fs_position), l_chandelierDir);
+	vec3 l_chandelierCol = clamp(chandelierColor * pow(chandelierTarget / length(chandelierPosition - fs_position), chandelierDecay) * clamp((cosAlpha - l_chandelierConeOut) / (l_chandelierConeIn - l_chandelierConeOut), 0.0, 1.0), 0.0, 1.0);
+	vec3 chandelierLambert = lambert(l_chandelierDir, l_chandelierCol, normal, mDiffuseColor.rgb) * chandelierIntensity;
+	vec4 chandelierPhong = phong(l_chandelierDir, l_chandelierCol, normal, mSpecularColor, mSpecularShine);
+
 	// Compute lamp point light
 	vec3 l_lampDirection = normalize(lampPosition - fs_position);
 	vec3 l_lampColor = clamp(lampColor * pow(lampTarget / length(lampPosition - fs_position), lampDecay) , 0.0, 1.0);
@@ -62,10 +79,10 @@ void main() {
 	vec4 lampPhong = phong(l_lampDirection, l_lampColor, normal, mSpecularColor, mSpecularShine);
 
 	// Compute diffuse color
-	vec4 diffuse = vec4(mainLambert + lampLambert, mDiffuseColor.a);
+	vec4 diffuse = vec4(mainLambert + chandelierLambert + lampLambert, mDiffuseColor.a);
 
 	// Compute specular color
-	vec4 specular = lampPhong;
+	vec4 specular = chandelierPhong + lampPhong;
 
 	// Compute ambient light
 	vec4 ambient = ambient(mDiffuseColor);

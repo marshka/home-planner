@@ -6,8 +6,7 @@ class ObjectBase {
     if (thumb) {
       this.thumb = thumbs_dir + thumb;
     }
-
-    this.walls = obj_walls;
+    
     this.parent = null;
 
       //Position
@@ -98,7 +97,7 @@ class ObjectBase {
       this.x += x; this.y += y; this.z += z;
       this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, 0);
       
-      if(this.boundingBox.checkRoomCollision(this.walls.boundingBox))
+      if(this.boundingBox.checkRoomCollision(room.walls.boundingBox))
       {
         this.move(-x,-y,-z);
       }
@@ -108,7 +107,7 @@ class ObjectBase {
     {
       this.rotX += x; this.rotY += y; this.rotZ += z;
       this.updatebBox(this.x, this.y, this.z, this.scaleX, this.scaleY, this.scaleZ, y);
-      if(this.boundingBox.checkRoomCollision(this.walls.boundingBox))
+      if(this.boundingBox.checkRoomCollision(room.walls.boundingBox))
       {
         this.rotate(-x,-y,-z);
       }

@@ -15,8 +15,8 @@ var Scene = {
 		};
 
 		lights = {
-			ambient: new AmbientLight("ambient", 50, 50, 50, 0.5),
-			main: new DirectionalLight("main", 0.0, 1.0, 1.0, 250, 250, 250)
+			ambient: new AmbientLight("ambient", 50, 50, 50).setIntensity(0.5),
+			main: new DirectionalLight("main", 250, 250, 250).setDirection(0.0, 1.0, 1.0)
 		};
 
 		materials = {
@@ -46,26 +46,33 @@ var Scene = {
 			steel: new SpecularMaterial(100, 100, 100, 1)
 		};
 
-		// Synchronously get floor and walls
+		// Synchronously get room objs
 		// Asynchronously prefetch objs for improving performances
-		var roomPromise = this.prefetchOBJs(['floor', 'walls']);
-		const objs = ['floor', 'walls', 'table', 'chair', 'sofa', 'tvtable', 'plant', 'globe', 'carpet', 'lampSteel', 'lampWhite'];
-		// On floor and walls loaded:
-		Promise.all(roomPromise).then(results => {
-			obj_floor = new ObjectBase(Mesh.loadFromOBJFile('floor'), materials.floor.parquet);
-			obj_walls = new ObjectBase(Mesh.loadFromOBJFile('walls'), materials.walls.white);
-			Scene.draw();
-			var objsPromise = this.prefetchOBJs(objs);
-			Promise.all(objsPromise).then(results => {
-				console.log("Objects prefetched");
-			});
-			// hide preloader
-			document.getElementById('preloader-bg').style.display = 'none';
-		});
+		this.preload();
 
 		Modal.init();
 		
 	},
+
+	preload: function() {
+		const roomObjs = ['floor', 'walls', 'chandelier/chandelierWhite', 'chandelier/chandelierSteel', 'chandelier/chandelierWood'];
+		const objs = ['table', 'chair', 'sofa', 'tvtable', 'plant', 'globe', 'carpet', 'lamp/lampSteel', 'lamp/lampWhite'];
+		var roomPromise = this.prefetchOBJs(roomObjs);
+		// On floor and walls loaded:
+		Promise.all(roomPromise).then(results => {
+			room.floor = new Floor();
+			room.walls = new Walls();
+			room.chandelier = new Chandelier();
+			Scene.draw();
+			var objsPromise = this.prefetchOBJs(objs);
+			Promise.all(objsPromise).then(results => {
+				// hide spinner
+				document.getElementById('spinner-container').style.display = 'none';
+			});
+			// hide preloader
+			document.getElementById('preloader-bg').style.display = 'none';
+		});
+	}, 
 
 	prefetchOBJs: function(objs){
 		const urls = objs.map(obj => models_dir + obj + '.obj');
@@ -83,8 +90,9 @@ var Scene = {
 		Input.handle();
 		lookAtCamera.look();
 
-		obj_floor.render();
-		obj_walls.render();
+		Object.keys(room).forEach(function(i) {
+			room[i].render();
+		});
 
 		for(var i=0; i<objects.length; i++)
 		{

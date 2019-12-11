@@ -123,24 +123,21 @@ var Input =
         var ambientSlider = document.getElementById("ambientSlider");
         ambientSlider.value = lights.ambient.intensity;
         ambientSlider.oninput = function() {
-            var value = parseFloat(ambientSlider.value);
-            if (value >= 0.0 && value <= 1.0) {
-                lights.ambient.setIntensity(value);
-            }
+            lights.ambient.setIntensity(ambientSlider.value);
         }
         var directionalSlider = document.getElementById("directionalSlider");
         directionalSlider.value = lights.main.getXZAngleDegree();
         directionalSlider.oninput = function() {
-            var rad = parseInt(directionalSlider.value)*Math.PI/180;
-            lights.main.setDirection(Math.cos(rad), 1.0, Math.sin(rad));
+            lights.main.rotate(directionalSlider.value);
         }
         var directionalIntensitySlider = document.getElementById("directionalIntensitySlider");
         directionalIntensitySlider.value = lights.main.intensity;
         directionalIntensitySlider.oninput = function() {
-            var value = parseFloat(directionalIntensitySlider.value);
-            if (value >= 0.0 && value <= 1.0) {
-                lights.main.setIntensity(value);
-            }
+            lights.main.setIntensity(directionalIntensitySlider.value);
+        }
+        var chandelierSwitch = document.getElementById("chandelierSwitch");
+        chandelierSwitch.oninput = function() {
+            chandelierSwitch.checked ? lights.chandelier.turnOn() : lights.chandelier.turnOff();
         }
     },
 

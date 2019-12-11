@@ -27,9 +27,6 @@ class Shader
 				projection: gl.getUniformLocation(this.program, 'u_projectionMatrix'),
 				worldView: gl.getUniformLocation(this.program, 'u_worldViewMatrix'),
 				normal: gl.getUniformLocation(this.program, 'u_normalMatrix')
-			},
-			light: {
-				ambient: gl.getUniformLocation(this.program, 'ambientIntensity')
 			}
 		};
 
