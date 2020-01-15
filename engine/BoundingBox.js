@@ -43,6 +43,10 @@ class BoundingBox
         this.sy = this.dy;
         this.sz = this.dz;
 
+        this.sx_ = this.sx;
+        this.sy_ = this.sy;
+        this.sz_ = this.sz;
+
         this.enable = false;
                 
         this.mesh = Mesh.loadFromOBJFile('boundingBox');
@@ -71,18 +75,18 @@ class BoundingBox
                     y + this.meshCenter[1]*scaleY, 
                     z + this.meshCenter[2]*scaleZ];
 
-        this.sx = this.dx * scaleX;
-        this.sy = this.dy * scaleY;
-        this.sz = this.dz * scaleZ;
+        this.sx_ = this.dx * scaleX;
+        this.sy_ = this.dy * scaleY;
+        this.sz_ = this.dz * scaleZ;
 
         this.rotY += rotY;
         
-        this.minX = this.position[0] - this.sx/2.0;
-		this.minY = this.position[1] - this.sy/2.0;
-        this.minZ = this.position[2] - this.sz/2.0;
-		this.maxX = this.position[0] + this.sx/2.0;
-		this.maxY = this.position[1] + this.sy/2.0;
-        this.maxZ = this.position[2] + this.sz/2.0;
+        this.minX = this.position[0] - this.sx_/2.0;
+		this.minY = this.position[1] - this.sy_/2.0;
+        this.minZ = this.position[2] - this.sz_/2.0;
+		this.maxX = this.position[0] + this.sx_/2.0;
+		this.maxY = this.position[1] + this.sy_/2.0;
+        this.maxZ = this.position[2] + this.sz_/2.0;
         
         this.rotate_vertices(this.rotY);
     }
@@ -112,8 +116,8 @@ class BoundingBox
         var scaleX = (maxX - minX)/aDim_x;
         var scaleZ = (maxZ - minZ)/aDim_z;
 
-        this.sx = this.dx * scaleX;
-        this.sz = this.dz * scaleZ;
+        this.sx = scaleX * this.sx_;
+        this.sz = scaleZ * this.sz_;
 
         this.minX = this.position[0] - this.sx/2.0;
         this.minZ = this.position[2] - this.sz/2.0;

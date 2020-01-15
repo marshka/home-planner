@@ -51,6 +51,7 @@ class Globe extends ColliderObject {
 class Carpet extends SelfColliderObject {
   constructor() {
     super(Mesh.loadFromOBJFile('carpet'), materials.texture.carpet, "carpet.png");
+    this.setScale(1.5,1.0,2.0);
   }
 }
 
@@ -62,11 +63,12 @@ class Lamp extends GroupObject {
     super("lamp.png");
     this.addObject3D(new ColliderObject(Mesh.loadFromOBJFile('lamp/lampSteel'), materials.steel));
     this.addObject3D(new ColliderObject(Mesh.loadFromOBJFile('lamp/lampWhite'), materials.lamp));
-    lights.lamp = new PointLight("lamp", 255, 255, 255)
+    let idx = lampsIdx.shift();
+    lights["lamps[" + idx + "]"] = new PointLight("lamps[" + idx + "]", 255, 255, 255)
     .setPosition(this.x, this.y + 1.9, this.z)
     .setTargetDistance(1.5)
     .setDecayFactor(2);
-    this.addLight(lights.lamp);
+    this.addLight(lights["lamps[" + idx + "]"]);
   }
 }
 class Chandelier extends GroupObject {

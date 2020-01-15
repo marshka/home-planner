@@ -21,7 +21,8 @@ var shaders, lights, materials;
 var room = {};
 var objects = [];
 
-const MAX_LAMPS = 1;
+const MAX_LAMPS = 4;
+var numLamps = 0, lampsIdx = [0, 1, 2, 3];
 
 
 function main() {

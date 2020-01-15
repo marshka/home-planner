@@ -8,27 +8,39 @@ in vec3 fs_normal;
 
 out vec4 color;
 
-uniform vec3 ambientColor;
-uniform float ambientIntensity;
+struct AmientLight {
+	vec3 Color;
+	float Intensity;
+};
+uniform AmientLight ambientLight;
 
-uniform vec3 mainColor;
-uniform float mainIntensity;
-uniform vec3 mainDirection;
+struct DirectionalLight {
+	vec3 Color;
+	float Intensity;
+	vec3 Direction;
+};
+uniform DirectionalLight mainLight;
 
-uniform vec3 chandelierColor;
-uniform float chandelierIntensity;
-uniform vec3 chandelierPosition;
-uniform vec3 chandelierDirection;
-uniform float chandelierDecay;
-uniform float chandelierTarget;
-uniform float chandelierConeIn;
-uniform float chandelierConeOut;
+struct SpotLight {
+	vec3 Color;
+	float Intensity;
+	vec3 Position;
+	vec3 Direction;
+	float Decay;
+	float Target;
+	float ConeIn;
+	float ConeOut;
+};
+uniform SpotLight chandelier;
 
-uniform vec3 lampColor;
-uniform float lampIntensity;
-uniform vec3 lampPosition;
-uniform float lampDecay;
-uniform float lampTarget;
+struct PointLight {
+	vec3 Color;
+	float Intensity;
+	vec3 Position;
+	float Decay;
+	float Target;
+};
+uniform PointLight lamps[MAX_LIGHTS];
 
 uniform vec4 mDiffuseColor;
 uniform vec4 mSpecularColor;
@@ -40,8 +52,7 @@ vec4 lambert(vec3 lightDir, vec3 normalVec, vec4 diffColor) {
 }
 
 vec4 ambient(vec4 color) {
-	vec4 ambient = vec4(ambientColor, 1.0) * color * ambientIntensity;
-	return ambient;
+	return vec4(ambientLight.Color, 1.0) * color * ambientLight.Intensity;
 }
 
 vec4 lightComponent(vec4 brdf, vec3 lightCol, float lightIntensity) {
@@ -56,38 +67,41 @@ void main() {
 	vec4 lightSum = vec4(0.0);
 
 	// Compute main direct light
-	if (mainIntensity > 0.0) {
-		vec3 l_mainDirection = normalize(mainDirection);
+	if (mainLight.Intensity > 0.0) {
+		vec3 l_mainDirection = normalize(mainLight.Direction);
 		vec4 mainLambert = lambert(l_mainDirection, normal, mDiffuseColor);
-		lightSum = lightSum + lightComponent(mainLambert, mainColor, mainIntensity);
+		lightSum = lightSum + lightComponent(mainLambert, mainLight.Color, mainLight.Intensity);
 	}
 
 	// Compute chandelier spot light
-	if (chandelierIntensity > 0.0) {
-		vec3 l_chandelierDir = normalize(chandelierDirection);
-		float l_chandelierConeIn = cos(radians(chandelierConeIn) / 2.0);
-		float l_chandelierConeOut = cos(radians(chandelierConeOut) / 2.0);
-		float cosAlpha = dot(normalize(chandelierPosition - fs_position), l_chandelierDir);
-		vec3 l_chandelierCol = chandelierColor * pow(chandelierTarget / length(chandelierPosition - fs_position), chandelierDecay) * clamp((cosAlpha - l_chandelierConeOut) / (l_chandelierConeIn - l_chandelierConeOut), 0.0, 1.0);
+	if (chandelier.Intensity > 0.0) {
+		vec3 l_chandelierDir = normalize(chandelier.Position - fs_position);
+		float l_chandelierConeIn = cos(radians(chandelier.ConeIn * chandelier.ConeOut) / 2.0);
+		float l_chandelierConeOut = cos(radians(chandelier.ConeOut) / 2.0);
+		float cosAlpha = dot(chandelier.Direction, l_chandelierDir);
+		vec3 l_chandelierCol = chandelier.Color * pow(chandelier.Target / length(chandelier.Position - fs_position), chandelier.Decay) * clamp((cosAlpha - l_chandelierConeOut) / (l_chandelierConeIn - l_chandelierConeOut), 0.0, 1.0);
 		vec4 chandelierLambert = lambert(l_chandelierDir, normal, mDiffuseColor);
-		lightSum = lightSum + lightComponent(chandelierLambert, l_chandelierCol, chandelierIntensity);
+		lightSum = lightSum + lightComponent(chandelierLambert, l_chandelierCol, chandelier.Intensity);
 	}
 
 	// Compute lamp point light
-	if (lampIntensity > 0.0) {
-		vec3 l_lampDirection = normalize(lampPosition - fs_position);
-		vec3 l_lampColor = lampColor * pow(lampTarget / length(lampPosition - fs_position), lampDecay);
-		vec4 lampLambert = lambert(l_lampDirection, normal, mDiffuseColor);
-		lightSum = lightSum + lightComponent(lampLambert, l_lampColor, lampIntensity);
-	}
+	for(int i = 0; i < MAX_LIGHTS; i++) {
+		PointLight lamp = lamps[i];
+		if (lamp.Intensity > 0.0) {
+			vec3 l_lampDirection = normalize(lamp.Position - fs_position);
+			vec3 l_lampColor = lamp.Color * pow(lamp.Target / length(lamp.Position - fs_position), lamp.Decay);
+			vec4 lampLambert = lambert(l_lampDirection, normal, mDiffuseColor);
+			lightSum = lightSum + lightComponent(lampLambert, l_lampColor, lamp.Intensity);
+		}
+    }
 
 	// Compute ambient color
-	vec4 ambient = ambient(mDiffuseColor);
+	vec4 ambientSum = ambient(mDiffuseColor);
 
 	// Compute emit color
 	vec4 emit = mEmissionColor.a * mEmissionColor;
 
-	vec4 out_color = clamp(lightSum + ambient + emit, 0.0, 1.0);
+	vec4 out_color = clamp(lightSum + ambientSum + emit, 0.0, 1.0);
 	
 	color = vec4(out_color.rgb, 1.0);
 

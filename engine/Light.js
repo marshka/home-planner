@@ -33,8 +33,8 @@ class Light {
 	}
 
 	bind(shader) {
-		var colorLoc = shader.getUniformLocation(this.name + 'Color');
-		var intensityLoc = shader.getUniformLocation(this.name + 'Intensity');
+		var colorLoc = shader.getUniformLocation(this.name + '.Color');
+		var intensityLoc = shader.getUniformLocation(this.name + '.Intensity');
 		gl.uniform3f(colorLoc, this.color.r, this.color.g, this.color.b);
 		gl.uniform1f(intensityLoc, this.intensity);
 	}
@@ -81,7 +81,7 @@ class DirectionalLight extends Light {
 
 	bind(shader) {
 		super.bind(shader);
-		var directionLocation = shader.getUniformLocation(this.name + 'Direction');
+		var directionLocation = shader.getUniformLocation(this.name + '.Direction');
 		var tDirection = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4((viewMatrix)), this.direction);
 		gl.uniform3f(directionLocation, tDirection[0], tDirection[1], tDirection[2]);   
 	}
@@ -117,9 +117,9 @@ class PointLight extends Light {
 
 	bind(shader) {
 		super.bind(shader);
-		var positionLoc = shader.getUniformLocation(this.name + 'Position');
-		var decayFactorLocation = shader.getUniformLocation(this.name + 'Decay');
-		var targetDistanceLocation = shader.getUniformLocation(this.name + 'Target');
+		var positionLoc = shader.getUniformLocation(this.name + '.Position');
+		var decayFactorLocation = shader.getUniformLocation(this.name + '.Decay');
+		var targetDistanceLocation = shader.getUniformLocation(this.name + '.Target');
 		var tPosition = utils.multiplyMatrixVector(viewMatrix, this.position);
 		gl.uniform3f(positionLoc, tPosition[0], tPosition[1], tPosition[2]);
 		gl.uniform1f(decayFactorLocation, this.decayFactor);
@@ -152,9 +152,9 @@ class SpotLight extends PointLight {
 
 	bind(shader) {
 		super.bind(shader);
-		var directionLocation = shader.getUniformLocation(this.name + 'Direction');
-		var coneInLocation = shader.getUniformLocation(this.name + 'ConeIn');
-		var coneOutLocation = shader.getUniformLocation(this.name + 'ConeOut');
+		var directionLocation = shader.getUniformLocation(this.name + '.Direction');
+		var coneInLocation = shader.getUniformLocation(this.name + '.ConeIn');
+		var coneOutLocation = shader.getUniformLocation(this.name + '.ConeOut');
 		var tDirection = utils.multiplyMatrix3Vector3(utils.sub3x3from4x4((viewMatrix)), this.direction);
 		gl.uniform3f(directionLocation, tDirection[0], tDirection[1], tDirection[2]);
 		gl.uniform1f(coneInLocation, this.coneIn);

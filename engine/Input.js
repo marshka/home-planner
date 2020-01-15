@@ -228,10 +228,11 @@ var Input =
             value: function (...args)
             {
                 if (args[0] instanceof Lamp) {
-                    var numLamps = objects.filter(function(e){return e instanceof Lamp;}).length + 1;
-                    if (numLamps == MAX_LAMPS) {
+                    if (numLamps < MAX_LAMPS - 1) {
+                        numLamps++;
+                    } else if (numLamps == MAX_LAMPS - 1) {
                         Input.disableElement(lampElement);
-                    } else if (numLamps > MAX_LAMPS) {
+                    } else {
                         return;
                     }
                 }
@@ -244,12 +245,14 @@ var Input =
             writable: true,
             value: function (...args)
             {
-                let result = Array.prototype.splice.apply(this, args);
-                let numLamps = objects.filter(function(e){return e instanceof Lamp;}).length;
-                if (numLamps < MAX_LAMPS) {
-                    Input.enableElement(lampElement);
+                if (objects[args[0]] instanceof Lamp) {
+                    lampsIdx.push(parseInt(objects[args[0]].lights[0].name.substr(-2,1)));
+                    numLamps--;
+                    if (numLamps < MAX_LAMPS) {
+                        Input.enableElement(lampElement);
+                    }
                 }
-                return result;
+                return Array.prototype.splice.apply(this, args);
             }
         });
     },

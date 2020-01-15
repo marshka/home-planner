@@ -15,8 +15,8 @@ var Scene = {
 		};
 
 		lights = {
-			ambient: new AmbientLight("ambient", 50, 50, 50).setIntensity(0.5),
-			main: new DirectionalLight("main", 250, 250, 250).setDirection(0.0, 1.0, 1.0)
+			ambient: new AmbientLight("ambientLight", 50, 50, 50).setIntensity(0.5),
+			main: new DirectionalLight("mainLight", 250, 250, 250).setDirection(0.0, 1.0, 1.0)
 		};
 
 		materials = {
