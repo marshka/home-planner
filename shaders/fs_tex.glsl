@@ -44,7 +44,7 @@ vec3 lambert(vec3 lightDir, vec3 lightCol, vec3 normalVec, vec3 diffColor) {
 }
 
 vec4 phong(vec3 lightDir, vec3 lightCol, vec3 normalVec, vec4 specularColor, float specularShine) {
-	vec3 reflection = reflect(-lightDir, normalVec);
+	vec3 reflection = -reflect(lightDir, normalVec);
 	vec3 eyeDirection = normalize(-fs_position);
 	vec4 phong = vec4(lightCol, 1.0) * clamp(pow(clamp(dot(reflection, eyeDirection), 0.0, 1.0), specularShine), 0.0, 1.0) * specularColor;
 	return phong;
@@ -64,8 +64,6 @@ void main() {
 	// Compute main direct light
 	vec3 l_mainDirection = normalize(mainDirection);
 	vec3 mainLambert = lambert(l_mainDirection, mainColor, normal, texColor.rgb) * mainIntensity;
-	// disable directional phong
-	// vec4 mainPhong = phong(l_mainDirection, mainColor, normal, mSpecularColor, mSpecularShine);
 
 	// Compute chandelier spot light
 	vec3 l_chandelierDir = normalize(chandelierDirection);
@@ -74,7 +72,7 @@ void main() {
 	float cosAlpha = dot(normalize(chandelierPosition - fs_position), l_chandelierDir);
 	vec3 l_chandelierCol = clamp(chandelierColor * pow(chandelierTarget / length(chandelierPosition - fs_position), chandelierDecay) * clamp((cosAlpha - l_chandelierConeOut) / (l_chandelierConeIn - l_chandelierConeOut), 0.0, 1.0), 0.0, 1.0);
 	vec3 chandelierLambert = lambert(l_chandelierDir, l_chandelierCol, normal, texColor.rgb) * chandelierIntensity;
-	vec4 chandelierPhong = phong(l_chandelierDir, l_chandelierCol, normal, mSpecularColor, mSpecularShine);
+	vec4 chandelierPhong = phong(l_chandelierDir, l_chandelierCol, normal, mSpecularColor, mSpecularShine) * chandelierIntensity;
 
 	// Compute lamp point light
 	vec3 l_lampDirection = normalize(lampPosition - fs_position);

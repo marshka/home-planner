@@ -181,29 +181,29 @@ var Input =
         document.getElementById("textures-grid").addEventListener('click', event => {
             switch(event.target.id) {
                 case "parquet-txt":
-                obj_floor.changeMaterial(materials.floor.parquet);
+                room.floor.changeMaterial(materials.floor.parquet);
                 break;
                 case "maiolica-txt":
-                obj_floor.changeMaterial(materials.floor.maiolica);
+                room.floor.changeMaterial(materials.floor.maiolica);
                 break;
                 case "fourtiles-txt":
-                obj_floor.changeMaterial(materials.floor.fourTiles);
+                room.floor.changeMaterial(materials.floor.fourTiles);
                 break;
                 case "sixteentiles-txt":
-                obj_floor.changeMaterial(materials.floor.sixteenTiles);
+                room.floor.changeMaterial(materials.floor.sixteenTiles);
                 break;
                 case "white-txt":
-                obj_walls.changeMaterial(materials.walls.white);
+                room.walls.changeMaterial(materials.walls.white);
                 break;
                 case "grey-txt":
-                obj_walls.changeMaterial(materials.walls.grey);
+                room.walls.changeMaterial(materials.walls.grey);
                 break;
                 case "brown-txt":
-                obj_walls.changeMaterial(materials.walls.brown);
+                room.walls.changeMaterial(materials.walls.brown);
                 break;
                 case "custom-txt":
                 case "custom-txt-overlay":
-                obj_walls.changeMaterial(materials.walls.custom);
+                room.walls.changeMaterial(materials.walls.custom);
                 break;
             }
         });
@@ -214,8 +214,8 @@ var Input =
             this.source.style.backgroundColor = '#' + color;
             var rgb = this.source.style.backgroundColor;
             rgb=rgb.substring(4,rgb.length-1).split(", ");
-            obj_walls.changeMaterial(materials.walls.custom);
-            obj_walls.material.setDiffuseColor(rgb[0], rgb[1], rgb[2], 1.0);
+            room.walls.changeMaterial(materials.walls.custom);
+            room.walls.material.setDiffuseColor(rgb[0], rgb[1], rgb[2], 1.0);
         });
     },
 
