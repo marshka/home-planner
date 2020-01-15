@@ -137,7 +137,7 @@ var Input =
         }
         var chandelierSwitch = document.getElementById("chandelierSwitch");
         chandelierSwitch.oninput = function() {
-            chandelierSwitch.checked ? lights.chandelier.turnOn() : lights.chandelier.turnOff();
+            chandelierSwitch.checked ? lights.chandelier.setIntensity(0.6) : lights.chandelier.turnOff();
         }
     },
 
@@ -228,11 +228,9 @@ var Input =
             value: function (...args)
             {
                 if (args[0] instanceof Lamp) {
-                    if (numLamps < MAX_LAMPS - 1) {
-                        numLamps++;
-                    } else if (numLamps == MAX_LAMPS - 1) {
+                    if (lampsIdx.length == 0) {
                         Input.disableElement(lampElement);
-                    } else {
+                    } else if (lampsIdx.length < 0) {
                         return;
                     }
                 }
@@ -247,8 +245,7 @@ var Input =
             {
                 if (objects[args[0]] instanceof Lamp) {
                     lampsIdx.push(parseInt(objects[args[0]].lights[0].name.substr(-2,1)));
-                    numLamps--;
-                    if (numLamps < MAX_LAMPS) {
+                    if (lampsIdx.length < MAX_LAMPS) {
                         Input.enableElement(lampElement);
                     }
                 }

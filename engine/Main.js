@@ -22,7 +22,7 @@ var room = {};
 var objects = [];
 
 const MAX_LAMPS = 4;
-var numLamps = 0, lampsIdx = [0, 1, 2, 3];
+var lampsIdx = [0, 1, 2, 3];
 
 
 function main() {

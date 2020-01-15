@@ -55,6 +55,17 @@ vec4 ambient(vec4 color) {
 	return vec4(ambientLight.Color, 1.0) * color * ambientLight.Intensity;
 }
 
+vec3 pointColor(PointLight point) {
+	return point.Color * pow(point.Target / length(point.Position - fs_position), point.Decay);
+}
+
+vec3 spotColor(SpotLight spot, vec3 dir) {
+	float cosIn = cos(radians(spot.ConeIn * spot.ConeOut) / 2.0);
+	float cosOut = cos(radians(spot.ConeOut) / 2.0);
+	float cosAlpha = dot(spot.Direction, dir);
+	return spot.Color * pow(spot.Target / length(spot.Position - fs_position), spot.Decay) * clamp((cosAlpha - cosOut) / (cosIn - cosOut), 0.0, 1.0);
+}
+
 vec4 lightComponent(vec4 brdf, vec3 lightCol, float lightIntensity) {
 	return clamp(brdf * vec4(lightCol, 1.0) * lightIntensity, 0.0, 1.0);
 }
@@ -76,10 +87,7 @@ void main() {
 	// Compute chandelier spot light
 	if (chandelier.Intensity > 0.0) {
 		vec3 l_chandelierDir = normalize(chandelier.Position - fs_position);
-		float l_chandelierConeIn = cos(radians(chandelier.ConeIn * chandelier.ConeOut) / 2.0);
-		float l_chandelierConeOut = cos(radians(chandelier.ConeOut) / 2.0);
-		float cosAlpha = dot(chandelier.Direction, l_chandelierDir);
-		vec3 l_chandelierCol = chandelier.Color * pow(chandelier.Target / length(chandelier.Position - fs_position), chandelier.Decay) * clamp((cosAlpha - l_chandelierConeOut) / (l_chandelierConeIn - l_chandelierConeOut), 0.0, 1.0);
+		vec3 l_chandelierCol = spotColor(chandelier, l_chandelierDir);
 		vec4 chandelierLambert = lambert(l_chandelierDir, normal, mDiffuseColor);
 		lightSum = lightSum + lightComponent(chandelierLambert, l_chandelierCol, chandelier.Intensity);
 	}
@@ -89,7 +97,7 @@ void main() {
 		PointLight lamp = lamps[i];
 		if (lamp.Intensity > 0.0) {
 			vec3 l_lampDirection = normalize(lamp.Position - fs_position);
-			vec3 l_lampColor = lamp.Color * pow(lamp.Target / length(lamp.Position - fs_position), lamp.Decay);
+			vec3 l_lampColor = pointColor(lamp);
 			vec4 lampLambert = lambert(l_lampDirection, normal, mDiffuseColor);
 			lightSum = lightSum + lightComponent(lampLambert, l_lampColor, lamp.Intensity);
 		}
