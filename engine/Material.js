@@ -4,7 +4,7 @@ class Material {
 
 	constructor(r, g, b, a) {
 		this.diffuseColor = [r / 255.0, g / 255.0, b / 255.0, a];
-		this.emissionColor = [0.0, 0.0, 0.0, 1.0];
+		this.emissionColor = [0.0, 0.0, 0.0, 0.0];
 		this.shader = shaders.lambert;
 	}
 

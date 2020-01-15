@@ -39,10 +39,10 @@ var Scene = {
 				whiteFabric: new TextureMaterial("white_fabric.jpg"),
 				plant: new TextureMaterial("plant.jpg"),
 				carpet: new TextureMaterial("carpet.jpg"),
-				globe: new TextureMaterial("globe_main.png").setSpecularColor(200, 255, 150, 1).setSpecularShine(60)
+				globe: new TextureMaterial("globe_main.png").setSpecularColor(255, 255, 150, 1).setSpecularShine(50)
 			},
 			blackLeather: new SpecularMaterial(30, 30, 30, 1),
-			lamp: new SpecularMaterial(250, 250, 250, 1).setEmissionColor(220, 220, 220, 0.9),
+			lamp: new Material(250, 250, 250, 1).setEmissionColor(220, 220, 220, 0.9),
 			steel: new SpecularMaterial(100, 100, 100, 1)
 		};
 

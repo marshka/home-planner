@@ -1,4 +1,5 @@
 #version 300 es
+#define MAX_LIGHTS 4
 
 precision highp float;
 
@@ -34,14 +35,17 @@ uniform vec4 mSpecularColor;
 uniform float mSpecularShine;
 uniform vec4 mEmissionColor;
 
-vec3 lambert(vec3 lightDir, vec3 lightCol, vec3 normalVec, vec3 diffColor) {
-  vec3 lambert = lightCol * clamp(dot(lightDir, normalVec),0.0,1.0) * diffColor;
-  return lambert;
+vec4 lambert(vec3 lightDir, vec3 normalVec, vec4 diffColor) {
+	return clamp(dot(lightDir, normalVec), 0.0, 1.0) * diffColor;
 }
 
 vec4 ambient(vec4 color) {
-	vec4 ambient = vec4(color.rgb * ambientColor, 1.0) * ambientIntensity;
+	vec4 ambient = vec4(ambientColor, 1.0) * color * ambientIntensity;
 	return ambient;
+}
+
+vec4 lightComponent(vec4 brdf, vec3 lightCol, float lightIntensity) {
+	return clamp(brdf * vec4(lightCol, 1.0) * lightIntensity, 0.0, 1.0);
 }
 
 
@@ -49,25 +53,33 @@ void main() {
 
 	vec3 normal = normalize(fs_normal);
 
+	vec4 lightSum = vec4(0.0);
+
 	// Compute main direct light
-	vec3 l_mainDirection = normalize(mainDirection);
-	vec3 mainLambert = lambert(l_mainDirection, mainColor, normal, mDiffuseColor.rgb) * mainIntensity;
+	if (mainIntensity > 0.0) {
+		vec3 l_mainDirection = normalize(mainDirection);
+		vec4 mainLambert = lambert(l_mainDirection, normal, mDiffuseColor);
+		lightSum = lightSum + lightComponent(mainLambert, mainColor, mainIntensity);
+	}
 
 	// Compute chandelier spot light
-	vec3 l_chandelierDir = normalize(chandelierDirection);
-	float l_chandelierConeIn = cos(radians(chandelierConeIn) / 2.0);
-	float l_chandelierConeOut = cos(radians(chandelierConeOut) / 2.0);
-	float cosAlpha = dot(normalize(chandelierPosition - fs_position), l_chandelierDir);
-	vec3 l_chandelierCol = clamp(chandelierColor * pow(chandelierTarget / length(chandelierPosition - fs_position), chandelierDecay) * clamp((cosAlpha - l_chandelierConeOut) / (l_chandelierConeIn - l_chandelierConeOut), 0.0, 1.0), 0.0, 1.0);
-	vec3 chandelierLambert = lambert(l_chandelierDir, l_chandelierCol, normal, mDiffuseColor.rgb) * chandelierIntensity;
+	if (chandelierIntensity > 0.0) {
+		vec3 l_chandelierDir = normalize(chandelierDirection);
+		float l_chandelierConeIn = cos(radians(chandelierConeIn) / 2.0);
+		float l_chandelierConeOut = cos(radians(chandelierConeOut) / 2.0);
+		float cosAlpha = dot(normalize(chandelierPosition - fs_position), l_chandelierDir);
+		vec3 l_chandelierCol = chandelierColor * pow(chandelierTarget / length(chandelierPosition - fs_position), chandelierDecay) * clamp((cosAlpha - l_chandelierConeOut) / (l_chandelierConeIn - l_chandelierConeOut), 0.0, 1.0);
+		vec4 chandelierLambert = lambert(l_chandelierDir, normal, mDiffuseColor);
+		lightSum = lightSum + lightComponent(chandelierLambert, l_chandelierCol, chandelierIntensity);
+	}
 
 	// Compute lamp point light
-	vec3 l_lampDirection = normalize(lampPosition - fs_position);
-	vec3 l_lampColor = clamp(lampColor * pow(lampTarget / length(lampPosition - fs_position), lampDecay), 0.0, 1.0);
-	vec3 lampLambert = lambert(l_lampDirection, l_lampColor, normal, mDiffuseColor.rgb) * lampIntensity;
-
-	// Compute diffuse color
-	vec4 diffuse = vec4(mainLambert + chandelierLambert + lampLambert, mDiffuseColor.a);
+	if (lampIntensity > 0.0) {
+		vec3 l_lampDirection = normalize(lampPosition - fs_position);
+		vec3 l_lampColor = lampColor * pow(lampTarget / length(lampPosition - fs_position), lampDecay);
+		vec4 lampLambert = lambert(l_lampDirection, normal, mDiffuseColor);
+		lightSum = lightSum + lightComponent(lampLambert, l_lampColor, lampIntensity);
+	}
 
 	// Compute ambient color
 	vec4 ambient = ambient(mDiffuseColor);
@@ -75,7 +87,7 @@ void main() {
 	// Compute emit color
 	vec4 emit = mEmissionColor.a * mEmissionColor;
 
-	vec4 out_color = clamp(diffuse + ambient + emit, 0.0, 1.0);
+	vec4 out_color = clamp(lightSum + ambient + emit, 0.0, 1.0);
 	
 	color = vec4(out_color.rgb, 1.0);
 

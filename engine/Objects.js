@@ -76,7 +76,7 @@ class Chandelier extends GroupObject {
     this.addObject3D(new ObjectBase(Mesh.loadFromOBJFile('chandelier/chandelierSteel'), materials.steel));
     this.addObject3D(new ObjectBase(Mesh.loadFromOBJFile('chandelier/chandelierWood'), materials.texture.wengeWood));
     lights.chandelier = new SpotLight("chandelier", 255, 255, 255)
-    .setPosition(this.x + 0.055, this.y + 2.55, this.z)
+    .setPosition(this.x + 0.055, this.y + 2.50, this.z)
     .setTargetDistance(1.5)
     .setDecayFactor(1)
     .setDirection(0.0, 1.0, 0.0)
