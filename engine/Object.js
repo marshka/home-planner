@@ -113,6 +113,7 @@ class ObjectBase {
       }
     }
 
+
     updatebBox(x, y, z, scaleX, scaleY, scaleZ, rotY)
     {
       this.boundingBox.update(x, y, z, scaleX, scaleY, scaleZ, rotY);

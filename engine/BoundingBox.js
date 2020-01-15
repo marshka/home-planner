@@ -118,6 +118,7 @@ class BoundingBox
 
         this.sx = scaleX * this.sx_;
         this.sz = scaleZ * this.sz_;
+        this.sy = this.sy_;
 
         this.minX = this.position[0] - this.sx/2.0;
         this.minZ = this.position[2] - this.sz/2.0;

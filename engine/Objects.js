@@ -43,6 +43,7 @@ class Globe extends ColliderObject {
   constructor() {
     super(Mesh.loadFromOBJFile('globe'), materials.texture.globe, "globe.png");
   }
+
 }
 
 /*************************************
