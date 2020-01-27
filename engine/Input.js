@@ -1,5 +1,9 @@
 var keys = [];
 var picker, collapsibles;
+var lampsIdx = [];
+for (var i = 0; i < MAX_LAMPS; i++) {
+    lampsIdx[i] = i;
+}
 
 var Input = 
 {
@@ -193,17 +197,16 @@ var Input =
                 room.floor.changeMaterial(materials.floor.sixteenTiles);
                 break;
                 case "white-txt":
-                room.walls.changeMaterial(materials.walls.white);
+                room.walls.material.setDiffuseColor(250, 250, 250, 1);
                 break;
                 case "grey-txt":
-                room.walls.changeMaterial(materials.walls.grey);
+                room.walls.material.setDiffuseColor(130, 130, 130, 1);
                 break;
                 case "brown-txt":
-                room.walls.changeMaterial(materials.walls.brown);
+                room.walls.material.setDiffuseColor(100, 60, 60, 1);
                 break;
                 case "custom-txt":
                 case "custom-txt-overlay":
-                room.walls.changeMaterial(materials.walls.custom);
                 break;
             }
         });
@@ -214,7 +217,6 @@ var Input =
             this.source.style.backgroundColor = '#' + color;
             var rgb = this.source.style.backgroundColor;
             rgb=rgb.substring(4,rgb.length-1).split(", ");
-            room.walls.changeMaterial(materials.walls.custom);
             room.walls.material.setDiffuseColor(rgb[0], rgb[1], rgb[2], 1.0);
         });
     },

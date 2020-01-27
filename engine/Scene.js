@@ -11,12 +11,13 @@ var Scene = {
 			lambert: Shader.loadFromFiles('vs', 'fs'),
 			phong: Shader.loadFromFiles('vs', 'fs_phong'),
 			texture: Shader.loadFromFiles('vs_tex', 'fs_tex'),
+			walls: Shader.loadFromFiles('vs_tex', 'fs_walls'),
 			boundingBox: Shader.loadFromFiles('vs_bbox','fs_bbox')
 		};
 
 		lights = {
-			ambient: new AmbientLight("ambientLight", 50, 50, 50).setIntensity(0.5),
-			main: new DirectionalLight("mainLight", 250, 250, 250).setDirection(0.0, 1.0, 1.0)
+			ambient: new AmbientLight("ambientLight", 250, 250, 250).setIntensity(0.7),
+			main: new DirectionalLight("mainLight", 250, 250, 250).setDirection(0.0, 1.0, 1.0).setIntensity(0.2)
 		};
 
 		materials = {
@@ -28,10 +29,7 @@ var Scene = {
 				sixteenTiles: new TextureMaterial("16tiles.jpg")
 			},
 			walls: {
-				white: new Material(250, 250, 250, 1),
-				grey: new Material(130, 130, 130, 1),
-				brown: new Material(100, 60, 60, 1),
-				custom: new Material(240, 250, 130, 1)
+				lightmap: new WallsMaterial("walls_lightmap.png").setDiffuseColor(250, 250, 250, 1)
 			},
 			texture: {
 				lightWood: new TextureMaterial("light_wood.jpg"),
@@ -43,7 +41,7 @@ var Scene = {
 			},
 			blackLeather: new SpecularMaterial(30, 30, 30, 1),
 			lamp: new Material(250, 250, 250, 1).setEmissionColor(220, 220, 220, 0.9),
-			steel: new SpecularMaterial(100, 100, 100, 1)
+			steel: new SpecularMaterial(100, 100, 100, 1).setSpecularShine(300)
 		};
 
 		// Synchronously get room objs
@@ -55,13 +53,13 @@ var Scene = {
 	},
 
 	preload: function() {
-		const roomObjs = ['floor', 'walls', 'chandelier/chandelierWhite', 'chandelier/chandelierSteel', 'chandelier/chandelierWood'];
+		const roomObjs = ['floor', 'walls_lightmap', 'chandelier/chandelierWhite', 'chandelier/chandelierSteel', 'chandelier/chandelierWood'];
 		const objs = ['table', 'chair', 'sofa', 'tvtable', 'plant', 'globe', 'carpet', 'lamp/lampSteel', 'lamp/lampWhite'];
 		var roomPromise = this.prefetchOBJs(roomObjs);
 		// On floor and walls loaded:
 		Promise.all(roomPromise).then(results => {
-			room.floor = new Floor();
 			room.walls = new Walls();
+			room.floor = new Floor();
 			room.chandelier = new Chandelier();
 			Scene.draw();
 			var objsPromise = this.prefetchOBJs(objs);
@@ -70,7 +68,14 @@ var Scene = {
 				document.getElementById('spinner-container').style.display = 'none';
 			});
 			// hide preloader
-			document.getElementById('preloader-bg').style.display = 'none';
+			var hidePreloader = new Promise(resolve => {(
+				function waitForFoo(){
+					if (isTextureLoaded.every(function(e){return e})) return resolve();
+					setTimeout(waitForFoo, 30);
+				})();
+			}).then(result => {
+				document.getElementById('preloader-bg').style.display = 'none';
+			});
 		});
 	}, 
 

@@ -22,7 +22,6 @@ var room = {};
 var objects = [];
 
 const MAX_LAMPS = 4;
-var lampsIdx = [0, 1, 2, 3];
 
 
 function main() {

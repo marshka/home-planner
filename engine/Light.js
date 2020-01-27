@@ -91,7 +91,10 @@ class DirectionalLight extends Light {
 class PointLight extends Light {
 	
 	constructor(name, r, g, b) {
-		super(name, r, g, b);
+		super(name, r, g, b)
+		.setPosition(0.0, 0.0, 0.0)
+		.setTargetDistance(1.5)
+		.setDecayFactor(2);
 	}
 	
 	setPosition(x, y, z) {

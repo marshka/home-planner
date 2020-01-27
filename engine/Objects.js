@@ -8,7 +8,7 @@ class Floor extends ObjectBase {
 }
 class Walls extends ObjectBase {
   constructor() {
-    super(Mesh.loadFromOBJFile('walls'), materials.walls.white);
+    super(Mesh.loadFromOBJFile('walls_lightmap'), materials.walls.lightmap);
   }
 }
 /*************************************

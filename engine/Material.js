@@ -101,6 +101,15 @@ class TextureMaterial extends SpecularMaterial {
 
 }
 
+class WallsMaterial extends TextureMaterial {
+
+	constructor(textureFile) {
+		super(textureFile);
+		this.shader  = shaders.walls;
+	}
+	
+}
+
 function textureLoaderCallback () {
 	this.txId = gl.createTexture();
 	gl.activeTexture(gl.TEXTURE0 + this.txNum);

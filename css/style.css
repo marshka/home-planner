@@ -148,6 +148,10 @@ canvas {
   width: 70%;
 }
 
+canvas {
+  background: linear-gradient(0deg, rgba(231,231,231,1) 0%, rgba(255,255,255,1) 100%);
+}
+
 .column-right {
   width: 30%;
   padding: 0 20px;

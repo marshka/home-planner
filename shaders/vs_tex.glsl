@@ -18,7 +18,7 @@ void main()
 	gl_Position = u_projectionMatrix * vec4(in_position, 1.0);
 
 	// Pass the vectors to the fragment shader
-	fs_position = (u_worldViewMatrix * vec4(in_position, 1.0)).rgb;
+	fs_position = (u_worldViewMatrix * vec4(in_position, 1.0)).xyz;
 	fs_normal = mat3(u_normalMatrix) * in_normal;
 	fs_texcoord = in_texcoord;
 }
